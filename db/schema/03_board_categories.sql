@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS board_categories;
+DROP TABLE IF EXISTS board_categories CASCADE;
 
 CREATE TABLE boards (
   id SERIAL PRIMARY KEY NOT NULL,

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS board_likes;
+DROP TABLE IF EXISTS board_likes CASCADE;
 
 CREATE TABLE board_likes (
   id SERIAL PRIMARY KEY NOT NULL,
