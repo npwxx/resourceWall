@@ -32,13 +32,15 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
+const usersRouter = require("./routes/users.js");
+const boardsRouter = require("./routes/boards.js");
+const resourcesRouter = require("./routes/resources.js");
 
 // Mount all resource routes
 // I have written these in as prompts for future implementation - James
-app.use("/users", usersRouter(db)); // handle user routes - e.g. view my boards, add edit update delete board/resource, view a users boards given user id
-app.use("/boards", widgetsRoutes(db)); // handle board routes - view a particular board given a board id
+app.use("/users", usersRouter(db)); // handle user routes - e.g. view my boards, view a user's boards given user id,
+app.use("/boards", boardsRouter(db)); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
+app.use("/boards/:boardid", resourcesRouter(db)); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
 
 
 // Home page
