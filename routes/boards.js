@@ -22,7 +22,7 @@ module.exports = (db) => {
     //if user does not own this board, edit links are hidden
   });
 
-  router.put("/:boardid/create", (req, res) => {
+  router.post("/:boardid/create", (req, res) => {
     //add a new board
   });
 
@@ -30,17 +30,11 @@ module.exports = (db) => {
     //delete a board given an id
   });
 
-  router.put("/:boardid/:resourceid/create", (req, res) => {
-    //create a resource within a board
+  //get rid of /create - here for illustrative purposes
+  router.put("/:boardid/edit", (req, res) => {
+    //edit the board details - name, cats, desc etc.
   });
 
-  router.post("/:boardid/:resourceid/edit", (req, res) => {
-    //edit a resource within a board
-  });
-
-  router.delete("/:boardid/:resourceid/edit", (req, res) => {
-    //delete a resource from a board
-  });
 
   return router;
 };
