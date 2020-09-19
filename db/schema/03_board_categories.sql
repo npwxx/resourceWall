@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS board_categories;
+
+CREATE TABLE boards (
+  id SERIAL PRIMARY KEY NOT NULL,
+  type VARCHAR(255),
+  board_id INTEGER REFERENCES boards(id) ON DELETE CASCADE
+);
