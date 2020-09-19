@@ -30,7 +30,7 @@ Allow learners to save learning resources like tutorials, blogs and videos in a 
 # Database and entities
 
 - Users table - id PK, name, email, passHash
-- Resources - id PK, board_id, title, url, description, tag(s), picture/video, owner_id FK (userID), comments_id FK (commentid), like_count
+- Resources - id PK, board_id, title, url, description, category_id (FK category_id), picture/video, owner_id FK (userID), comments_id FK (commentid), like_count
 - Comments - id PK, author_id FK (userid), text, resource_id FK (resources_id), date posted, like_count (stretch - up/downvote)
 - boards - id PK, owner_id FK (userId), resource_id FK (resources_id), title, description, like_count, category_id FK (categories_id)
 - Categories - id PK, title, 
