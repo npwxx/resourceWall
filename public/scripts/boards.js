@@ -12,9 +12,9 @@ $(document).ready(function() {
       <img src="images/pic01.jpg" alt="" />
     </span>
     <a href="generic.html">
-      <h2>Magna</h2>
+      <h2>${escape(board.title)}</h2>
       <div class="content">
-        <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+        <p>${escape(board.description)}</p>
       </div>
     </a>
   </article>`);
