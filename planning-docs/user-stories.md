@@ -19,6 +19,7 @@ Allow learners to save learning resources like tutorials, blogs and videos in a 
 - As a logged in user, I can rate individual resources, because I have permission
 - As a logged in user, I can create boards, because I have permission
 - As a logged in user, I can post resources within boards, because I have permission
+- (Stretch) As a logged in user, I can create a new category and give it to my resources/boards
 
 # Pages/routes
 
