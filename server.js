@@ -1,5 +1,5 @@
 // load .env data into process.env
-require('dotenv').config();
+require('dotenv').config()
 
 // Web server config
 const PORT       = process.env.PORT || 8080;
@@ -15,6 +15,7 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
+module.exports = { db };
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -33,9 +34,9 @@ app.use(express.static("public"));
 
 
 //Bring in helper modules - functions that return helper object with methods to query the data
-const userHelper = require('./helpers/user-helpers.js');
-const boardHelper = require('./helpers/board-helpers.js');
-const resourceHelper = require('./helpers/resource-helpers.js');
+const userHelper = require('./Queries-helpers/user-queries.js');
+const boardHelper = require('./Queries-helpers/board-queries.js');
+const resourceHelper = require('./Queries-helpers/resource-queries.js');
 
 
 // Separated Routes for each Resource
@@ -51,11 +52,11 @@ const resourcesRouter = require("./routes/resources.js");
     'profile maintenance area' drop down box to update user details.
    If user not logged in, redirect to viewAllBoards page with message to log in
 */
-app.use("/users/", usersRouter(db)); // handle user routes - e.g. view my boards, view a user's boards given user id,
+app.use("/users/", usersRouter); // handle user routes - e.g. view my boards, view a user's boards given user id,
 /* 2. 'home page' - big main page, lots of space, maybe 4 elements represeting user boxes - option to scroll down and see more boxes * /
 /*  'search/filter capaity ' - users can organise by e.g. populatrity, category, name, date posted etc. avg overall rating, number of ratings * /
 */
-app.use("/boards", boardsRouter(db)); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
+app.use("/boards", boardsRouter); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
 
 /* 3. Where we a see a specific board containing all resources
     Logged in owners of a board see edit, delete, add options
@@ -64,7 +65,7 @@ app.use("/boards", boardsRouter(db)); // handle board routes - view a particular
 */ //1 can our routes handle it? Tiny app was SSR, this will be client side - jquery determined. Hit routes with ajax calls,
 // but instead of res render or redirect do res send of json data
 
-app.use("/boards/:boardid/resources", resourcesRouter(db)); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
+app.use("/boards/:boardid/resources", resourcesRouter); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
 
 // Home page
 // Warning: avoid creating more routes in this file!
