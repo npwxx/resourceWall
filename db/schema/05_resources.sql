@@ -8,5 +8,4 @@ CREATE TABLE resources (
   title VARCHAR(255) NOT NULL,
   resource_url VARCHAR (255) NOT NULL,
   description TEXT,
-  --I've left off the photo/video row here as I'm not sure we need it, think we can access the resource url to get a preview/embed
 );

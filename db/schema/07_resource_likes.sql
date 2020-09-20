@@ -2,6 +2,6 @@ DROP TABLE IF EXISTS likes CASCADE;
 
 CREATE TABLE resource_likes (
   id SERIAL PRIMARY KEY NOT NULL,
-  user_id VARCHAR(255) NOT NULL,
+  user_id VARCHAR(255) REFERENCES users(id) NOT NULL,
   resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE,
 );
