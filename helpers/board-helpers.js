@@ -4,6 +4,9 @@
 module.exports = function makeDataHelpers(db) {
   return {
 
-
-  };
+    getAllBoards: function() {
+      console.log('all boards');
+    }
+    
+  }
 }

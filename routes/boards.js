@@ -1,20 +1,21 @@
 /*
- * All routes for Widgets are defined here
- * Since this file is loaded in server.js into api/widgets,
- *   these routes are mounted onto /widgets
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const boardHelper = require('../helpers/board-helpers.js');
 const express = require('express');
 const router  = express.Router();
 
 
-module.exports = (db) => {
+module.exports =  function(db) {
+
   router.get("/", (req, res) => {
     //this is the "home page" for boards
     //when a user lands here, they see all boards rendered
     //filters are applied by query string
+    console.log(boardHelper.getAllBoards);
   });
+
 
   router.get("/:boardid", (req, res) => {
     //go to a specific board given the board id
