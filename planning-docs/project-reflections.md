@@ -12,7 +12,11 @@
 - The index.js file brings in two important modules: a data-helpers module and a tweetsRoutes. 
 - tweetsRoutes is a router file with all of the routes.
 - The db interaction is an example of the dependency injection approach. 
+<<<<<<< HEAD
 - Data-helpers is a function that returns an object containing methods such as getTweets and saveTweets. It's job is to help us read and insert into the database. The other CRUD/BREAD operations are handled in the tweets route
+=======
+- Data-helpers is an object containing methods such as getTweets and saveTweets. It's job is to help us read and insert into the database. The other CRUD/BREAD operations are handled in the tweets route
+>>>>>>> 1524038483b921919adc4b0333a961804967c0e8
 - tweetRoutes is an exported as an object which takes the db as a parameter and contains the other BREAD operations
 - The db is pulled in in a separate file of its own, where it is exported as an object to be required by other files.  
 - Importantly, the router object and the data helper object can take in the db as a parameter.

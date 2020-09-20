@@ -38,10 +38,29 @@ const resourcesRouter = require("./routes/resources.js");
 
 // Mount all resource routes
 // I have written these in as prompts for future implementation - James
-app.use("/users", usersRouter(db)); // handle user routes - e.g. view my boards, view a user's boards given user id,
-app.use("/boards", boardsRouter(db)); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
-app.use("/boards/:boardid", resourcesRouter(db)); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
 
+/* 1. 'user page' - sees collection of own boards, and 'liked resources'
+    'profile maintenance area' drop down box to update user details.
+   If user not logged in, redirect to viewAllBoards page with message to log in
+
+*/
+
+app.use("/users/", usersRouter(db)); // handle user routes - e.g. view my boards, view a user's boards given user id,
+
+/* 2. 'home page' - big main page, lots of space, maybe 4 elements represeting user boxes - option to scroll down and see more boxes * /
+/*  'search/filter capaity ' - users can organise by e.g. populatrity, category, name, date posted etc. avg overall rating, number of ratings * /
+*/
+
+app.use("/boards", boardsRouter(db)); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
+
+/* 3. Where we a see a specific board containing all resources
+    Logged in owners of a board see edit, delete, add options
+    GET ADVICE:  we want specfic boards to 'expand' from the board elements on the display boards page -
+    does this require using the same endpoint? How do we set up routes for this?
+*/ //1 can our routes handle it? Tiny app was SSR, this will be client side - jquery determined. Hit routes with ajax calls,
+// but instead of res render or redirect do res send of json data
+
+app.use("/boards/:boardid/resources", resourcesRouter(db)); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
 
 // Home page
 // Warning: avoid creating more routes in this file!
