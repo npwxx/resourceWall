@@ -30,27 +30,31 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
+
+
+//Bring in helper modules - functions that return helper object with methods to query the data
+const userHelper = require('./helpers/user-helpers.js');
+const boardHelper = require('./helpers/board-helpers.js');
+const resourceHelper = require('./helpers/resource-helpers.js');
+
+
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const usersRouter = require("./routes/users.js");
 const boardsRouter = require("./routes/boards.js");
 const resourcesRouter = require("./routes/resources.js");
 
-// Mount all resource routes
-// I have written these in as prompts for future implementation - James
 
+
+// Mount all resource routes
 /* 1. 'user page' - sees collection of own boards, and 'liked resources'
     'profile maintenance area' drop down box to update user details.
    If user not logged in, redirect to viewAllBoards page with message to log in
-
 */
-
 app.use("/users/", usersRouter(db)); // handle user routes - e.g. view my boards, view a user's boards given user id,
-
 /* 2. 'home page' - big main page, lots of space, maybe 4 elements represeting user boxes - option to scroll down and see more boxes * /
 /*  'search/filter capaity ' - users can organise by e.g. populatrity, category, name, date posted etc. avg overall rating, number of ratings * /
 */
-
 app.use("/boards", boardsRouter(db)); // handle board routes - view a particular board given a board id, add, edit, delete, update boards
 
 /* 3. Where we a see a specific board containing all resources
