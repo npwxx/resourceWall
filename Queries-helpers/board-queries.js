@@ -5,7 +5,11 @@ const { db } = require('../server.js');
 
 // Define helper functions for retrieving, editing, deleting boards
 const getAllBoards = function() {
-  return db.query(`SELECT * FROM BOARDS LIMIT 4;`)
+  return db.query(`
+  SELECT name, boards.title, boards.description
+  FROM boards
+  JOIN users ON users.id = boards.owner_id
+  LIMIT 4;`)
     .then((response) => {
       return response.rows;
     });
