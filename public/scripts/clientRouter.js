@@ -25,7 +25,7 @@ $(document).ready(function() {
       console.log("add modal here");
     },
     '/profile': function() {
-      console.log("add modal here");
+      renderProfilePage();
     },
     '/logout': function() {
       console.log("redirect to home");
