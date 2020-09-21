@@ -13,7 +13,7 @@ $(document).ready(function() {
       loadBoard(Number(params.boardId));
     },
     '/login': function() {
-      console.log("add modal here");
+      renderLoginModal();
     },
     '/register': function() {
       console.log("add modal here");
