@@ -16,7 +16,7 @@ $(document).ready(function() {
       renderLoginModal();
     },
     '/register': function() {
-      console.log("add modal here");
+      renderRegisterModal();
     },
     '/myBoards': function() {
       console.log("Add route to DB");
