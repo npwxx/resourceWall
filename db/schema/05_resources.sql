@@ -7,6 +7,6 @@ CREATE TABLE resources (
   title VARCHAR(255) NOT NULL,
   resource_url VARCHAR (255) NOT NULL,
   description TEXT,
-  date_posted DATETIME NOT NULL,
+  date_posted TIMESTAMP NOT NULL,
   ancestor_id INT
 );
