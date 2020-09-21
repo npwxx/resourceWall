@@ -1,6 +1,3 @@
-// PG database client/connection setup
-//Is this the correct way to connect ^^ can we ust require db like andy did?
-
 const { db } = require('../server.js');
 
 /* ### QUERY IDEAS ###
