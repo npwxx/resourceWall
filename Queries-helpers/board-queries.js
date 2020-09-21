@@ -45,41 +45,70 @@ const getAllBoards = function() {
     });
 };
 
-const getBoardByOwnerName = function() {
-  return db.query(`
-  `)
+const getBoardByOwnerName = function(nameString) {
+  return db.query(
+    `SELECT boards.id,
+      boards.title as title,
+      boards.description as description,
+      boards.date_posted as created
+    FROM boards
+    WHERE boards.title LIKE $1;
+  `, [nameString])
     .then((response) => {
       return response.rows;
     });
 };
 
-const getBoardByOwnerId = function() {
+const getBoardByOwnerId = function(ownerId) {
   return db.query(`
-  `)
+    SELECT
+      boards.owner_id as owner_id,
+      boards.title as title,
+      boards.description as description,
+      boards.date_posted as created
+    FROM boards
+    WHERE boards.owner_id = $1
+  `, [ownerId])
     .then((response) => {
       return response.rows;
     });
 };
 
-const getBoardById = function() {
+const getBoardById = function(boardId) {
   return db.query(`
-  `)
+    SELECT
+      boards.id,
+      boards.owner_id as owner_id,
+      boards.title as title,
+      boards.description as description,
+      boards.date_posted as created
+    FROM boards
+    WHERE boards.id = $1
+  `, [boardId])
     .then((response) => {
       return response.rows;
     });
 };
 
-const getBoardByCategories = function() {
+const getBoardByCategories = function(title) {
   return db.query(`
-  `)
+
+  `, [title])
     .then((response) => {
       return response.rows;
     });
 };
 
-const getBoardByTitle = function() {
+const getBoardByTitle = function(titleString) {
   return db.query(`
-  `)
+  SELECT
+    boards.owner_id as owner_id,
+    boards.title as title,
+    boards.description as description,
+    boards.date_posted as created
+  FROM boards
+  WHERE boards.title = $1
+  `, [titleString])
     .then((response) => {
       return response.rows;
     });
@@ -133,5 +162,10 @@ const deleteBoard = function() {
 
 module.exports = {
   //throw in here every function name you want to export
-  getAllBoards
+  getAllBoards,
+  getBoardByOwnerName,
+  getBoardByOwnerId,
+  getBoardById,
+
+
 };
