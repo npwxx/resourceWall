@@ -93,13 +93,7 @@ const addNewBoard = function() {
     });
 };
 
-const editBoardTitle = function() {
-  return db.query(`
-  `)
-    .then((response) => {
-      return response.rows;
-    });
-};
+
 
 const editBoardTitle = function() {
   return db.query(`
@@ -123,6 +117,7 @@ const editBoardDescription = function() {
     .then((response) => {
       return response.rows;
     });
+};
 
 const deleteBoard = function() {
   return db.query(`
