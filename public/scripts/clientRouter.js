@@ -29,6 +29,12 @@ $(document).ready(function() {
     },
     '/logout': function() {
       console.log("redirect to home");
+    },
+    '/myBoards': function() {
+      renderMyBoardsPageLayout();
+      loadMyBoard().then(() => {
+        router.updatePageLinks();
+      });
     }
   }).resolve();
 });
