@@ -30,7 +30,7 @@ const renderMainPageLayout = function() {
   $('#main').html(`<div class="inner">
   <header>
     <h1>Boards</h1>
-    <p>Do we want to write something here?? Or add a search spot?</p>
+    <p>TODO: Add search bar & functionality</p>
   </header>
   <section class="tiles">
   </section>
