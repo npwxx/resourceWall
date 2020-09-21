@@ -38,7 +38,6 @@ const createBoardFormElement = function() {
 };
 
 //TODO: load categories function to retrieve from DB
-
 const renderMyBoardsPageLayout = function() {
   $('#main').empty();
   $('<div/>', {
