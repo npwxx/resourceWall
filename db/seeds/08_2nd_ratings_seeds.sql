@@ -574,7 +574,6 @@ insert into resource_ratings (rater_id, resource_id, rating) values (673, 938, 4
 insert into resource_ratings (rater_id, resource_id, rating) values (577, 772, 1);
 insert into resource_ratings (rater_id, resource_id, rating) values (135, 780, 5);
 insert into resource_ratings (rater_id, resource_id, rating) values (201, 242, 2);
-insert into resource_ratings (rater_id, resource_id, rating) values (2, 145, 4);
 insert into resource_ratings (rater_id, resource_id, rating) values (427, 725, 4);
 insert into resource_ratings (rater_id, resource_id, rating) values (91, 742, 1);
 insert into resource_ratings (rater_id, resource_id, rating) values (919, 638, 5);
