@@ -34,7 +34,7 @@ const loadMyBoard = function() {
   renderMyBoardsPageLayout();
   return $.get("/boards")
     .then((boards) => {
-      //TODO: add myBoards route for retrieving owned boards
+      //TODO: add owned boards route
       renderBoardTiles(boards);
     });
 };
