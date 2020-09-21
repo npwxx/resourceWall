@@ -151,9 +151,11 @@
       if (href == '#menu')
         return;
 
-      window.setTimeout(function() {
-        window.location.href = href;
-      }, 350);
+      // THIS PART HAS TO BE DISABLED FOR NAVIGO
+
+      // window.setTimeout(function() {
+      //   window.location.href = href;
+      // }, 350);
 
     })
     .append('<a class="close" href="#menu">Close</a>');

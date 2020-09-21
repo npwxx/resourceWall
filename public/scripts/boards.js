@@ -10,16 +10,13 @@ const createBoardTileElement = function(board) {
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
   </span>
-  <a href="#">
+  <a href="/boards/${board.id}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
   <p>${escape(board.description)}</p>
   </div>
   </a>
   </article>`);
-  $boardTile.click(() => {
-    renderBoardPage(board);
-  });
   return $boardTile;
 };
 const renderBoardTiles = function(boards) {
@@ -29,7 +26,7 @@ const renderBoardTiles = function(boards) {
     $('.tiles').prepend($boardTile);
   }
 };
-const renderBoardsLayout = function() {
+const renderMainPageLayout = function() {
   $('#main').html(`<div class="inner">
   <header>
     <h1>Boards</h1>
@@ -38,6 +35,14 @@ const renderBoardsLayout = function() {
   <section class="tiles">
   </section>
 </div>`);
+};
+
+//TODO: change to database query
+const loadBoard = function(id) {
+  $.get("/boards")
+    .then((boards) => {
+      renderBoardPage(boards.find(b => b.id === id));
+    });
 };
 
 const renderBoardPage = function(board) {
@@ -52,13 +57,8 @@ const renderBoardPage = function(board) {
 };
 
 const loadBoards = function() {
-  $.get("/boards")
+  return $.get("/boards")
     .then((boards) => {
       renderBoardTiles(boards);
     });
 };
-
-$(document).ready(function() {
-  renderBoardsLayout();
-  loadBoards();
-});
