@@ -7,5 +7,6 @@ CREATE TABLE resources (
   board_id INTEGER NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
   resource_url VARCHAR (255) NOT NULL,
-  description TEXT
+  description TEXT,
+  date_posted DATETIME NOT NULL
 );

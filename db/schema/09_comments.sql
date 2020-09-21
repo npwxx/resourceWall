@@ -5,5 +5,5 @@ CREATE TABLE comments (
   author_id INTEGER NOT NULL REFERENCES users(id)  ON DELETE CASCADE,
   resource_id INTEGER NOT NULL REFERENCES resources(id) ON DELETE CASCADE,
   text TEXT NOT NULL,
-  date_posted DATE NOT NULL
+  date_posted DATETIME NOT NULL
 );
