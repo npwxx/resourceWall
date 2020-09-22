@@ -1,18 +1,40 @@
 //base function for modal form
 //TODO: add input & POST request to DB
 const renderLoginModal = function() {
-  $("#modal-container").html(`<form id="login-form">
-  login
-</form>`);
+  $("#modal-container").html(`
+  <h3>Login</h3>
+  <form>
+    <div>
+      <label for="email">Email:</label>
+      <input class="form-control" type="email" name="email" placeholder="email">
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input class="form-control" type="password" name="password" placeholder="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+`);
   $('#modal-container').modal();
 };
 
 //base function for modal form
 //TODO: add input & POST request to DB
 const renderRegisterModal = function() {
-  $("#modal-container").html(`<form id="register-form">
-  register
-</form>`);
+  $("#modal-container").html(`
+  <h3>Create Account</h3>
+  <form>
+    <div>
+      <label for="email">Enter an Email:</label>
+      <input class="form-control" type="email" name="email" placeholder="email">
+    </div>
+    <div>
+      <label for="password">Enter a Password:</label>
+      <input class="form-control" type="password" name="password" placeholder="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+    `);
   $('#modal-container').modal();
 };
 
