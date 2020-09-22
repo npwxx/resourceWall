@@ -36,7 +36,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
 
-//Bring in helper modules - functions that return helper object with methods to query the data
+//Bring in helper modules - functions returned on a helper to query the data
 const userHelper = require('./Queries-helpers/user-queries.js');
 const boardHelper = require('./Queries-helpers/board-queries.js');
 const resourceHelper = require('./Queries-helpers/resource-queries.js');

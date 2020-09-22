@@ -7,7 +7,7 @@
 const bcrypt = require('bcrypt');
 const express = require('express');
 const router  = express.Router();
-const {userAuthenticate} = require('../public/scripts/util-functions.js')
+const {userAuthenticate} = require('../public/scripts/util-functions.js');
 
 const {
   getUserByEmail,
@@ -18,7 +18,7 @@ const {
   addNewUser,
   deleteUser,
   getPasswordById
-} = require('../Queries-helpers/user-queries.js')
+} = require('../Queries-helpers/user-queries.js');
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
 
@@ -44,18 +44,18 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/:userId", (req, res) => {
- //CONSIDER what we want to do with this route
- const userId = req.session.userId
- getUserById(userId)
-  .then(() => {
+  //CONSIDER what we want to do with this route
+  const userId = req.session.userId;
+  getUserById(userId)
+    .then(() => {
 
-  })
+    });
 });
 
 
 router.patch("/:userId/edit-name", (req, res) => {
   const userId = req.params.userId;
-  console.log("current user is", currentUser);
+  console.log("current user is", req.session.userId);
   if (!userAuthenticate(userId)) {
     res.redirect("/");
   } else {
@@ -64,8 +64,8 @@ router.patch("/:userId/edit-name", (req, res) => {
     const userFields = { newNameString, userId };
     editUserName(userFields)
       .then(() => {
-          res.redirect("/:userId");
-        })
+        res.redirect("/:userId");
+      })
       .catch((e) => console.log("error:", e));
   }
 
@@ -81,8 +81,8 @@ router.patch("/:userId/edit-email", (req, res) => {
     const userFields = { newEmailString, userId};
     editUserEmail(userFields)
       .then(() => {
-          res.redirect("/");
-        })
+        res.redirect("/");
+      })
       .catch((e) => console.log("error:", e));
   }
 });
@@ -90,13 +90,14 @@ router.patch("/:userId/edit-email", (req, res) => {
 router.post("/create-user", (req, res) => {
   const name = req.body.nameString;
   const email = req.body.emailString;
+  const password = req.body.password;
   const passHash = bcrypt.hashSync(password, 10);
   const newUserFields = { name, email, passHash };
   addNewUser(newUserFields)
     .then((response) => {
       console.log(response); //grab user id from this and redirect to either their boards or account page
-      res.redirect("/")
-    })
+      res.redirect("/");
+    });
 
 });
 
@@ -108,9 +109,9 @@ router.delete("/:userId/delete", (req, res) => {
   } else {
     deleteUser(userId)
       .then(() => {
-        res.redirect("/")
+        res.redirect("/");
       })
-    .catch((e) => console.log("error:", e));
+      .catch((e) => console.log("error:", e));
   }
 });
 

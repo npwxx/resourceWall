@@ -19,7 +19,8 @@ const {
   deleteLike,
   deleteRating,
   deleteResource,
-  addResourceCategory
+  addNewCategory,
+  deleteCategory
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -38,10 +39,10 @@ router.post("/add-new-resource", (req, res) => {
   const resourceTitle = req.body.resourceTitle;
   const resourceUrl = req.body.resourceUrl;
   const resourceDescription = req.body.resourceDescription;
-  const newResourceFields = {baseUrl, boardId, resourceTitle, resourceUrl, resourceDescription}
+  const newResourceFields = {baseUrl, boardId, resourceTitle, resourceUrl, resourceDescription};
   addNewResource(newResourceFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -116,8 +117,8 @@ router.patch("/:resourceId/edit-title", (req, res) => {
   const resourceId = req.params.resourceId;
   editResourceTitle(newTitleString, resourceId)
     .then(() => {
-        res.redirect("/");
-      })
+      res.redirect("/");
+    })
     .catch((e) => console.log("error:", e));
 });
 
@@ -144,11 +145,11 @@ router.patch("/:resourceId/edit-description", (req, res) => {
 router.post("/:resourceId/add-category", (req, res) => {
   const newCategoryString = req.body.newCategoryString;
   const resourceId = req.params.resourceId;
-  const categoryFields = { resourceId, newCategoryString }
+  const categoryFields = { resourceId, newCategoryString };
   addNewCategory(categoryFields)
     .then((resources) => {
-        res.json(resources);
-      })
+      res.json(resources);
+    })
     .catch((e) => console.log("error:", e));
 });
 
@@ -161,7 +162,7 @@ router.post("/:resourceId/add-new-comment", (req, res) => {
   const newCommentFields = {authorId, resourceId, commentText};
   addNewComment(newCommentFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -173,7 +174,7 @@ router.delete("/:resourceId/delete-comment", (req, res) => {
   const commentFields = {authorId, resourceId, commentId};
   addNewComment(commentFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -186,7 +187,7 @@ router.post("/:resourceId/add-new-rating", (req, res) => {
   const newRatingFields = {resourceId, raterId, rating};
   addNewRating(newRatingFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -197,7 +198,7 @@ router.delete("/:resourceId/delete-rating", (req, res) => {
   const ratingFields = {resourceId, raterId};
   deleteRating(ratingFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -208,7 +209,7 @@ router.post("/:resourceId/add-new-like", (req, res) => {
   const likeFields = { userId, resourceId};
   addNewLike(likeFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -216,10 +217,10 @@ router.post("/:resourceId/add-new-like", (req, res) => {
 router.delete("/:resourceId/delete-like", (req, res) => {
   const likeId = req.body.likeId;
   const resourceId = req.params.resourceId;
-  const likeFields = { userId, resourceId};
+  const likeFields = { likeId, resourceId };
   deleteLike(likeFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -230,7 +231,7 @@ router.delete("/:resourceId/delete", (req, res) => {
   const resourceFields = { userId, resourceId };
   deleteResource(resourceFields)
     .then((resources) => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
@@ -241,7 +242,7 @@ router.delete("/:resourceId/delete-category/:categoryId", (req, res) => {
   const categoryFields = { categoryId, resourceId };
   deleteCategory(categoryFields)
     .then(() => {
-      res.redirect("/")
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
