@@ -308,17 +308,6 @@ const deleteResource = function(resourceFields) {
   });
 }
 
-const deleteResource = function(resourceFields) {
-  const fields = resourceFields;
-  return db.query(`
-  DELETE
-  FROM resources
-  WHERE user_id = $1 AND resource_id = $2;
-`,[fields.userId, fields.resourceId])
-    .then((response) => {
-    return response.rows;
-  });
-}
 
 const deleteCategory = function(categoryFields) {
   const fields = categoryFields
