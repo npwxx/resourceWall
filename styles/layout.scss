@@ -17,11 +17,19 @@ body {
   width: 90%;
 }
 #resources > article {
-  border: #545149 4px solid;
+  border:#2a5662 2px solid;
   margin-bottom: .5em;
   padding: .25em;
 }
-#resources > article > header, #resources > article > footer {
+#resource > article > header {
+  display:flex;
+  flex-direction: column;
+  margin: .5em;
+  h2 {
+    margin-bottom: 0;
+  }
+}
+#resources > article > footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,6 +38,10 @@ body {
 #resources > article > main {
   border-bottom: #545149 2px solid;
   padding: 0.5em;
+  font-size: medium;
+  p{
+    margin-bottom: 0;
+  }
 }
 
 #resources > article > footer {

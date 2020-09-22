@@ -76,8 +76,8 @@ const createNewResource = function(resource) {
       <h2>${escape(resource.title)}</h2>
       </header>
       <main>
-        <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
         <p>${escape(resource.description)}</p>
+        <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
       </main>
     <footer>
       <span>${(moment(resource.date_posted).fromNow())}</span>
