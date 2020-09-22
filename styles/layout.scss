@@ -12,4 +12,46 @@ body {
     z-index: 4;
   }
 }
+// SCSS for resources list on board
+#resources {
+  width: 90%;
+}
+#resources > article {
+  border:#2a5662 2px solid;
+  margin-bottom: .5em;
+  padding: .25em;
+}
+#resource > article > header {
+  display:flex;
+  flex-direction: column;
+  margin: .5em;
+  h2 {
+    margin-bottom: 0;
+  }
+}
+#resources > article > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:.15em;
+}
+#resources > article > main {
+  border-bottom: #545149 2px solid;
+  padding: 0.5em;
+  font-size: medium;
+  p{
+    margin-bottom: 0;
+  }
+}
+
+#resources > article > footer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-top: .35em;
+  font-size: .7em;
+}
+#resources > article:hover {
+  box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+}
 
