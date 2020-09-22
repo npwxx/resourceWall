@@ -12,8 +12,8 @@ const {
 
 router.get("/", (req, res) => {
   getResourcesByBoardId()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -21,8 +21,8 @@ router.get("/", (req, res) => {
 
 router.get("/ratings-descending", (req, res) => {
   getResourcesByHighestRated()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -30,8 +30,8 @@ router.get("/ratings-descending", (req, res) => {
 
 router.get("/ratings-ascending", (req, res) => {
   getResourcesByLowestRated()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -39,8 +39,8 @@ router.get("/ratings-ascending", (req, res) => {
 
 router.get("/most-commented", (req, res) => {
   getResourcesByMostCommented()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -48,8 +48,8 @@ router.get("/most-commented", (req, res) => {
 
 router.get("/least-commented", (req, res) => {
   getResourcesByLeastCommented()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -57,8 +57,8 @@ router.get("/least-commented", (req, res) => {
 
 router.get("/sort-newest", (req, res) => {
   getResourcesByNewest()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -66,8 +66,8 @@ router.get("/sort-newest", (req, res) => {
 
 router.get("/sort-oldest", (req, res) => {
   getResourcesByOldest()
-    .then((boards) => {
-      res.json(boards);
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 
@@ -77,11 +77,19 @@ router.get("/create", (req, res) => {
   //create a resource within a board
   //user must own the board
   //in here need to do multipe db queries - an insert to create the item,  and an edit to add the resouroce to a board.
+  getResourcesByOldest()
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
 });
 
-router.post("/edit", (req, res) => {
-  //edit a resource within a board
-  //user must own the board
+router.patch("/edit-title", (req, res) => {
+  replaceBoardTitle(newTitleString)
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
 });
 
 router.delete("/delete", (req, res) => {
