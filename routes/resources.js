@@ -107,6 +107,6 @@ router.post("/:resourceid/like", (req, res) => {
 
 });
 
-module.exports = { router };
+module.exports = router;
 
 

@@ -27,4 +27,4 @@ router.put("/:userid/edit", (req, res) => { //put is changing info about an exis
 
 });
 
-module.exports = { router };
+module.exports = router;

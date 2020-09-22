@@ -69,4 +69,4 @@ router.put("/:boardid/edit", (req, res) => {
 });
 
 
-module.exports = { router };
+module.exports = router;

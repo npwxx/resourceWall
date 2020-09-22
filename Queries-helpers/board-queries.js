@@ -33,7 +33,11 @@ const getAllBoards = function() {
 
   //We should also handle the ORDER BY filters in this function call
   return db.query(`
-  SELECT name, boards.title, boards.description
+  SELECT
+    boards.id,
+    boards.name,
+    boards.title,
+    boards.description
   FROM boards
   JOIN users ON users.id = boards.owner_id
   LIMIT 4;`)
@@ -44,7 +48,8 @@ const getAllBoards = function() {
 
 const getBoardByOwnerName = function(nameString) {
   return db.query(
-    `SELECT boards.id,
+    `SELECT
+    boards.id,
       boards.title as title,
       boards.description as description,
       boards.date_posted as created
