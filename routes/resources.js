@@ -8,7 +8,9 @@ const {
   getResourcesByMostCommented,
   getResourcesByLeastCommented,
   getResourcesByNewest,
-  getResourcesByOldest
+  getResourcesByOldest,
+  editResourceTitle,
+  editResourceUrl
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -22,6 +24,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:resourceId", (req, res) => {
+  const resourceId = req.params.resourceId;
   getResourcesById(resourceId)
     .then((resources) => {
       res.json(resources);
@@ -92,9 +95,20 @@ router.get("/create", (req, res) => {
 });
 
 router.patch("/:resourceId/edit-title", (req, res) => {
-  const newTitleString = req.body.newTitle;
+  const newTitleString = req.body.newUrlString;
   const resourceId = req.params.resourceId;
-  replaceResourceTitle(newTitleString, resourceId)
+  editResourceTitle(newTitleString, resourceId)
+    .then(() => {
+        res.redirect("/");
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.patch("/:resourceId/edit-url", (req, res) => {
+  const newUrlString = req.body.newUrlString;
+  console.log(newUrlString);
+  const resourceId = req.params.resourceId;
+  editResourceUrl(newUrlString, resourceId)
     .then(() => {
       res.redirect("/");
     })

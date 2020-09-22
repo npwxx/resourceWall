@@ -2,7 +2,7 @@ const { db } = require('../server.js');
 
 const getResourcesByBoardId = function(boardId) {
   return db.query(`
-  SELECT title, description, resource_url
+  SELECT id, title, description, resource_url
   FROM resources
   WHERE board_id = $1;`, [boardId])
   .then((response) => {
@@ -131,12 +131,24 @@ const getResourcesByOldest = function () {
   });
 }
 
-const replaceResourceTitle = function(newTitleString, resourceId) {
+const editResourceTitle = function(newTitleString, resourceId) {
 return db.query(`
   UPDATE resources
-  SET resources.title = $1;
-  WHERE resources.id = $2
+  SET title = $1
+  WHERE id = $2;
 `, [newTitleString, resourceId])
+    .then((response) => {
+      console.log(response);
+    return response.rows;
+  });
+}
+
+const editResourceUrl = function(newUrlString, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET resource_url = $1
+  WHERE id = $2;
+`, [newUrlString, resourceId])
     .then((response) => {
     return response.rows;
   });
@@ -149,6 +161,7 @@ module.exports =  {
   getResourcesByLeastCommented,
   getResourcesByNewest,
   getResourcesByOldest,
-  replaceResourceTitle,
-  getResourcesById
+  editResourceTitle,
+  getResourcesById,
+  editResourceUrl
 }
