@@ -115,15 +115,6 @@ const getBoardByTitle = function(titleString) {
     });
 };
 
-const addNewBoard = function() {
-  return db.query(`
-  `)
-    .then((response) => {
-      return response.rows;
-    });
-};
-
-
 
 const editBoardTitle = function(newTitleString, boardId) {
   return db.query(`
