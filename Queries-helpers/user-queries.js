@@ -29,13 +29,30 @@ const getUserByEmail = function(emailString) {
     console.error(e)
   });
 };
-}
 
-const getUserByName = function(emailString) {
+const getUserById = function(userId) {
+  const queryString = `
+  SELECT *
+  FROM users
+  WHERE id = $1`
+  return pool.query(queryString, [id])
+  .then(res => {
+    if (!res.rows.length) {
+      return null
+    } else {
+      return res.rows[0];
+    }
+  })
+  .catch(e => {
+    console.error(e)
+  });
+};
+
+const getUserByName = function(nameString) {
   return db.query(`
   SELECT *
   FROM users
-  WHERE board_id = $1;`, [emailString])
+  WHERE name = $1;`, [nameString])
     .then((response) => {
     return response.rows;
   });
