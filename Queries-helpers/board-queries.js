@@ -188,6 +188,33 @@ const addNewBoard = function(newBoardFields) {
     });
 };
 
+const addBoardCategory = function(categoryFields) {
+  const fields = categoryFields
+  return db.query(`
+  INSERT INTO board_categories (
+    type,
+    board_id
+    )
+  VALUES(
+    $1,
+    $2,
+  );
+`, [fields.newCategoryString, fields.boardId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+const deleteBoardCategory = function(categoryFields) {
+  const fields = categoryFields
+  return db.query(`
+  DELETE FROM board_categories WHERE id = $1 AND board_id = $2;
+`, [fields.categoryId, fields.boardId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 
 
 module.exports = {
@@ -199,6 +226,7 @@ module.exports = {
   editBoardTitle,
   editBoardDescription,
   deleteBoard,
-  addNewBoard
-
+  addNewBoard,
+  addBoardCategory,
+  deleteBoardCategory
 };

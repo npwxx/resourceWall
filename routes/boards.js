@@ -7,7 +7,9 @@ const {
   getBoardById,
   editBoardTitle,
   editBoardDescription,
-  deleteBoard
+  deleteBoard,
+  addBoardCategory,
+  deleteBoardCategory
 } = require('../Queries-helpers/board-queries.js');
 
 
@@ -58,7 +60,18 @@ router.get("/search-owner/:ownerId", (req, res) => {
   .catch((e) => console.log("error", e))
 });
 
-router.patch("/:boardId/edit-title", (req, res) => {
+router.post("/:boardId/add-category", (req, res) => {
+  const newCategoryString = req.body.newCategoryString;
+  const boardId = req.params.boardId;
+  const categoryFields = { boardId, newCategoryString }
+  addBoardCategory(categoryFields)
+    .then((boards) => {
+        res.json(boards);
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.put("/:boardId/edit-title", (req, res) => {
   const newTitleString = req.body.newTitleString;
   const boardId = req.params.boardId;
   editBoardTitle(newTitleString, boardId)
@@ -96,6 +109,17 @@ router.delete("/:boardid/delete", (req, res) => {
   const boardId = req.params.boardId;
   const boardFields = { userId, boardId };
   deleteBoard(resourceFields)
+    .then(() => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.delete("/:boardid/delete-category/:categoryId", (req, res) => {
+  const categoryId = req.params.categoryId;
+  const boardId = req.params.boardId;
+  const categoryFields = { categoryId, boardId };
+  deleteBoard(categoryFields)
     .then(() => {
       res.redirect("/")
     })
