@@ -20,8 +20,7 @@ const renderLoginModal = function() {
     //submit data to the server
     $.post("/login", serializedData)
       .then(() => {
-        loadTweets();
-        $("#tweet-text").val("");
+        // TODO: Check if login wa ssucessful & then close modal & mavigate to my boards
       });
   });
   $('#modal-container').modal();

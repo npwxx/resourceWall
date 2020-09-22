@@ -1,14 +1,27 @@
 
-const categoriesElement = function() {
-  return $(`
+const categoriesElement = function(categories) {
+  const $div = $('<div />', {
+    'class': "col-6 col-12-small"
+  });
+  console.log(categories);
+  for (const category of categories) {
+    $div.append(
+      $(`
+        <input type="checkbox" id="category-${category.id}" name="category[]">
+        <label for="category-${category.id}">${category.type}</label>`
+      )
+    );
+  }
+  $(`
   <div class="col-6 col-12-small">
 	  <input type="checkbox" id="demo-copy" name="demo-copy">
-	  <label for="demo-copy">Email me a copy</label>
+	  <label for="demo-copy"></label>
   </div>`);
+  return $div;
 };
 
 
-const createBoardFormElement = function() {
+const createBoardFormElement = function(categories) {
   return $('<section/>').append(
     $('<h2/>', { text: "Create New Board" })
   ).append(
@@ -31,14 +44,14 @@ const createBoardFormElement = function() {
             type: 'text',
             name: 'description'
           }).attr('placeholder', 'Description')
-        ).append(categoriesElement())
+        ).append(categoriesElement(categories))
       )
     )
   );
 };
 
 //TODO: load categories function to retrieve from DB
-const renderMyBoardsPageLayout = function() {
+const renderMyBoardsPageLayout = function(categories) {
   $('#main').empty();
   $('<div/>', {
     'class': 'inner'
@@ -48,7 +61,7 @@ const renderMyBoardsPageLayout = function() {
         text: 'My Boards'
       })
     ).append(
-      createBoardFormElement()
+      createBoardFormElement(categories)
     )
   ).append(
     $('<section/>', {
@@ -59,10 +72,16 @@ const renderMyBoardsPageLayout = function() {
 
 //TODO: add DB fetch
 const loadMyBoard = function() {
-  renderMyBoardsPageLayout();
-  return $.get("/boards")
+  // use categories route instead
+  return $.get('/boards').then((/*categories*/) => {
+    const categories = [{ id: 1, type: 'Sports' }, { id: 2, type: 'Gardening' }, { id: 3, type: 'Web Development' }, { id: 4, type: 'Science' }];
+    console.log(categories);
+    renderMyBoardsPageLayout(categories);
+  }
+  ).then(() => {
+    return $.get("/boards");
+  })
     .then((boards) => {
-
       //TODO: add owned boards route
       renderBoardTiles(boards);
     });
