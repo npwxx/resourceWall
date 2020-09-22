@@ -2,9 +2,20 @@ const { db } = require('../server.js');
 
 const getResourcesByBoardId = function(boardId) {
   return db.query(`
-  SELECT title, description, resource_url
+  SELECT id, title, description, resource_url
   FROM resources
   WHERE board_id = $1;`, [boardId])
+  .then((response) => {
+    console.log("res", response);
+    return response.rows;
+  });
+}
+
+const getResourcesById = function(resourceId) {
+  return db.query(`
+  SELECT id, title, description, resource_url
+  FROM resources
+  WHERE id = $1;`, [resourceId])
     .then((response) => {
     return response.rows;
   });
@@ -119,6 +130,166 @@ const getResourcesByOldest = function () {
     return response.rows;
   });
 }
+
+const editResourceTitle = function(newTitleString, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET title = $1
+  WHERE id = $2;
+`, [newTitleString, resourceId])
+    .then((response) => {
+      console.log(response);
+    return response.rows;
+  });
+}
+
+const editResourceUrl = function(newUrlString, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET resource_url = $1
+  WHERE id = $2;
+`, [newUrlString, resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const editResourceDescription = function(newText, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET description = $1
+  WHERE id = $2;
+`, [newText, resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const addNewResource = function(newResourceFields) {
+  const fields = newResourceFields;
+  return db.query(`
+  INSERT INTO resources (
+    board_id,
+    title,
+    resource_url,
+    description,
+    date_posted
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+    $4,
+    now()
+  );
+`,[fields.boardId, fields.resourceTitle, fields.resourceUrl, fields.resourceDescription])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const addNewComment = function(newCommentFields) {
+  const fields = newCommentFields;
+  return db.query(`
+  INSERT INTO comments (
+    author_id,
+    resource_id,
+    text,
+    date_posted
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+    now()
+  );
+`,[fields.authorId, fields.resourceId, fields.commentText])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteComment = function(commentFields) {
+  const fields = commentFields;
+  return db.query(`
+  DELETE FROM comments
+  WHERE author_id = $1 AND resource_id = $2 AND comments.id = $3;
+`,[fields.authorId, fields.resourceId, fields.commentId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const addNewRating= function(newRatingFields) {
+  const fields = newRatingFields;
+  return db.query(`
+  INSERT INTO resource_ratings (
+  rater_id,
+  resource_id,
+  rating
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+  );
+`,[fields.raterId, fields.resourceId, fields.rating])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteRating = function(ratingFields) {
+  const fields = ratingFields;
+  return db.query(`
+  DELETE FROM ratings
+  WHERE rater_id = $1 AND resourceId = $2;
+`,[fields.raterId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const addNewLike = function(likeFields) {
+  const fields = likeFields;
+  return db.query(`
+  INSERT INTO resource_likes (
+  user_id,
+  resource_id,
+    )
+  VALUES(
+    $1,
+    $2,
+  );
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteLike = function(likeFields) {
+  const fields = likeFields;
+  return db.query(`
+  DELETE
+  FROM resource_likes
+  WHERE user_id = $1 AND resource_id = $2;
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteResource = function(resourceFields) {
+  const fields = resourceFields;
+  return db.query(`
+  DELETE
+  FROM resources
+  WHERE user_id = $1 AND resource_id = $2;
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -126,5 +297,17 @@ module.exports =  {
   getResourcesByMostCommented,
   getResourcesByLeastCommented,
   getResourcesByNewest,
-  getResourcesByOldest
+  getResourcesByOldest,
+  editResourceTitle,
+  getResourcesById,
+  editResourceUrl,
+  editResourceDescription,
+  addNewResource,
+  addNewComment,
+  addNewRating,
+  addNewLike,
+  deleteLike,
+  deleteRating,
+  deleteComment,
+  deleteResource
 }

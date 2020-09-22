@@ -4,7 +4,9 @@ const {
   getAllBoards,
   getBoardByOwnerName,
   getBoardByOwnerId,
-  getBoardById
+  getBoardById,
+  editBoardTitle,
+  editBoardDescription
 } = require('../Queries-helpers/board-queries.js');
 
 
@@ -55,12 +57,39 @@ router.get("/search-owner/:ownerId", (req, res) => {
   .catch((e) => console.log("error", e))
 });
 
+router.patch("/:boardId/edit-title", (req, res) => {
+  const newTitleString = req.body.newTitleString;
+  const boardId = req.params.boardId;
+  editBoardTitle(newTitleString, boardId)
+    .then((boards) => {
+        res.json(boards);
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.patch("/:boardId/edit-description", (req, res) => {
+  const newText = req.body.newText;
+  const boardId = req.params.boardId;
+  editBoardDescription(newText, boardId)
+    .then(() => {
+        res.redirect("/");
+      })
+    .catch((e) => console.log("error:", e));
+});
+
 router.post("/:boardid/create", (req, res) => {
     //add a new board
 });
 
 router.delete("/:boardid/delete", (req, res) => {
-    //delete a board given an id
+  const userId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const resourceFields = { userId, resourceId };
+  deleteResource(resourceFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
 });
 
   //get rid of /create - here for illustrative purposes
