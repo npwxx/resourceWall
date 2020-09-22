@@ -35,6 +35,8 @@ const renderBoardTiles = function(boards) {
 
 // BOARD FUNCTIONS
 const renderBoardPage = function(board) {
+  $('#main').html(`
+    `);
   $('#main').html(`<div class="inner">
     <header>
     <h1>${escape(board.title)}</h1>
@@ -70,8 +72,54 @@ const loadBoards = function() {
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 
-const createNewResource = function(resource) {
-  let $createResource = $(`<article>
+const createNewResource = function() {
+  return $('#resources').append(
+    $('<h2/>', { text: "Add New Resource" })
+  ).append(
+    $('<form/>').append(
+      $('<div/>', {
+        'class': "row gtr-uniform",
+      }).append(
+        $('<div/>', {
+          'class': "col-6 col-12-xsmall"
+        }).append(
+          $('<input/>', {
+            type: 'text',
+            title: 'title'
+          }).attr('placeholder', 'Title')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'description'
+          }).attr('placeholder', 'Description')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'url'
+          }).attr('placeholder', 'URL')
+        ).append(
+          $('<button/>', {
+            type: 'submit',
+            text: 'Create Resource',
+            'class': 'primary'
+          })
+        )
+      )
+    ).submit(function(event) {
+      event.preventDefault();
+      const serializedData = $(this).serialize();
+      //submit data to the server
+      console.log(serializedData);
+      $.post("#resources", serializedData)
+        .then(() => {
+          // TODO: Check if post wa ssucessful
+        });
+    })
+  );
+};
+
+const renderResources = function(resource) {
+  let $renderResource = $(`<article>
   <header>
       <h2>${escape(resource.title)}</h2>
       </header>
@@ -84,14 +132,15 @@ const createNewResource = function(resource) {
       <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
     </footer>
   </article>`);
-  return $createResource;
+  return $renderResource;
 };
 
 // CLICK HANDLER & MODAL FUNCTIONS
 const renderBoardResources = function(resources) {
   $('#resources').empty();
+  const $newResource = createNewResource();
   for (const resource of resources) {
-    const $resource = createNewResource(resource);
+    const $resource = renderResources(resource);
     $resource.appendTo('#resources');
     $resource.click(() => {
       renderResourceModal(resource);
