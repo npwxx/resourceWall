@@ -8,24 +8,23 @@
 const express = require('express');
 const router  = express.Router();
 
-module.exports = (db) => {
-  //GET /users/ route -> when a user arrives here we want to check if they're logged in
-  //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
-  router.get("/", (req, res) => {
-    console.log(req.session);
-  });
+//GET /users/ route -> when a user arrives here we want to check if they're logged in
+//If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
+router.get("/", (req, res) => {
+  console.log(req.session);
+});
 
-  router.get("/:boardid", (req, res) => {
+router.get("/:boardid", (req, res) => {
 
-    //get the myBoards page of the user with id :userid
-    //if not logged in as correct user, hide edit options
-    //user also sees their 'liked' resources
+  //get the myBoards page of the user with id :userid
+  //if not logged in as correct user, hide edit options
+  //user also sees their 'liked' resources
 
-  });
+});
 
-  router.put("/:userid/edit", (req, res) => { //put is changing info about an existing entry, post is a new entry
-    //the user is able to edit their profile information
+router.put("/:userid/edit", (req, res) => { //put is changing info about an existing entry, post is a new entry
+  //the user is able to edit their profile information
 
-  });
-  return router;
-};
+});
+
+module.exports = { router };
