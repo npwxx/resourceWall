@@ -96,7 +96,7 @@ router.get("/create", (req, res) => {
 });
 
 router.patch("/:resourceId/edit-title", (req, res) => {
-  const newTitleString = req.body.newUrlString;
+  const newTitleString = req.body.newTitleString;
   const resourceId = req.params.resourceId;
   editResourceTitle(newTitleString, resourceId)
     .then(() => {

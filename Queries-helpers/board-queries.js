@@ -125,23 +125,29 @@ const addNewBoard = function() {
 
 
 
-const editBoardTitle = function() {
+const editBoardTitle = function(newTitleString, boardId) {
   return db.query(`
-  `)
+  UPDATE boards
+  SET title = $1
+  WHERE id = $2;
+  `, [newTitleString, boardId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+const editBoardDescription = function(newText, boardId) {
+  return db.query(`
+  UPDATE boards
+  SET description = $1
+  WHERE id = $2;
+  `, [newText, boardId])
     .then((response) => {
       return response.rows;
     });
 };
 
 const editBoardCategories = function() {
-  return db.query(`
-  `)
-    .then((response) => {
-      return response.rows;
-    });
-};
-
-const editBoardDescription = function() {
   return db.query(`
   `)
     .then((response) => {
@@ -167,6 +173,7 @@ module.exports = {
   getBoardByOwnerName,
   getBoardByOwnerId,
   getBoardById,
-
+  editBoardTitle,
+  editBoardDescription
 
 };
