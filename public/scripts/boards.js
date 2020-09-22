@@ -127,11 +127,12 @@ const renderResources = function(resource) {
         <p>${escape(resource.description)}</p>
         <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
       </main>
-    <footer>
-      <span>${(moment(resource.date_posted).fromNow())}</span>
-      <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
-    </footer>
   </article>`);
+  const $footer = $(`<footer>
+  <span>${(moment(resource.date_posted).fromNow())}</span>
+  <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
+</footer>`);
+  $footer.appendTo($renderResource);
   return $renderResource;
 };
 
