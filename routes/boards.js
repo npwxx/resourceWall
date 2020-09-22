@@ -6,7 +6,10 @@ const {
   getBoardByOwnerId,
   getBoardById,
   editBoardTitle,
-  editBoardDescription
+  editBoardDescription,
+  deleteBoard,
+  addBoardCategory,
+  deleteBoardCategory
 } = require('../Queries-helpers/board-queries.js');
 
 
@@ -57,7 +60,18 @@ router.get("/search-owner/:ownerId", (req, res) => {
   .catch((e) => console.log("error", e))
 });
 
-router.patch("/:boardId/edit-title", (req, res) => {
+router.post("/:boardId/add-category", (req, res) => {
+  const newCategoryString = req.body.newCategoryString;
+  const boardId = req.params.boardId;
+  const categoryFields = { boardId, newCategoryString }
+  addBoardCategory(categoryFields)
+    .then((boards) => {
+        res.json(boards);
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.put("/:boardId/edit-title", (req, res) => {
   const newTitleString = req.body.newTitleString;
   const boardId = req.params.boardId;
   editBoardTitle(newTitleString, boardId)
@@ -77,16 +91,36 @@ router.patch("/:boardId/edit-description", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
-router.post("/:boardid/create", (req, res) => {
-    //add a new board
+router.post("/create", (req, res) => {
+    const ownerId = req.session.userId;
+    const boardTitle = req.body.boardTitle;
+    const boardDescription = req.body.boardDescription;
+    const newBoardFields = { ownerId, boardTitle, boardDescription };
+    addNewBoard(newBoardFields)
+      .then((response) => {
+        console.log(response);
+        res.redirect("/")
+      })
+
 });
 
 router.delete("/:boardid/delete", (req, res) => {
   const userId = req.session.userId;
-  const resourceId = req.params.resourceId;
-  const resourceFields = { userId, resourceId };
-  deleteResource(resourceFields)
-    .then((resources) => {
+  const boardId = req.params.boardId;
+  const boardFields = { userId, boardId };
+  deleteBoard(resourceFields)
+    .then(() => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.delete("/:boardid/delete-category/:categoryId", (req, res) => {
+  const categoryId = req.params.categoryId;
+  const boardId = req.params.boardId;
+  const categoryFields = { categoryId, boardId };
+  deleteBoard(categoryFields)
+    .then(() => {
       res.redirect("/")
     })
     .catch((e) => console.log("error:", e));

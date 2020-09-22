@@ -161,7 +161,7 @@ router.post("/:resourceId/add-new-comment", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
-router.delete("/:resourceId/delete-comment, (req, res) => {
+router.delete("/:resourceId/delete-comment", (req, res) => {
   const authorId = req.session.userId;
   const resourceId = req.params.resourceId;
   const commentId = req.body.commentId;
