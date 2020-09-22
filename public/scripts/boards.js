@@ -57,9 +57,8 @@ const loadBoard = function(id) {
       renderBoardPage(boards[0]);
     }).then(() => {
       return $.get(`/boards/${id}/resources`);
-    }).then((/*resources*/) => {
-      const resources = [{ "title": "GMLAN", "description": "In hac habitasse platea dictumst. E", "link": "https://apache.org/n", "average_rating": "5.00" }, { "title": "Electricity", "description": "In hac habitasse platea dictumst. M", "link": "https://weibo.com/ul", "average_rating": "4.75" }, { "title": "Childcare", "description": "Vestibulum quam sapien, varius ut, ", "link": "http://webmd.com/ant", "average_rating": "4.67" }, { "title": "Nonprofits", "description": "Aenean lectus. Pellentesque eget nu", "link": "https://simplemachin", "average_rating": "4.50" }, { "title": "Wufoo", "description": "Sed ante. Vivamus tortor. Duis matt", "link": "https://google.com.h", "average_rating": "4.50" }, { "title": "LMS Test.Lab", "description": "Cras mi pede, malesuada in, imperdi", "link": "http://nymag.com/in/", "average_rating": "4.50" }];
-      renderBoardResources(resources);
+    }).then((resources) => {
+      renderBoardResources(resources, id);
     });
 };
 
@@ -72,7 +71,6 @@ const loadBoards = function() {
 
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
-
 const createNewResource = function() {
   return $('#resources').append(
     $('<h2/>', { text: "Add New Resource" })
@@ -119,10 +117,12 @@ const createNewResource = function() {
   );
 };
 
-const renderResources = function(resource) {
+const renderResources = function(resource, boardId) {
+  console.log(resource);
   let $renderResource = $(`<article>
   <header>
       <h2>${escape(resource.title)}</h2>
+      <span>TODO: ADD AVG RATING HERE</span>
       </header>
       <main>
         <p>${escape(resource.description)}</p>
@@ -134,25 +134,40 @@ const renderResources = function(resource) {
 
   </footer>`);
   $footer.appendTo($renderResource);
+  // TODO: check with server and
+  const $like = $('<span/>', {
+    'class': 'fa fa-heart'
+  }).appendTo($footer);
+  $like.click(() => {
+    console.log('$like');
+  });
+  // TODO: route to/from DB by user ID
   const $rater = $('<span/>').appendTo($footer);
   $rater.rate({
+    min_value: 1,
     max_value: 5,
     step_size: 1
+  });
+  $rater.on("change", function(ev, data) {
+    $.post(`/boards/${boardId}/resources/${resource.id}/add-new-rating`, {
+      rating: data.to
+    });
+    console.log(data.from, data.to);
   });
 
   return $renderResource;
 };
 
 // CLICK HANDLER & MODAL FUNCTIONS
-const renderBoardResources = function(resources) {
+const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
   const $newResource = createNewResource();
   for (const resource of resources) {
-    const $resource = renderResources(resource);
+    const $resource = renderResources(resource, boardId);
     $resource.appendTo('#resources');
-    $resource.click(() => {
-      renderResourceModal(resource);
-    });
+    // $resource.click(() => {
+    //   renderResourceModal(resource);
+    // });
   }
 };
 
