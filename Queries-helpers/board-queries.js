@@ -141,7 +141,7 @@ const editBoardDescription = function(newText, boardId) {
 
 
 const deleteBoard = function(boardFields) {
-  const fields = boardFields
+  const fields = boardFields;
   return db.query(`
   DELETE FROM boards
   WHERE user_id = $1 AND board_id = $2;
@@ -152,7 +152,7 @@ const deleteBoard = function(boardFields) {
 };
 
 const addNewBoard = function(newBoardFields) {
-  const fields = newBoardFields
+  const fields = newBoardFields;
   return db.query(`
   INSERT INTO resources (
     owner_id,
@@ -173,7 +173,7 @@ const addNewBoard = function(newBoardFields) {
 };
 
 const addBoardCategory = function(categoryFields) {
-  const fields = categoryFields
+  const fields = categoryFields;
   return db.query(`
   INSERT INTO board_categories (
     type,
@@ -190,7 +190,7 @@ const addBoardCategory = function(categoryFields) {
 };
 
 const deleteBoardCategory = function(categoryFields) {
-  const fields = categoryFields
+  const fields = categoryFields;
   return db.query(`
   DELETE FROM board_categories WHERE id = $1 AND board_id = $2;
 `, [fields.categoryId, fields.boardId])

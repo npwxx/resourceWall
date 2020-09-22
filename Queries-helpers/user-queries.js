@@ -18,16 +18,16 @@ const getUserByEmail = function(emailString) {
   SELECT *
   FROM users
   WHERE email = $1;`, [emailString])
-  .then(res => {
-    if (!res.rows.length) {
-      return null
-    } else {
-      return res.rows[0];
-    }
-  })
-  .catch(e => {
-    console.error(e)
-  });
+    .then(res => {
+      if (!res.rows.length) {
+        return null;
+      } else {
+        return res.rows[0];
+      }
+    })
+    .catch(e => {
+      console.error(e);
+    });
 };
 
 const getPasswordById = function(userId) {
@@ -35,34 +35,34 @@ const getPasswordById = function(userId) {
   SELECT password
   FROM users
   WHERE userId = $1;`, [userId])
-  .then(res => {
-    if (!res.rows.length) {
-      return null
-    } else {
-      return res.rows[0];
-    }
-  })
-  .catch(e => {
-    console.error(e)
-  });
+    .then(res => {
+      if (!res.rows.length) {
+        return null;
+      } else {
+        return res.rows[0];
+      }
+    })
+    .catch(e => {
+      console.error(e);
+    });
 };
 
 const getUserById = function(userId) {
   const queryString = `
   SELECT *
   FROM users
-  WHERE id = $1`
-  return pool.query(queryString, [id])
-  .then(res => {
-    if (!res.rows.length) {
-      return null
-    } else {
-      return res.rows[0];
-    }
-  })
-  .catch(e => {
-    console.error(e)
-  });
+  WHERE id = $1`;
+  return db.query(queryString, userId)
+    .then(res => {
+      if (!res.rows.length) {
+        return null;
+      } else {
+        return res.rows[0];
+      }
+    })
+    .catch(e => {
+      console.error(e);
+    });
 };
 
 const getUserByName = function(nameString) {
@@ -71,11 +71,11 @@ const getUserByName = function(nameString) {
   FROM users
   WHERE name = $1;`, [nameString])
     .then((response) => {
-    return response.rows;
-  });
-}
+      return response.rows;
+    });
+};
 
-const editUserName = function (userFields) {
+const editUserName = function(userFields) {
   const fields = userFields;
   return db.query(`
   UPDATE users
@@ -83,11 +83,11 @@ const editUserName = function (userFields) {
   WHERE id = $2;
 `, [fields.newNameString, fields.userId])
     .then((response) => {
-    return response.rows;
-  });
-}
+      return response.rows;
+    });
+};
 
-const editUserEmail = function (userFields) {
+const editUserEmail = function(userFields) {
   const fields = userFields;
   return db.query(`
   UPDATE users
@@ -95,12 +95,12 @@ const editUserEmail = function (userFields) {
   WHERE id = $2;
 `, [fields.newEmailString, fields.userId])
     .then((response) => {
-    return response.rows;
-  });
-}
+      return response.rows;
+    });
+};
 
 const addNewUser = function(userFields) {
-  const fields = userFields
+  const fields = userFields;
   return db.query(`
   INSERT INTO users (
     name,
@@ -140,4 +140,4 @@ module.exports = {
   addNewUser,
   deleteUser,
   getPasswordById
-}
+};
