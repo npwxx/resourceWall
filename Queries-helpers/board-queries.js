@@ -35,7 +35,6 @@ const getAllBoards = function() {
   return db.query(`
   SELECT
     boards.id,
-    boards.name,
     boards.title,
     boards.description
   FROM boards
@@ -50,9 +49,9 @@ const getBoardByOwnerName = function(nameString) {
   return db.query(
     `SELECT
     boards.id,
-      boards.title as title,
-      boards.description as description,
-      boards.date_posted as created
+    boards.title as title,
+    boards.description as description,
+    boards.date_posted as created
     FROM boards
     WHERE boards.title LIKE $1;
   `, [nameString])
