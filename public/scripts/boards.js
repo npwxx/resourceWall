@@ -36,14 +36,12 @@ const renderBoardTiles = function(boards) {
 // BOARD FUNCTIONS
 const renderBoardPage = function(board) {
   $('#main').html(`<div class="inner">
-  <header>
+    <header>
     <h1>${escape(board.title)}</h1>
     <p>${escape(board.description)}</p>
     </header>
-    <section>
+    <section id="resources">
     <h2>Resources</h2>  
-    <ul id="resources">
-    </ul>
     </section>
     </div>`);
 };
@@ -58,7 +56,6 @@ const loadBoard = function(id) {
       return $.get(`/boards/${id}/resources`);
     }).then((/*resources*/) => {
       const resources = [{ "title": "GMLAN", "description": "In hac habitasse platea dictumst. E", "link": "https://apache.org/n", "average_rating": "5.00" }, { "title": "Electricity", "description": "In hac habitasse platea dictumst. M", "link": "https://weibo.com/ul", "average_rating": "4.75" }, { "title": "Childcare", "description": "Vestibulum quam sapien, varius ut, ", "link": "http://webmd.com/ant", "average_rating": "4.67" }, { "title": "Nonprofits", "description": "Aenean lectus. Pellentesque eget nu", "link": "https://simplemachin", "average_rating": "4.50" }, { "title": "Wufoo", "description": "Sed ante. Vivamus tortor. Duis matt", "link": "https://google.com.h", "average_rating": "4.50" }, { "title": "LMS Test.Lab", "description": "Cras mi pede, malesuada in, imperdi", "link": "http://nymag.com/in/", "average_rating": "4.50" }];
-      createNewResource();
       renderBoardResources(resources);
     });
 };
@@ -73,15 +70,17 @@ const loadBoards = function() {
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 
-const createNewResource = function() {
+const createNewResource = function(resource) {
   let $createResource = $(`<article>
   <header>
-      <span>${escape(resources.title)}</span>
-      <span>${escape(resources.description)}</span>
-    </header>
-    <main>${escape(resources.resource_url)}</main>
+      <h2>${escape(resource.title)}</h2>
+      </header>
+      <main>
+        <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
+        <p>${escape(resource.description)}</p>
+      </main>
     <footer>
-      <span>${(moment(resources.date_posted).fromNow())}</span>
+      <span>${(moment(resource.date_posted).fromNow())}</span>
       <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
     </footer>
   </article>`);
@@ -92,12 +91,9 @@ const createNewResource = function() {
 const renderBoardResources = function(resources) {
   $('#resources').empty();
   for (const resource of resources) {
-
-    const $resourcelink = $(`
-    <li>
-      <a>${resource.title}</a>
-    </li>`).appendTo('#resources');
-    $resourcelink.click(() => {
+    const $resource = createNewResource(resource);
+    $resource.appendTo('#resources');
+    $resource.click(() => {
       renderResourceModal(resource);
     });
   }

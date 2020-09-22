@@ -13,3 +13,30 @@ body {
   }
 }
 
+#resources {
+  width: 90%;
+}
+#resources > article {
+  border: #545149 4px solid;
+  margin-bottom: .5em;
+  padding: .25em;
+}
+#resources > article > header, #resources > article > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:.15em;
+}
+#resources > article > main {
+  border-bottom: #545149 2px solid;
+  padding: 0.5em;
+}
+
+#resources > article > footer {
+  padding-top: .35em;
+  font-size: .7em;
+}
+#resources > article:hover {
+  box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+}
+
