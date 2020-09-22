@@ -57,3 +57,68 @@ const getUserByName = function(nameString) {
     return response.rows;
   });
 }
+
+const editUserName = function (userFields) {
+  const fields = userFields;
+  return db.query(`
+  UPDATE users
+  SET name = $1
+  WHERE id = $2;
+`, [fields.newNameString, fields.userId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const editUserEmail = function (userFields) {
+  const fields = userFields;
+  return db.query(`
+  UPDATE users
+  SET email = $1
+  WHERE id = $2;
+`, [fields.newEmailString, fields.userId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const addNewUser = function(userFields) {
+  const fields = userFields
+  return db.query(`
+  INSERT INTO users (
+    name,
+    email,
+    password
+    )
+  VALUES(
+    $1,
+    $2,
+    $3
+  );
+`, [fields.newCategoryString, fields.boardId, fields.passHash])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+const deleteUser = function(userId) {
+  return db.query(`
+  DELETE FROM users
+  WHERE user_id = $1;
+  `, [userId])
+    .then(() => {
+      return;
+    });
+};
+
+
+
+module.exports = {
+  getUserByEmail,
+  getUserById,
+  getUserByName,
+  editUserName,
+  editUserEmail,
+  addNewUser,
+  deleteUser
+}

@@ -4,27 +4,70 @@
  *   these routes are mounted onto /users
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
-
+const bcrypt = require("bcrypt");
 const express = require('express');
 const router  = express.Router();
-
+const {
+  getUserByEmail,
+  getUserById,
+  getUserByName,
+  editUserName,
+  editUserEmail,
+  addNewUser,
+  deleteUser
+} = require('../Queries-helpers/user-queries.js')
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
-router.get("/", (req, res) => {
-  console.log(req.session);
-});
-
-router.get("/:boardid", (req, res) => {
-
-  //get the myBoards page of the user with id :userid
-  //if not logged in as correct user, hide edit options
-  //user also sees their 'liked' resources
+router.get("/:userId", (req, res) => {
 
 });
 
-router.put("/:userid/edit", (req, res) => { //put is changing info about an existing entry, post is a new entry
-  //the user is able to edit their profile information
+router.patch("/:userId/edit-name", (req, res) => {
+  const newNameString = req.body.newTitleString;
+  const userId = req.params.userId;
+  const userFields = { newNameString, userId};
+  editUserName(userFields)
+    .then(() => {
+        res.redirect("/");
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.patch("/:userId/edit-email", (req, res) => {
+  const newEmailString = req.body.newEmailString;
+  const userId = req.params.userId;
+  const userFields = { newEmailString, userId};
+  editUserEmail(userFields)
+    .then(() => {
+        res.redirect("/");
+      })
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/create-user", (req, res) => {
+  const name = req.body.nameString;
+  const email = req.body.emailString;
+  const passHash = bcrypt.hashSync(password, 10);
+  const newUserFields = { name, email, passHash };
+  addNewUser(newUserFields)
+    .then((response) => {
+      console.log(response); //grab user id from this and redirect to either their boards or account page
+      res.redirect("/")
+    })
 
 });
+
+
+router.delete("/:userId/delete", (req, res) => {
+  const userId = req.session.userId;
+  deleteUser(userId)
+    .then(() => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+
+
 
 module.exports = router;
