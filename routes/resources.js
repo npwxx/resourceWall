@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const {
   getResourcesByBoardId,
+  getResourcesById,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
   getResourcesByMostCommented,
@@ -11,7 +12,17 @@ const {
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
+  const baseUrl = req.baseUrl;
+  const boardId = Number(baseUrl.match(/[0-9]+/));
   getResourcesByBoardId(boardId)
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.get("/:resourceId", (req, res) => {
+  getResourcesById(resourceId)
     .then((resources) => {
       res.json(resources);
     })
@@ -80,9 +91,10 @@ router.get("/create", (req, res) => {
 
 });
 
-router.patch("/edit-title", (req, res) => {
-  const newTitleString = req.body.newTitle
-  replaceBoardTitle(newTitleString)
+router.patch("/:resourceId/edit-title", (req, res) => {
+  const newTitleString = req.body.newTitle;
+  const resourceId = req.params.resourceId;
+  replaceResourceTitle(newTitleString, resourceId)
     .then(() => {
       res.redirect("/");
     })

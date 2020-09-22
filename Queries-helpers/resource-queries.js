@@ -5,6 +5,17 @@ const getResourcesByBoardId = function(boardId) {
   SELECT title, description, resource_url
   FROM resources
   WHERE board_id = $1;`, [boardId])
+  .then((response) => {
+    console.log("res", response);
+    return response.rows;
+  });
+}
+
+const getResourcesById = function(resourceId) {
+  return db.query(`
+  SELECT id, title, description, resource_url
+  FROM resources
+  WHERE id = $1;`, [resourceId])
     .then((response) => {
     return response.rows;
   });
@@ -119,6 +130,17 @@ const getResourcesByOldest = function () {
     return response.rows;
   });
 }
+
+const replaceResourceTitle = function(newTitleString, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET resources.title = $1;
+  WHERE resources.id = $2
+`, [newTitleString, resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -126,5 +148,7 @@ module.exports =  {
   getResourcesByMostCommented,
   getResourcesByLeastCommented,
   getResourcesByNewest,
-  getResourcesByOldest
+  getResourcesByOldest,
+  replaceResourceTitle,
+  getResourcesById
 }
