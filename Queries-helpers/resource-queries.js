@@ -153,6 +153,17 @@ return db.query(`
     return response.rows;
   });
 }
+
+const editResourceDescription = function(newText, resourceId) {
+return db.query(`
+  UPDATE resources
+  SET description = $1
+  WHERE id = $2;
+`, [newText, resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -163,5 +174,6 @@ module.exports =  {
   getResourcesByOldest,
   editResourceTitle,
   getResourcesById,
-  editResourceUrl
+  editResourceUrl,
+  editResourceDescription
 }
