@@ -1,11 +1,5 @@
-const escape = function(str) {
-  let div = document.createElement('div');
-  div.appendChild(document.createTextNode(str));
-  return div.innerHTML;
-};
-
 const createBoardTileElement = function(board) {
-  console.log(board);
+  //console.log(board);
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -40,9 +34,10 @@ const renderMainPageLayout = function() {
 
 //TODO: change to database query
 const loadBoard = function(id) {
-  $.get("/boards")
+  $.get(`/boards/${id}`)
     .then((boards) => {
-      renderBoardPage(boards.find(b => b.id === id));
+      console.log(boards);
+      renderBoardPage(boards[0]);
     });
 };
 

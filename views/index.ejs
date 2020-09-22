@@ -1,9 +1,5 @@
 <!DOCTYPE HTML>
-<!--
-  Phantom by HTML5 UP
-  html5up.net | @ajlkn
-  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+
 <html>
   <head>
     <title>Resource Wall</title>
@@ -16,67 +12,68 @@
 
   </head>
   <body class="is-preload">
+    
     <!-- Wrapper -->
-      <div id="wrapper">
-        <!-- Header -->
-          <header id="header">
-            <div class="inner">
+    <div id="wrapper">
+        
+      <!-- Header -->
+      <header id="header">
+        <div class="inner">
+              
+          <!-- Logo -->	
+          <a href="/" class="logo">
+            <span class="symbol"><img src="images/bookmark.png" alt="" /></span><span class="title">Resource Wall</span>
+          </a>
 
-              <!-- Logo -->	
-              <a href="/" class="logo">
-                  <span class="symbol"><img src="images/bookmark.png" alt="" /></span><span class="title">Resource Wall</span>
-                </a>
-
-              <!-- Nav -->
-                <nav>
-                  <ul>
-                    <li><a href="#menu">Menu</a></li>
-                  </ul>
-                </nav>
-
-            </div>
-          </header>
-
-        <!-- Menu -->
-          
-        <nav id="menu">
-            <h2>Menu</h2>
+          <!-- Nav -->
+          <nav>
             <ul>
-              <li><a href="/" data-navigo>Home</a></li>
-              <li><a href="/login" data-navigo>Login</a></li>
-              <li><a href="/register" data-navigo>Register</a></li>
-              <li><a href="/myBoards" data-navigo>My Boards</a></li>
-              <li><a href="/likedResources" data-navigo>Liked Resources</a></li>
-              <li><a href="/profile" data-navigo>Profile</a></li>
-              <li><a href="/logout" data-navigo>Logout</a></li>
+              <li><a href="#menu">Menu</a></li>
             </ul>
           </nav>
 
+        </div>
+      </header>
+
+      <!-- Menu -->
+          
+      <nav id="menu">
+        <h2>Menu</h2>
+          <ul>
+            <li><a href="/" data-navigo>Home</a></li>
+            <li><a href="/login" data-navigo>Login</a></li>
+            <li><a href="/register" data-navigo>Register</a></li>
+            <li><a href="/myBoards" data-navigo>My Boards</a></li>
+            <li><a href="/likedResources" data-navigo>Liked Resources</a></li>
+            <li><a href="/profile" data-navigo>Edit Profile</a></li>
+            <li><a href="/logout" data-navigo>Logout</a></li>
+          </ul>
+        </nav>
+
         <!-- Main -->
-          <div id="main">        
-          </div>
-          <div id="modal-container" class="modal"></div>
+        <div id="main"></div>
+        <div id="modal-container" class="modal"></div>
 
         <!-- Footer -->
-          <footer id="footer">
-            <div class="inner">
-              <section>
-                <h2>Links</h2>
-                <ul class="icons">
-                  <li><a href="https://github.com/npwxx/resourceWall" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
-                </ul>
-              </section>
-              <ul class="copyright">
-                <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                <li>Favicon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+        <footer id="footer">
+          <div class="inner">
+            <section>
+              <h2>Links</h2>
+              <ul class="icons">
+                <li><a href="https://github.com/npwxx/resourceWall" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
               </ul>
-            </div>
-          </footer>
+            </section>
+            <ul class="copyright">
+              <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+              <li>Favicon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+            </ul>
+          </div>
+        </footer>
 
-      </div>
+    </div>
 
     <!-- Vendor Scripts -->
-      <script src="vendor/jquery-3.0.0.js"></script>
+      <script src="vendor/jquery-3.5.1.js"></script>
       <script src="vendor/phantom/js/browser.min.js"></script>
       <script src="vendor/phantom/js/breakpoints.min.js"></script>
       <script src="vendor/phantom/js/util.js"></script>
@@ -88,5 +85,7 @@
       <script src="scripts/boards.js"></script>
       <script src="scripts/clientRouter.js"></script>
       <script src="scripts/authentication.js"></script>
+      <script src="scripts/myBoards.js"></script>
+      <script src="scripts/util-functions.js"></script>
   </body>
 </html>

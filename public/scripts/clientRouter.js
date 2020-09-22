@@ -22,13 +22,18 @@ $(document).ready(function() {
       console.log("Add route to DB");
     },
     '/likedResources': function() {
-      console.log("add modal here");
+      console.log("add page ehre");
     },
     '/profile': function() {
       renderProfilePage();
     },
     '/logout': function() {
-      console.log("redirect to home");
+      console.log("redirect to home ");
+    },
+    '/myBoards': function() {
+      loadMyBoard().then(() => {
+        router.updatePageLinks();
+      });
     }
   }).resolve();
 });
