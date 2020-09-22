@@ -228,6 +228,23 @@ const addNewRating= function(newRatingFields) {
     return response.rows;
   });
 }
+
+const addNewLike = function(likeFields) {
+  const fields = likeFields;
+  return db.query(`
+  INSERT INTO resource_likes (
+  user_id,
+  resource_id,
+    )
+  VALUES(
+    $1,
+    $2,
+  );
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -242,5 +259,6 @@ module.exports =  {
   editResourceDescription,
   addNewResource,
   addNewComment,
-  addNewRating
+  addNewRating,
+  addNewLike
 }

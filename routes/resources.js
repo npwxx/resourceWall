@@ -14,7 +14,8 @@ const {
   editResourceDescription,
   addNewResource,
   addNewComment,
-  addNewRating
+  addNewRating,
+  addNewLike
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -164,6 +165,17 @@ router.post("/:resourceId/add-new-rating", (req, res) => {
 
   const newRatingFields = {resourceId, raterId, rating};
   addNewRating(newRatingFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/:resourceId/add-new-like", (req, res) => {
+  const userId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const likeFields = { userId, resourceId};
+  addNewLike(likeFields)
     .then((resources) => {
       res.redirect("/")
     })
