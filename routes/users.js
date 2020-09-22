@@ -18,17 +18,18 @@ const {
 } = require('../Queries-helpers/user-queries.js')
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
-router.get("/:userId", (req, res) => {
 
+router.get("/:userId", (req, res) => {
+ //CONSIDER what we want to do with this route
 });
 
 router.patch("/:userId/edit-name", (req, res) => {
-  const newNameString = req.body.newTitleString;
+  const newNameString = req.body.newTitleString; //frontend: textinput - newTitleString - needs submit button
   const userId = req.params.userId;
-  const userFields = { newNameString, userId};
+  const userFields = { newNameString, userId };
   editUserName(userFields)
     .then(() => {
-        res.redirect("/");
+        res.redirect("/:userId");
       })
     .catch((e) => console.log("error:", e));
 });
@@ -59,6 +60,8 @@ router.post("/create-user", (req, res) => {
 
 
 router.delete("/:userId/delete", (req, res) => {
+  /* AUTHENTICATE/VALIDATE!!! */
+  
   const userId = req.session.userId;
   deleteUser(userId)
     .then(() => {
