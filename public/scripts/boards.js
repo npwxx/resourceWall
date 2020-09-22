@@ -20,6 +20,7 @@ const renderBoardTiles = function(boards) {
     $('.tiles').prepend($boardTile);
   }
 };
+
 const renderMainPageLayout = function() {
   $('#main').html(`<div class="inner">
   <header>

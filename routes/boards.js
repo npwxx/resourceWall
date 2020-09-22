@@ -1,10 +1,11 @@
-/*
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
- */
-
 const express = require('express');
 const router  = express.Router();
-const { getAllBoards } = require('../Queries-helpers/board-queries.js');
+const {
+  getAllBoards,
+  getBoardByOwnerName,
+  getBoardByOwnerId,
+  getBoardById
+} = require('../Queries-helpers/board-queries.js');
 
 
 router.get("/", (req, res) => {
@@ -17,10 +18,41 @@ router.get("/", (req, res) => {
 });
 
 
-router.get("/:boardid", (req, res) => {
-    //go to a specific board given the board id
-    //resources are embedded. Likes, comments, ratings are shown
-    //if user does not own this board, edit links are hidden
+router.get("/:boardId", (req, res) => {
+  const boardId = req.params.boardId;
+  getBoardById(boardId)
+  .then((boards) => {
+    res.json(boards)
+  })
+  .catch((e) => console.log("error", e))
+});
+
+router.get("/:boardId", (req, res) => {
+  const boardId = req.params.boardId;
+  getBoardById(boardId)
+  .then((boards) => {
+    res.json(boards)
+  })
+  .catch((e) => console.log("error", e))
+});
+
+
+router.get("/search-owner/:nameString", (req, res) => {
+  const nameString = req.params.nameString;
+  getBoardByOwnerName(nameString)
+  .then((boards) => {
+    res.json(boards)
+  })
+  .catch((e) => console.log("error", e))
+});
+
+router.get("/search-owner/:ownerId", (req, res) => {
+  const ownerId = req.params.ownerId;
+  getBoardByOwnerId(ownerId)
+  .then((boards) => {
+    res.json(boards)
+  })
+  .catch((e) => console.log("error", e))
 });
 
 router.post("/:boardid/create", (req, res) => {
