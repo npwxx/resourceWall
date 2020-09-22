@@ -12,7 +12,7 @@ body {
     z-index: 4;
   }
 }
-
+// SCSS for resources list on board
 #resources {
   width: 90%;
 }
@@ -45,6 +45,9 @@ body {
 }
 
 #resources > article > footer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
   padding-top: .35em;
   font-size: .7em;
 }

@@ -9,6 +9,7 @@ const renderMainPageLayout = function() {
   </section>
 </div>`);
 };
+
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
   //console.log(board);
@@ -112,7 +113,7 @@ const createNewResource = function() {
       console.log(serializedData);
       $.post("#resources", serializedData)
         .then(() => {
-          // TODO: Check if post wa ssucessful
+          // TODO: Check if post was successful
         });
     })
   );
@@ -130,9 +131,15 @@ const renderResources = function(resource) {
   </article>`);
   const $footer = $(`<footer>
   <span>${(moment(resource.date_posted).fromNow())}</span>
-  <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
-</footer>`);
+
+  </footer>`);
   $footer.appendTo($renderResource);
+  const $rater = $('<span/>').appendTo($footer);
+  $rater.rate({
+    max_value: 5,
+    step_size: 1
+  });
+
   return $renderResource;
 };
 
