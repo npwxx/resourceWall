@@ -18,7 +18,8 @@ const {
   addNewLike,
   deleteLike,
   deleteRating,
-  deleteResource
+  deleteResource,
+  addResourceCategory
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -110,13 +111,6 @@ router.get("/sort-oldest", (req, res) => {
 
 });
 
-router.get("/create", (req, res) => {
-  //create a resource within a board
-  //user must own the board
-  //in here need to do multipe db queries - an insert to create the item,  and an edit to add the resouroce to a board.
-
-});
-
 router.patch("/:resourceId/edit-title", (req, res) => {
   const newTitleString = req.body.newTitleString;
   const resourceId = req.params.resourceId;
@@ -144,6 +138,17 @@ router.patch("/:resourceId/edit-description", (req, res) => {
     .then(() => {
       res.redirect("/");
     })
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/:resourceId/add-category", (req, res) => {
+  const newCategoryString = req.body.newCategoryString;
+  const resourceId = req.params.resourceId;
+  const categoryFields = { resourceId, newCategoryString }
+  addNewCategory(categoryFields)
+    .then((resources) => {
+        res.json(resources);
+      })
     .catch((e) => console.log("error:", e));
 });
 
@@ -230,28 +235,17 @@ router.delete("/:resourceId/delete", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
-router.delete("/delete", (req, res) => {
-  //delete a resource from a board
-  //user must own the board
+router.delete("/:resourceId/delete-category/:categoryId", (req, res) => {
+  const categoryId = req.params.categoryId;
+  const resourceId = req.params.resourceId;
+  const categoryFields = { categoryId, resourceId };
+  deleteCategory(categoryFields)
+    .then(() => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
 });
 
-router.post("/comment", (req, res) => {
-  //comment on a resource
-
-});
-
-router.put("/rate", (req, res) => {
-  //rate a resource
-  //user must NOT own the board
-  //user may have rated this resource before but recent rating is the one that persists.
-
-});
-
-router.post("/:resourceid/like", (req, res) => {
-  //user can like a resource
-  //user may or may not own the resource
-
-});
 
 module.exports = router;
 

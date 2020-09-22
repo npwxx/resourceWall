@@ -148,13 +148,6 @@ const editBoardDescription = function(newText, boardId) {
     });
 };
 
-const editBoardCategories = function() {
-  return db.query(`
-  `)
-    .then((response) => {
-      return response.rows;
-    });
-};
 
 const deleteBoard = function(boardFields) {
   const fields = boardFields
@@ -223,6 +216,7 @@ module.exports = {
   getBoardByOwnerName,
   getBoardByOwnerId,
   getBoardById,
+  getBoardByTitle,
   editBoardTitle,
   editBoardDescription,
   deleteBoard,

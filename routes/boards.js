@@ -104,7 +104,7 @@ router.post("/create", (req, res) => {
 
 });
 
-router.delete("/:boardid/delete", (req, res) => {
+router.delete("/:boardId/delete", (req, res) => {
   const userId = req.session.userId;
   const boardId = req.params.boardId;
   const boardFields = { userId, boardId };
@@ -115,11 +115,11 @@ router.delete("/:boardid/delete", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
-router.delete("/:boardid/delete-category/:categoryId", (req, res) => {
+router.delete("/:boardId/delete-category/:categoryId", (req, res) => {
   const categoryId = req.params.categoryId;
   const boardId = req.params.boardId;
   const categoryFields = { categoryId, boardId };
-  deleteBoard(categoryFields)
+  deleteBoardCategory(categoryFields)
     .then(() => {
       res.redirect("/")
     })

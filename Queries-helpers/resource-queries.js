@@ -165,6 +165,23 @@ return db.query(`
   });
 }
 
+const addNewCategory = function(categoryFields) {
+  const fields = categoryFields
+  return db.query(`
+  INSERT INTO resource_categories (
+    type,
+    resource_id
+    )
+  VALUES(
+    $1,
+    $2,
+  );
+`, [fields.newCategoryString, fields.resourceId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 const addNewResource = function(newResourceFields) {
   const fields = newResourceFields;
   return db.query(`
@@ -220,7 +237,7 @@ const deleteComment = function(commentFields) {
   });
 }
 
-const addNewRating= function(newRatingFields) {
+const addNewRating = function(newRatingFields) {
   const fields = newRatingFields;
   return db.query(`
   INSERT INTO resource_ratings (
@@ -290,6 +307,30 @@ const deleteResource = function(resourceFields) {
     return response.rows;
   });
 }
+
+const deleteResource = function(resourceFields) {
+  const fields = resourceFields;
+  return db.query(`
+  DELETE
+  FROM resources
+  WHERE user_id = $1 AND resource_id = $2;
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteCategory = function(categoryFields) {
+  const fields = categoryFields
+  return db.query(`
+  DELETE FROM resource_categories WHERE id = $1 AND resource_id = $2;
+`, [fields.categoryId, fields.resourceId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -302,6 +343,7 @@ module.exports =  {
   getResourcesById,
   editResourceUrl,
   editResourceDescription,
+  addNewCategory,
   addNewResource,
   addNewComment,
   addNewRating,
@@ -309,5 +351,6 @@ module.exports =  {
   deleteLike,
   deleteRating,
   deleteComment,
-  deleteResource
+  deleteResource,
+  deleteCategory
 }

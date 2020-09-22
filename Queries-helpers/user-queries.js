@@ -103,7 +103,7 @@ const addNewUser = function(userFields) {
 
 const deleteUser = function(userId) {
   return db.query(`
-  DELETE FROM boards
+  DELETE FROM users
   WHERE user_id = $1;
   `, [userId])
     .then(() => {
