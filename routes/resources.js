@@ -11,7 +11,8 @@ const {
   getResourcesByOldest,
   editResourceTitle,
   editResourceUrl,
-  editResourceDescription
+  editResourceDescription,
+  addNewResource
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -20,6 +21,20 @@ router.get("/", (req, res) => {
   getResourcesByBoardId(boardId)
     .then((resources) => {
       res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/add-new-resource", (req, res) => {
+  const baseUrl = req.baseUrl;
+  const boardId = Number(baseUrl.match(/[0-9]+/));
+  const resourceTitle = req.body.resourceTitle;
+  const resourceUrl = req.body.resourceUrl;
+  const resourceDescription = req.body.resourceDescription;
+  const newResourceFields = {baseUrl, boardId, resourceTitle, resourceUrl, resourceDescription}
+  addNewResource(newResourceFields)
+    .then((resources) => {
+      res.redirect("/")
     })
     .catch((e) => console.log("error:", e));
 });

@@ -164,6 +164,30 @@ return db.query(`
     return response.rows;
   });
 }
+
+const addNewResource = function(newResourceFields) {
+  const fields = newResourceFields;
+  console.log(fields);
+return db.query(`
+  INSERT INTO resources (
+    board_id,
+    title,
+    resource_url,
+    description,
+    date_posted
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+    $4,
+    now()
+  );
+`,[fields.boardId, fields.resourceTitle, fields.resourceUrl, fields.resourceDescription])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -175,5 +199,6 @@ module.exports =  {
   editResourceTitle,
   getResourcesById,
   editResourceUrl,
-  editResourceDescription
+  editResourceDescription,
+  addNewResource
 }
