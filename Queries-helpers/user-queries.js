@@ -30,6 +30,23 @@ const getUserByEmail = function(emailString) {
   });
 };
 
+const getPasswordById = function(userId) {
+  return db.query(`
+  SELECT password
+  FROM users
+  WHERE userId = $1;`, [userId])
+  .then(res => {
+    if (!res.rows.length) {
+      return null
+    } else {
+      return res.rows[0];
+    }
+  })
+  .catch(e => {
+    console.error(e)
+  });
+};
+
 const getUserById = function(userId) {
   const queryString = `
   SELECT *
@@ -113,6 +130,7 @@ const deleteUser = function(userId) {
 
 
 
+
 module.exports = {
   getUserByEmail,
   getUserById,
@@ -120,5 +138,6 @@ module.exports = {
   editUserName,
   editUserEmail,
   addNewUser,
-  deleteUser
+  deleteUser,
+  getPasswordById
 }

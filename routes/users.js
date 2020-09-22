@@ -7,6 +7,8 @@
 const bcrypt = require('bcrypt');
 const express = require('express');
 const router  = express.Router();
+const {userAuthenticate} = require('../public/scripts/util-functions.js')
+
 const {
   getUserByEmail,
   getUserById,
@@ -14,35 +16,75 @@ const {
   editUserName,
   editUserEmail,
   addNewUser,
-  deleteUser
+  deleteUser,
+  getPasswordById
 } = require('../Queries-helpers/user-queries.js')
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
 
-router.get("/:userId", (req, res) => {
- //CONSIDER what we want to do with this route
+router.post("/login", (req, res) => {
+
+  const emailString = req.body.email;
+  const password = req.body.password;
+  const userId = getUserByEmail(emailString);
+
+  if (userId) {
+    const hashPass = getPasswordById(userId);
+    let passCompare = bcrypt.compareSync(password, hashPass);
+    if (passCompare) {
+      /* Assign cookie corresponding to userId */
+      req.session.userId = userId;
+      res.redirect("/");
+    } else {
+      res.send("Login credentials incorrect");
+    }
+  } else {
+    res.send("Login credentials incorrect");
+  }
 });
 
+router.get("/:userId", (req, res) => {
+ //CONSIDER what we want to do with this route
+ const userId = req.session.userId
+ getUserById(userId)
+  .then(() => {
+
+  })
+});
+
+
 router.patch("/:userId/edit-name", (req, res) => {
-  const newNameString = req.body.newTitleString; //frontend: textinput - newTitleString - needs submit button
   const userId = req.params.userId;
-  const userFields = { newNameString, userId };
-  editUserName(userFields)
-    .then(() => {
-        res.redirect("/:userId");
-      })
-    .catch((e) => console.log("error:", e));
+  console.log("current user is", currentUser);
+  if (!userAuthenticate(userId)) {
+    res.redirect("/");
+  } else {
+    const newNameString = req.body.newNameString; //frontend: textinput - newNameString - needs submit button
+    const userId = req.params.userId;
+    const userFields = { newNameString, userId };
+    editUserName(userFields)
+      .then(() => {
+          res.redirect("/:userId");
+        })
+      .catch((e) => console.log("error:", e));
+  }
+
 });
 
 router.patch("/:userId/edit-email", (req, res) => {
-  const newEmailString = req.body.newEmailString;
   const userId = req.params.userId;
-  const userFields = { newEmailString, userId};
-  editUserEmail(userFields)
-    .then(() => {
-        res.redirect("/");
-      })
-    .catch((e) => console.log("error:", e));
+  if (!userAuthenticate(userId)) {
+    res.redirect("/");
+  } else {
+    const newEmailString = req.body.newEmailString;
+    const userId = req.params.userId;
+    const userFields = { newEmailString, userId};
+    editUserEmail(userFields)
+      .then(() => {
+          res.redirect("/");
+        })
+      .catch((e) => console.log("error:", e));
+  }
 });
 
 router.post("/create-user", (req, res) => {
@@ -60,14 +102,16 @@ router.post("/create-user", (req, res) => {
 
 
 router.delete("/:userId/delete", (req, res) => {
-  /* AUTHENTICATE/VALIDATE!!! */
-  
-  const userId = req.session.userId;
-  deleteUser(userId)
-    .then(() => {
-      res.redirect("/")
-    })
+  const userId = req.params.userId;
+  if (!userAuthenticate(userId)) {
+    res.redirect("/");
+  } else {
+    deleteUser(userId)
+      .then(() => {
+        res.redirect("/")
+      })
     .catch((e) => console.log("error:", e));
+  }
 });
 
 
