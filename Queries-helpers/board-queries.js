@@ -156,14 +156,36 @@ const editBoardCategories = function() {
     });
 };
 
-const deleteBoard = function() {
+const deleteBoard = function(boardFields) {
+  const fields = boardFields
   return db.query(`
-  `)
+  DELETE FROM boards
+  WHERE user_id = $1 AND board_id = $2;
+  `, [fields.user_id, fields.boardId])
     .then((response) => {
       return response.rows;
     });
+};
 
-
+const addNewBoard = function(newBoardFields) {
+  const fields = newBoardFields
+  return db.query(`
+  INSERT INTO resources (
+    owner_id,
+    title,
+    description,
+    date_posted
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+    now()
+  );
+`, [fields.ownerID, fields.boardTitle, fields.boardDescription])
+    .then((response) => {
+      return response.rows;
+    });
 };
 
 
@@ -175,6 +197,8 @@ module.exports = {
   getBoardByOwnerId,
   getBoardById,
   editBoardTitle,
-  editBoardDescription
+  editBoardDescription,
+  deleteBoard,
+  addNewBoard
 
 };
