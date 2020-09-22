@@ -1,3 +1,4 @@
+// BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
   //console.log(board);
   let $boardTile = $(`<article class="style3">
@@ -21,12 +22,61 @@ const renderBoardTiles = function(boards) {
   }
 };
 
+// RESOURCE FUNCTIONS
+// TODO: Change modal with embedded URL/Video & comments/likes/rating
+const renderResourceModal = function(resource) {
+  $("#modal-container").html('<h3>resource placeholder</h3>');
+  const $form = $(`
+    <form>
+      <div>
+        <input class="form-control" type="email" name="email" placeholder="Email">
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `);
+  $form.appendTo('#modal-container');
+  $form.submit(function(event) {
+    event.preventDefault();
+    const serializedData = $(this).serialize();
+    //submit data to the server
+    $.post("/login", serializedData)
+      .then(() => {
+      });
+  });
+  $('#modal-container').modal();
+};
+const createNewResource = function() {
+  let $createResource = $(`<article>
+    <header>
+      <span>${escape(resource.title)}</span>
+      <span>${escape(resource.description)}</span>
+    </header>
+    <main>${escape(resource.resource_url)}</main>
+    <footer>
+      <span>${(moment(resource.date_posted).fromNow())}</span>
+      <span class="tweet-icons"><i class="fas fa-flag"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-retweet">&nbsp;&nbsp;&nbsp;</i><i class="fas fa-heart"></i></span>
+    </footer>
+  </article>`);
+  return $CreateResource;
+};
+
+const renderNewResource = function() {
+
+};
+
 const renderBoardResources = function(resources) {
   $('#resources').empty();
   for (const resource of resources) {
-    const $resourcelink = $('<li/>', {
-      text: resource.title
-    }).appendTo('#resources');
+    const $resourcelink = $(`
+    <li>
+      <a>${resource.title}</a>
+    </li>`).appendTo('#resources');
+    $resourcelink.click(() => {
+      renderResourceModal(resource);
+    });
   }
 };
 
