@@ -25,10 +25,7 @@ const createBoardFormElement = function(categories) {
   return $('<section/>').append(
     $('<h2/>', { text: "Create New Board" })
   ).append(
-    $('<form/>', {
-      method: 'post',
-      action: '#'
-    }).append(
+    $('<form/>').append(
       $('<div/>', {
         'class': "row gtr-uniform",
       }).append(
@@ -44,9 +41,26 @@ const createBoardFormElement = function(categories) {
             type: 'text',
             name: 'description'
           }).attr('placeholder', 'Description')
-        ).append(categoriesElement(categories))
+        ).append(
+          categoriesElement(categories)
+        ).append(
+          $('<button/>', {
+            type: 'submit',
+            text: 'Create Board',
+            'class': 'primary'
+          })
+        )
       )
-    )
+    ).submit(function(event) {
+      event.preventDefault();
+      const serializedData = $(this).serialize();
+      //submit data to the server
+      console.log(serializedData);
+      $.post("/boards", serializedData)
+        .then(() => {
+          // TODO: Check if login wa ssucessful & then close modal & mavigate to my boards
+        });
+    })
   );
 };
 

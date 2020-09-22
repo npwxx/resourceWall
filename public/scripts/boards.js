@@ -34,9 +34,10 @@ const renderMainPageLayout = function() {
 
 //TODO: change to database query
 const loadBoard = function(id) {
-  $.get("/boards")
+  $.get(`/boards/${id}`)
     .then((boards) => {
-      renderBoardPage(boards.find(b => b.id === id));
+      console.log(boards);
+      renderBoardPage(boards[0]);
     });
 };
 
