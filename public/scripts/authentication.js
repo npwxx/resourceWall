@@ -1,20 +1,29 @@
 //base function for modal form
 //TODO: add input & POST request to DB
 const renderLoginModal = function() {
-  $("#modal-container").html(`
-  <h3>Login</h3>
-  <form>
-    <div>
-      <label for="email">Email:</label>
-      <input class="form-control" type="email" name="email" placeholder="email">
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input class="form-control" type="password" name="password" placeholder="password">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-`);
+  $("#modal-container").html('<h3>Login</h3>');
+  const $form = $(`
+    <form>
+      <div>
+        <input class="form-control" type="email" name="email" placeholder="Email">
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `);
+  $form.appendTo('#modal-container');
+  $form.submit(function(event) {
+    event.preventDefault();
+    const serializedData = $(this).serialize();
+    //submit data to the server
+    $.post("/login", serializedData)
+      .then(() => {
+        loadTweets();
+        $("#tweet-text").val("");
+      });
+  });
   $('#modal-container').modal();
 };
 
@@ -24,14 +33,9 @@ const renderRegisterModal = function() {
   $("#modal-container").html(`
   <h3>Create Account</h3>
   <form>
-    <div>
-      <label for="email">Enter an Email:</label>
-      <input class="form-control" type="email" name="email" placeholder="email">
-    </div>
-    <div>
-      <label for="password">Enter a Password:</label>
-      <input class="form-control" type="password" name="password" placeholder="password">
-    </div>
+    <input type="text" name="name" placeholder="Name">
+    <input type="email" name="email" placeholder="email">
+    <input type="password" name="password" placeholder="password">
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
     `);
