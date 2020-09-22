@@ -209,6 +209,25 @@ const addNewComment = function(newCommentFields) {
     return response.rows;
   });
 }
+
+const addNewRating= function(newRatingFields) {
+  const fields = newRatingFields;
+  return db.query(`
+  INSERT INTO resource_ratings (
+  rater_id,
+  resource_id,
+  rating
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+  );
+`,[fields.raterId, fields.resourceId, fields.rating])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -222,5 +241,6 @@ module.exports =  {
   editResourceUrl,
   editResourceDescription,
   addNewResource,
-  addNewComment
+  addNewComment,
+  addNewRating
 }
