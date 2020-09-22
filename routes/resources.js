@@ -11,7 +11,7 @@ const {
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
-  getResourcesByBoardId()
+  getResourcesByBoardId(boardId)
     .then((resources) => {
       res.json(resources);
     })
@@ -77,17 +77,14 @@ router.get("/create", (req, res) => {
   //create a resource within a board
   //user must own the board
   //in here need to do multipe db queries - an insert to create the item,  and an edit to add the resouroce to a board.
-  getResourcesByOldest()
-    .then((resources) => {
-      res.json(resources);
-    })
-    .catch((e) => console.log("error:", e));
+
 });
 
 router.patch("/edit-title", (req, res) => {
+  const newTitleString = req.body.newTitle
   replaceBoardTitle(newTitleString)
-    .then((resources) => {
-      res.json(resources);
+    .then(() => {
+      res.redirect("/");
     })
     .catch((e) => console.log("error:", e));
 });
