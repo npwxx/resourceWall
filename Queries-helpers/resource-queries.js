@@ -167,8 +167,7 @@ return db.query(`
 
 const addNewResource = function(newResourceFields) {
   const fields = newResourceFields;
-  console.log(fields);
-return db.query(`
+  return db.query(`
   INSERT INTO resources (
     board_id,
     title,
@@ -188,6 +187,28 @@ return db.query(`
     return response.rows;
   });
 }
+
+const addNewComment = function(newCommentFields) {
+  const fields = newCommentFields;
+  console.log(fields);
+  return db.query(`
+  INSERT INTO comments (
+    author_id,
+    resource_id,
+    text,
+    date_posted
+    )
+  VALUES(
+    $1,
+    $2,
+    $3,
+    now()
+  );
+`,[fields.authorId, fields.resourceId, fields.commentText])
+    .then((response) => {
+    return response.rows;
+  });
+}
 module.exports =  {
   getResourcesByBoardId,
   getResourcesByHighestRated,
@@ -200,5 +221,6 @@ module.exports =  {
   getResourcesById,
   editResourceUrl,
   editResourceDescription,
-  addNewResource
+  addNewResource,
+  addNewComment
 }

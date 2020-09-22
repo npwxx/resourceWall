@@ -12,7 +12,8 @@ const {
   editResourceTitle,
   editResourceUrl,
   editResourceDescription,
-  addNewResource
+  addNewResource,
+  addNewComment
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -38,6 +39,7 @@ router.post("/add-new-resource", (req, res) => {
     })
     .catch((e) => console.log("error:", e));
 });
+
 
 router.get("/:resourceId", (req, res) => {
   const resourceId = req.params.resourceId;
@@ -136,6 +138,20 @@ router.patch("/:resourceId/edit-description", (req, res) => {
   editResourceDescription(newText, resourceId)
     .then(() => {
       res.redirect("/");
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/:resourceId/add-new-comment", (req, res) => {
+  const baseUrl = req.baseUrl;
+  const resourceId = Number(baseUrl.match(/[0-9]+/));
+  const authorId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const commentText = req.body.commentText;
+  const newCommentFields = {authorId, resourceId, commentText};
+  addNewComment(newCommentFields)
+    .then((resources) => {
+      res.redirect("/")
     })
     .catch((e) => console.log("error:", e));
 });
