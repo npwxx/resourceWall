@@ -137,6 +137,7 @@ const editBoardTitle = function(newTitleString, boardId) {
 };
 
 const editBoardDescription = function(newText, boardId) {
+  console.log(newText, boardId);
   return db.query(`
   UPDATE boards
   SET description = $1

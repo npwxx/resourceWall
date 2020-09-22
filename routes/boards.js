@@ -67,7 +67,7 @@ router.patch("/:boardId/edit-title", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
-router.patch("/:boardid/edit-description", (req, res) => {
+router.patch("/:boardId/edit-description", (req, res) => {
   const newText = req.body.newText;
   const boardId = req.params.boardId;
   editBoardDescription(newText, boardId)
