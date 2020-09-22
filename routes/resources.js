@@ -15,7 +15,10 @@ const {
   addNewResource,
   addNewComment,
   addNewRating,
-  addNewLike
+  addNewLike,
+  deleteLike,
+  deleteRating,
+  deleteResource
 } = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
@@ -158,6 +161,18 @@ router.post("/:resourceId/add-new-comment", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
+router.delete("/:resourceId/delete-comment, (req, res) => {
+  const authorId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const commentId = req.body.commentId;
+  const commentFields = {authorId, resourceId, commentId};
+  addNewComment(commentFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
 router.post("/:resourceId/add-new-rating", (req, res) => {
   const resourceId = req.params.resourceId;
   const raterId = req.session.userId;
@@ -171,11 +186,44 @@ router.post("/:resourceId/add-new-rating", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
+router.delete("/:resourceId/delete-rating", (req, res) => {
+  const resourceId = req.params.resourceId;
+  const raterId = req.session.userId;
+  const ratingFields = {resourceId, raterId};
+  deleteRating(ratingFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
 router.post("/:resourceId/add-new-like", (req, res) => {
   const userId = req.session.userId;
   const resourceId = req.params.resourceId;
   const likeFields = { userId, resourceId};
   addNewLike(likeFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.delete("/:resourceId/delete-like", (req, res) => {
+  const likeId = req.body.likeId;
+  const resourceId = req.params.resourceId;
+  const likeFields = { userId, resourceId};
+  deleteLike(likeFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.delete("/:resourceId/delete", (req, res) => {
+  const userId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const resourceFields = { userId, resourceId };
+  deleteResource(resourceFields)
     .then((resources) => {
       res.redirect("/")
     })

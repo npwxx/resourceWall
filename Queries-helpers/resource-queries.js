@@ -190,7 +190,6 @@ const addNewResource = function(newResourceFields) {
 
 const addNewComment = function(newCommentFields) {
   const fields = newCommentFields;
-  console.log(fields);
   return db.query(`
   INSERT INTO comments (
     author_id,
@@ -205,6 +204,17 @@ const addNewComment = function(newCommentFields) {
     now()
   );
 `,[fields.authorId, fields.resourceId, fields.commentText])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteComment = function(commentFields) {
+  const fields = commentFields;
+  return db.query(`
+  DELETE FROM comments
+  WHERE author_id = $1 AND resource_id = $2 AND comments.id = $3;
+`,[fields.authorId, fields.resourceId, fields.commentId])
     .then((response) => {
     return response.rows;
   });
@@ -229,6 +239,17 @@ const addNewRating= function(newRatingFields) {
   });
 }
 
+const deleteRating = function(ratingFields) {
+  const fields = ratingFields;
+  return db.query(`
+  DELETE FROM ratings
+  WHERE rater_id = $1 AND resourceId = $2;
+`,[fields.raterId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
 const addNewLike = function(likeFields) {
   const fields = likeFields;
   return db.query(`
@@ -240,6 +261,30 @@ const addNewLike = function(likeFields) {
     $1,
     $2,
   );
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteLike = function(likeFields) {
+  const fields = likeFields;
+  return db.query(`
+  DELETE
+  FROM resource_likes
+  WHERE user_id = $1 AND resource_id = $2;
+`,[fields.userId, fields.resourceId])
+    .then((response) => {
+    return response.rows;
+  });
+}
+
+const deleteResource = function(resourceFields) {
+  const fields = resourceFields;
+  return db.query(`
+  DELETE
+  FROM resources
+  WHERE user_id = $1 AND resource_id = $2;
 `,[fields.userId, fields.resourceId])
     .then((response) => {
     return response.rows;
@@ -260,5 +305,9 @@ module.exports =  {
   addNewResource,
   addNewComment,
   addNewRating,
-  addNewLike
+  addNewLike,
+  deleteLike,
+  deleteRating,
+  deleteComment,
+  deleteResource
 }

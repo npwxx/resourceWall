@@ -82,7 +82,14 @@ router.post("/:boardid/create", (req, res) => {
 });
 
 router.delete("/:boardid/delete", (req, res) => {
-    //delete a board given an id
+  const userId = req.session.userId;
+  const resourceId = req.params.resourceId;
+  const resourceFields = { userId, resourceId };
+  deleteResource(resourceFields)
+    .then((resources) => {
+      res.redirect("/")
+    })
+    .catch((e) => console.log("error:", e));
 });
 
   //get rid of /create - here for illustrative purposes
