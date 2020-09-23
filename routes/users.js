@@ -91,20 +91,17 @@ router.post("/register", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  console.log(req.body);
   if (name, email, password) { //all fields are filled in
     if (!getUserByEmail(email)) { //if the email doesn't already exist
       const passHash = bcrypt.hashSync(password, 10);
       const newUserFields = { name, email, passHash };
-      console.log("functiondef", addNewUser);
       addNewUser(newUserFields)
-        .then(async (response) => {
-          console.log("hello");
-          console.log(response); //grab user id from this and redirect to either their boards or account page
+        .then( (response) => {
+          res.status(200).send("Welcome Aboard!")
         });
     } else {
       //alert invalid creds
-      res.redirect("/");
+      res.send("Invalid registration details");
     }
   } else {
     res.send("Those credentials are invalid, sorry.")

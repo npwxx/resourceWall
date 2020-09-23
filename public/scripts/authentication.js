@@ -43,13 +43,13 @@ const renderRegisterModal = function() {
   $form.submit(function(event) {
     event.preventDefault();
     const serializedData = $(this).serialize();
-    console.log("cereal", $(this))
-    $.ajax("/users/register", {type: "post"}, JSON.stringify(serializedData))
+    $.ajax({type: "POST", url: "/users/register", data: serializedData})
     .then(() => {
-      $.renderProfilePage();
+      $.modal.close();
+      renderProfilePage();
     })
     .fail((error) => {
-      console.log("Error with registration")
+      console.log("Error with registration", error)
     })
   });
   $('#modal-container').modal();
