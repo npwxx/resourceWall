@@ -81,23 +81,34 @@ router.patch("/:userId/edit-email", (req, res) => {
     const userFields = { newEmailString, userId};
     editUserEmail(userFields)
       .then(() => {
-        res.redirect("/");
+        res.status(200).send('Welcome Aboard!')
       })
       .catch((e) => console.log("error:", e));
   }
 });
 
-router.post("/create-user", (req, res) => {
-  const name = req.body.nameString;
-  const email = req.body.emailString;
+router.post("/register", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
   const password = req.body.password;
-  const passHash = bcrypt.hashSync(password, 10);
-  const newUserFields = { name, email, passHash };
-  addNewUser(newUserFields)
-    .then((response) => {
-      console.log(response); //grab user id from this and redirect to either their boards or account page
+  console.log(req.body);
+  if (name, email, password) { //all fields are filled in
+    if (!getUserByEmail(email)) { //if the email doesn't already exist
+      const passHash = bcrypt.hashSync(password, 10);
+      const newUserFields = { name, email, passHash };
+      console.log("functiondef", addNewUser);
+      addNewUser(newUserFields)
+        .then(async (response) => {
+          console.log("hello");
+          console.log(response); //grab user id from this and redirect to either their boards or account page
+        });
+    } else {
+      //alert invalid creds
       res.redirect("/");
-    });
+    }
+  } else {
+    res.send("Those credentials are invalid, sorry.")
+  }
 
 });
 

@@ -40,8 +40,18 @@ const renderRegisterModal = function() {
     </form>
   `);
   $form.appendTo('#modal-container');
-  
-
+  $form.submit(function(event) {
+    event.preventDefault();
+    const serializedData = $(this).serialize();
+    console.log("cereal", serializedData)
+    $.ajax("/users/register", {type: "post"}, serializedData)
+    .then(() => {
+      $.renderProfilePage();
+    })
+    .fail((error) => {
+      console.log("Error with registration")
+    })
+  });
   $('#modal-container').modal();
 };
 

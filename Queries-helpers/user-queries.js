@@ -101,7 +101,8 @@ const editUserEmail = function(userFields) {
 
 const addNewUser = function(userFields) {
   const fields = userFields;
-  return db.query(`
+  console.log("userfieds", userFields);
+  db.query(`
   INSERT INTO users (
     name,
     email,
@@ -112,8 +113,9 @@ const addNewUser = function(userFields) {
     $2,
     $3
   );
-`, [fields.newCategoryString, fields.boardId, fields.passHash])
-    .then((response) => {
+`, [fields.name, fields.email, fields.passHash])
+    .then(() => {
+      console.log("query response", response);
       return response.rows;
     });
 };
