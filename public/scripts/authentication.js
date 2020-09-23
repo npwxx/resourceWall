@@ -43,8 +43,8 @@ const renderRegisterModal = function() {
   $form.submit(function(event) {
     event.preventDefault();
     const serializedData = $(this).serialize();
-    console.log("cereal", serializedData)
-    $.ajax("/users/register", {type: "post"}, serializedData)
+    console.log("cereal", $(this))
+    $.ajax("/users/register", {type: "post"}, JSON.stringify(serializedData))
     .then(() => {
       $.renderProfilePage();
     })
