@@ -152,6 +152,27 @@ const getBoardByOwnerId = function(ownerId) {
     });
 };
 
+const getLikedBoardsByOwnerId = function(ownerId) {
+  return db.query(`
+  SELECT
+  resources.title,
+  resources.description,
+  resources.resource_url,
+  boards.title as parent_board,
+  round(avg(resource_ratings.rating), 2) as average_rating,
+  resources.id
+FROM resource_likes
+JOIN resources ON resources.id = resource_likes.resource_id
+FULL OUTER JOIN resource_ratings ON resource_ratings.resource_id = resource_likes.resource_id
+JOIN boards ON boards.id = resources.board_id
+WHERE user_id = $1
+GROUP BY resources.title, resources.description, resources.resource_url, boards.title, resources.id;
+  `, [ownerId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 module.exports = {
   getUserByEmail,
   getUserById,
@@ -161,5 +182,6 @@ module.exports = {
   addNewUser,
   deleteUser,
   getPasswordById,
-  getBoardByOwnerId
+  getBoardByOwnerId,
+  getLikedBoardsByOwnerId
 };
