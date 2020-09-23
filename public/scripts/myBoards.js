@@ -72,7 +72,11 @@ const renderMyBoardsPageLayout = function(categories) {
   }).append(
     $('<header/>').append(
       $('<h1/>', {
-        text: 'My Boards'
+        text: `My Boards `
+      })
+    ).append(
+      $('<p/>', {
+        text: `Testing`
       })
     ).append(
       createBoardFormElement(categories)
@@ -93,7 +97,8 @@ const loadMyBoard = function() {
     renderMyBoardsPageLayout(categories);
   }
   ).then(() => {
-    return $.get("/boards");
+    console.log("cookietest: ", Cookies.get('userId'));
+    return $.get("/board/search-owner/:ownerId");
   })
     .then((boards) => {
       //TODO: add owned boards route

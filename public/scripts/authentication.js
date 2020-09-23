@@ -22,7 +22,6 @@ const renderLoginModal = function() {
       .then((response) => {
         console.log("her's the response", response);
         $.modal.close();
-        renderProfilePage();
       })
       .fail((error) => {
         console.log("Error with registration", error)
@@ -51,7 +50,6 @@ const renderRegisterModal = function() {
     $.ajax({type: "POST", url: "/users/register", data: serializedData})
     .then(() => {
       $.modal.close();
-      renderProfilePage();
     })
     .fail((error) => {
       console.log("Error with registration", error)
