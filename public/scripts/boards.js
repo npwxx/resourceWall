@@ -85,17 +85,17 @@ const createNewResource = function(boardId) {
           $('<input/>', {
             type: 'text',
             name: 'resourceTitle'
-          }).attr('placeholder', 'Title')
+          }).attr('placeholder', 'Title').attr('required', true)
         ).append(
           $('<input/>', {
             type: 'text',
             name: 'resourceDescription'
-          }).attr('placeholder', 'Description')
+          }).attr('placeholder', 'Description').attr('required', true)
         ).append(
           $('<input/>', {
             type: 'text',
             name: 'resourceUrl'
-          }).attr('placeholder', 'URL')
+          }).attr('placeholder', 'URL').attr('required', true)
         ).append(
           $('<button/>', {
             type: 'submit',
@@ -107,11 +107,9 @@ const createNewResource = function(boardId) {
     ).submit(function(event) {
       event.preventDefault();
       const serializedData = $(this).serialize();
-      //submit data to the server
-      console.log(serializedData);
       $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
         .then(() => {
-          // TODO: Check if post was successful
+          loadBoard(boardId);
         });
     })
   );

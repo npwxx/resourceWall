@@ -2,9 +2,11 @@ const { db } = require('../server.js');
 
 const getResourcesByBoardId = function(boardId) {
   return db.query(`
-  SELECT id, title, description, resource_url
+  SELECT resources.id, title, description, resource_url, avg(resource_ratings.rating) AS avg_rating
   FROM resources
-  WHERE board_id = $1;`, [boardId])
+  LEFT JOIN resource_ratings ON resource_ratings.resource_id = resources.id
+  WHERE board_id = $1
+  GROUP BY resources.id`, [boardId])
     .then((response) => {
       console.log("res", response);
       return response.rows;
@@ -199,7 +201,7 @@ const addNewResource = function(newResourceFields) {
     $4,
     now()
   );
-`,[fields.boardId, fields.resourceTitle, fields.resourceUrl, fields.resourceDescription])
+`, [fields.boardId, fields.resourceTitle, fields.resourceUrl, fields.resourceDescription])
     .then((response) => {
       return response.rows;
     });
@@ -220,7 +222,7 @@ const addNewComment = function(newCommentFields) {
     $3,
     now()
   );
-`,[fields.authorId, fields.resourceId, fields.commentText])
+`, [fields.authorId, fields.resourceId, fields.commentText])
     .then((response) => {
       return response.rows;
     });
@@ -231,7 +233,7 @@ const deleteComment = function(commentFields) {
   return db.query(`
   DELETE FROM comments
   WHERE author_id = $1 AND resource_id = $2 AND comments.id = $3;
-`,[fields.authorId, fields.resourceId, fields.commentId])
+`, [fields.authorId, fields.resourceId, fields.commentId])
     .then((response) => {
       return response.rows;
     });
@@ -250,7 +252,7 @@ const addNewRating = function(newRatingFields) {
     $2,
     $3,
   );
-`,[fields.raterId, fields.resourceId, fields.rating])
+`, [fields.raterId, fields.resourceId, fields.rating])
     .then((response) => {
       return response.rows;
     });
@@ -261,7 +263,7 @@ const deleteRating = function(ratingFields) {
   return db.query(`
   DELETE FROM ratings
   WHERE rater_id = $1 AND resourceId = $2;
-`,[fields.raterId, fields.resourceId])
+`, [fields.raterId, fields.resourceId])
     .then((response) => {
       return response.rows;
     });
@@ -278,7 +280,7 @@ const addNewLike = function(likeFields) {
     $1,
     $2,
   );
-`,[fields.userId, fields.resourceId])
+`, [fields.userId, fields.resourceId])
     .then((response) => {
       return response.rows;
     });
@@ -290,7 +292,7 @@ const deleteLike = function(likeFields) {
   DELETE
   FROM resource_likes
   WHERE user_id = $1 AND resource_id = $2;
-`,[fields.userId, fields.resourceId])
+`, [fields.userId, fields.resourceId])
     .then((response) => {
       return response.rows;
     });
@@ -302,7 +304,7 @@ const deleteResource = function(resourceFields) {
   DELETE
   FROM resources
   WHERE user_id = $1 AND resource_id = $2;
-`,[fields.userId, fields.resourceId])
+`, [fields.userId, fields.resourceId])
     .then((response) => {
       return response.rows;
     });
@@ -320,7 +322,7 @@ const deleteCategory = function(categoryFields) {
 };
 
 
-module.exports =  {
+module.exports = {
   getResourcesByBoardId,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
