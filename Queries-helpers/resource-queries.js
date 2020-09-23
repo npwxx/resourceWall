@@ -70,7 +70,8 @@ const getResourcesByMostCommented = function() {
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
   GROUP BY resources.title, resources.description, resource_url, author
-  ORDER BY count(comments) DESC;
+  ORDER BY count(comments) DESC
+  LIMIT 6;
 `)
     .then((response) => {
       return response.rows;
@@ -108,7 +109,8 @@ const getResourcesByNewest = function() {
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
   GROUP BY resources.date_posted, resources.title, resources.description, resource_url, author
-  ORDER BY date_posted DESC;
+  ORDER BY date_posted DESC
+  LIMIT 6;
 `)
     .then((response) => {
       return response.rows;
