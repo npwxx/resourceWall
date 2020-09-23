@@ -1,5 +1,5 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const {
   getAllBoards,
   getBoardByOwnerName,
@@ -12,7 +12,10 @@ const {
   deleteBoardCategory,
   addNewBoard
 } = require('../Queries-helpers/board-queries.js');
-
+const {
+  getResourcesByBoardId,
+  addNewResource
+} = require('../Queries-helpers/resource-queries.js');
 
 router.get("/", (req, res) => {
   getAllBoards()
@@ -33,13 +36,26 @@ router.get("/:boardId", (req, res) => {
     .catch((e) => console.log("error", e));
 });
 
-router.get("/:boardId", (req, res) => {
+router.get("/:boardId/resources", (req, res) => {
   const boardId = req.params.boardId;
-  getBoardById(boardId)
-    .then((boards) => {
-      res.json(boards);
+  getResourcesByBoardId(boardId)
+    .then((resources) => {
+      res.json(resources);
     })
-    .catch((e) => console.log("error", e));
+    .catch((e) => console.log("error:", e));
+});
+
+router.post("/:boardId/resources/add-new-resource", (req, res) => {
+  const boardId = req.params.boardId;
+  const resourceTitle = req.body.resourceTitle;
+  const resourceUrl = req.body.resourceUrl;
+  const resourceDescription = req.body.resourceDescription;
+  const newResourceFields = { boardId, resourceTitle, resourceUrl, resourceDescription };
+  addNewResource(newResourceFields)
+    .then((resources) => {
+      res.redirect("/");
+    })
+    .catch((e) => console.log("error:", e));
 });
 
 

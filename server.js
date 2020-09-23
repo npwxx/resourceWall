@@ -68,7 +68,7 @@ app.use("/boards", boardsRouter); // handle board routes - view a particular boa
 */ //1 can our routes handle it? Tiny app was SSR, this will be client side - jquery determined. Hit routes with ajax calls,
 // but instead of res render or redirect do res send of json data
 
-app.use("/boards/:boardid/resources", resourcesRouter); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
+app.use("/resources", resourcesRouter); // handle routes within a particular board -  add, edit, delete, resources from boards, add a comment, rate a resource
 
 // Home page
 // Warning: avoid creating more routes in this file!

@@ -208,6 +208,7 @@ module.exports = {
   getBoardByOwnerId,
   getBoardById,
   getBoardByTitle,
+  getBoardByCategories,
   editBoardTitle,
   editBoardDescription,
   deleteBoard,
