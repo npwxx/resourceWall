@@ -6,3 +6,4 @@ CREATE TABLE resource_ratings (
   resource_id INTEGER NOT NULL REFERENCES resources(id)  ON DELETE CASCADE,
   rating INTEGER NOT NULL
 );
+
