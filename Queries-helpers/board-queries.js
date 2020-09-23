@@ -39,7 +39,7 @@ const getAllBoards = function() {
     boards.description
   FROM boards
   JOIN users ON users.id = boards.owner_id
-  LIMIT 4;`)
+  LIMIT 6;`)
     .then((response) => {
       return response.rows;
     });

@@ -98,7 +98,7 @@ const createNewResource = function(boardId) {
   );
 };
 
-const renderResource = function(resource, boardId) {
+const renderResource = function(resource) {
   console.log(resource);
   let $renderResource = $(`<article>
       <main>
@@ -135,7 +135,7 @@ const renderResource = function(resource, boardId) {
     step_size: 1
   });
   $rater.on("change", function(ev, data) {
-    $.post(`/ boards / ${boardId} /resources/${resource.id} /add-new-rating`, {
+    $.post(`/resources/${resource.id}/add-new-rating`, {
       rating: data.to
     });
     console.log(data.from, data.to);
@@ -147,9 +147,11 @@ const renderResource = function(resource, boardId) {
 // CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
 const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
-  const $newResource = createNewResource(boardId);
+  if (boardId) {
+    const $newResource = createNewResource(boardId);
+  }
   for (const resource of resources) {
-    const $resource = renderResource(resource, boardId);
+    const $resource = renderResource(resource);
     $resource.appendTo('#resources');
     // $resource.click(() => {
     //   renderResourceModal(resource);

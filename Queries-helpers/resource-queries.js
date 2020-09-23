@@ -33,7 +33,8 @@ const getResourcesByHighestRated = function() {
   FROM resources
   JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.title, resources.description, resources.resource_url
-  ORDER BY average_rating DESC;
+  ORDER BY average_rating DESC
+  LIMIT 6;
 `)
     .then((response) => {
       return response.rows;

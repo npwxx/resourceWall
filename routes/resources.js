@@ -1,5 +1,5 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const {
   getResourcesByBoardId,
   getResourcesById,
@@ -22,16 +22,6 @@ const {
   addNewCategory,
   deleteCategory
 } = require('../Queries-helpers/resource-queries.js');
-
-router.get("/:resourceId", (req, res) => {
-  const resourceId = req.params.resourceId;
-  getResourcesById(resourceId)
-    .then((resources) => {
-      res.json(resources);
-    })
-    .catch((e) => console.log("error:", e));
-
-});
 
 router.get("/ratings-descending", (req, res) => {
   getResourcesByHighestRated()
@@ -87,6 +77,16 @@ router.get("/sort-oldest", (req, res) => {
 
 });
 
+router.get("/:resourceId", (req, res) => {
+  const resourceId = req.params.resourceId;
+  getResourcesById(resourceId)
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+
+});
+
 router.patch("/:resourceId/edit-title", (req, res) => {
   const newTitleString = req.body.newTitleString;
   const resourceId = req.params.resourceId;
@@ -134,7 +134,7 @@ router.post("/:resourceId/add-new-comment", (req, res) => {
 
   const resourceId = req.params.resourceId;
   const commentText = req.body.commentText;
-  const newCommentFields = {authorId, resourceId, commentText};
+  const newCommentFields = { authorId, resourceId, commentText };
   addNewComment(newCommentFields)
     .then((resources) => {
       res.redirect("/");
@@ -146,7 +146,7 @@ router.delete("/:resourceId/delete-comment", (req, res) => {
   const authorId = req.session.userId;
   const resourceId = req.params.resourceId;
   const commentId = req.body.commentId;
-  const commentFields = {authorId, resourceId, commentId};
+  const commentFields = { authorId, resourceId, commentId };
   addNewComment(commentFields)
     .then((resources) => {
       res.redirect("/");
@@ -159,7 +159,7 @@ router.post("/:resourceId/add-new-rating", (req, res) => {
   const raterId = req.session.userId;
   const rating = req.body.rating;
 
-  const newRatingFields = {resourceId, raterId, rating};
+  const newRatingFields = { resourceId, raterId, rating };
   addNewRating(newRatingFields)
     .then((resources) => {
       res.redirect("/");
@@ -170,7 +170,7 @@ router.post("/:resourceId/add-new-rating", (req, res) => {
 router.delete("/:resourceId/delete-rating", (req, res) => {
   const resourceId = req.params.resourceId;
   const raterId = req.session.userId;
-  const ratingFields = {resourceId, raterId};
+  const ratingFields = { resourceId, raterId };
   deleteRating(ratingFields)
     .then((resources) => {
       res.redirect("/");
@@ -181,7 +181,7 @@ router.delete("/:resourceId/delete-rating", (req, res) => {
 router.post("/:resourceId/add-new-like", (req, res) => {
   const userId = req.session.userId;
   const resourceId = req.params.resourceId;
-  const likeFields = { userId, resourceId};
+  const likeFields = { userId, resourceId };
   addNewLike(likeFields)
     .then((resources) => {
       res.redirect("/");
