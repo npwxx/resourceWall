@@ -115,21 +115,26 @@ const createNewResource = function(boardId) {
   );
 };
 
-const renderResources = function(resource, boardId) {
+const renderResource = function(resource, boardId) {
   console.log(resource);
   let $renderResource = $(`<article>
-  <header>
-      <h2>${escape(resource.title)}</h2>
-      <span>TODO: ADD AVG RATING HERE</span>
-      </header>
       <main>
         <p>${escape(resource.description)}</p>
         <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
       </main>
   </article>`);
+  const $header = $(`<header>
+  <h2>${escape(resource.title)}</h2>
+  </header >`).prependTo($renderResource);
+  const $ratingContainer = $(`<div class='rating-container'>Average Rating</div>`).appendTo($header);
+  const $avgRating = $('<div/>').appendTo($ratingContainer);
+  $avgRating.rate({
+    max_value: 5,
+    initial_value: Number(resource.avg_rating),
+    readonly: true
+  });
   const $footer = $(`<footer>
   <span>${(moment(resource.date_posted).fromNow())}</span>
-
   </footer>`);
   $footer.appendTo($renderResource);
   // TODO: check with server and
@@ -147,7 +152,7 @@ const renderResources = function(resource, boardId) {
     step_size: 1
   });
   $rater.on("change", function(ev, data) {
-    $.post(`/boards/${boardId}/resources/${resource.id}/add-new-rating`, {
+    $.post(`/ boards / ${boardId} /resources/${resource.id} /add-new-rating`, {
       rating: data.to
     });
     console.log(data.from, data.to);
@@ -161,7 +166,7 @@ const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
   const $newResource = createNewResource(boardId);
   for (const resource of resources) {
-    const $resource = renderResources(resource, boardId);
+    const $resource = renderResource(resource, boardId);
     $resource.appendTo('#resources');
     // $resource.click(() => {
     //   renderResourceModal(resource);

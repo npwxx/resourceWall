@@ -21,10 +21,10 @@ body {
   margin-bottom: .5em;
   padding: .25em;
 }
-#resource > article > header {
+#resources > article > header {
   display:flex;
-  flex-direction: column;
   margin: .5em;
+  justify-content: space-between;
   h2 {
     margin-bottom: 0;
   }
@@ -54,4 +54,4 @@ body {
 #resources > article:hover {
   box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
 }
-
+// rating
