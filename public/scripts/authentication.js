@@ -30,14 +30,18 @@ const renderLoginModal = function() {
 //TODO: add input & POST request to DB
 const renderRegisterModal = function() {
   $("#modal-container").html(`
-  <h3>Create Account</h3>
-  <form>
-    <input type="text" name="name" placeholder="Name">
-    <input type="email" name="email" placeholder="email">
-    <input type="password" name="password" placeholder="password">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-    `);
+  <h3>Create Account</h3>`);
+  const $form = $(`
+    <form>
+      <input type="text" name="name" placeholder="Name">
+      <input type="email" name="email" placeholder="email">
+      <input type="password" name="password" placeholder="password">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `);
+  $form.appendTo('#modal-container');
+  
+
   $('#modal-container').modal();
 };
 
