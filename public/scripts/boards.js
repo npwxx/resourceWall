@@ -104,12 +104,12 @@ const createNewResource = function() {
           })
         )
       )
-    ).submit(function(event) {
+    ).submit(function(event, boardId) {
       event.preventDefault();
       const serializedData = $(this).serialize();
       //submit data to the server
       console.log(serializedData);
-      $.post("#resources", serializedData)
+      $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
         .then(() => {
           // TODO: Check if post was successful
         });
