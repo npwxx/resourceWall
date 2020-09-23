@@ -99,7 +99,7 @@ const createNewResource = function(boardId) {
 };
 
 const renderResource = function(resource) {
-  console.log(resource);
+  // console.log(resource);
   let $renderResource = $(`<article>
       <main>
         <p>${escape(resource.description)}</p>
