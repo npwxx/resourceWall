@@ -97,7 +97,7 @@ const loadMyBoard = function() {
     renderMyBoardsPageLayout(categories);
   }
   ).then(() => {
-    console.log("cookietest: ", $.cookie('userId'));
+    console.log("cookietest: ", Cookies.get('userId'));
     return $.get("/board/search-owner/:ownerId");
   })
     .then((boards) => {
