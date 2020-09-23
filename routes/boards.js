@@ -68,14 +68,7 @@ router.get("/search-owner/:nameString", (req, res) => {
     .catch((e) => console.log("error", e));
 });
 
-router.get("/search-owner/:ownerId", (req, res) => {
-  const ownerId = req.params.ownerId;
-  getBoardByOwnerId(ownerId)
-    .then((boards) => {
-      res.json(boards);
-    })
-    .catch((e) => console.log("error", e));
-});
+
 
 router.post("/:boardId/add-category", (req, res) => {
   const newCategoryString = req.body.newCategoryString;

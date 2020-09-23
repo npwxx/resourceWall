@@ -3,7 +3,6 @@ const categoriesElement = function(categories) {
   const $div = $('<div />', {
     'class': "col-6 col-12-small"
   });
-  console.log(categories);
   for (const category of categories) {
     $div.append(
       $(`
@@ -93,15 +92,15 @@ const loadMyBoard = function() {
   // use categories route instead
   return $.get('/boards').then((/*categories*/) => {
     const categories = [{ id: 1, type: 'Sports' }, { id: 2, type: 'Gardening' }, { id: 3, type: 'Web Development' }, { id: 4, type: 'Science' }];
-    console.log(categories);
     renderMyBoardsPageLayout(categories);
-  }
-  ).then(() => {
-    console.log("cookietest: ", Cookies.get('userId'));
-    return $.get("/board/search-owner/:ownerId");
   })
+  .then(() => {
+    $.get("/users/myboards")
     .then((boards) => {
+      console.log("boards received", boards)
       //TODO: add owned boards route
       renderBoardTiles(boards);
     });
+  })
+
 };

@@ -18,7 +18,7 @@ $(document).ready(function() {
     '/register': function() {
       renderRegisterModal();
     },
-    '/myBoards': function() {
+    '/users/myBoards': function() {
       console.log("Add route to DB");
     },
     '/likedResources': function() {

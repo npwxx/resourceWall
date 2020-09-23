@@ -129,7 +129,20 @@ const deleteUser = function(userId) {
 };
 
 
-
+const getBoardByOwnerId = function(ownerId) {
+  return db.query(`
+    SELECT
+      boards.owner_id as owner_id,
+      boards.title as title,
+      boards.description as description,
+      boards.date_posted as created
+    FROM boards
+    WHERE boards.owner_id = $1
+  `, [ownerId])
+    .then((response) => {
+      return response.rows;
+    });
+};
 
 module.exports = {
   getUserByEmail,
@@ -139,5 +152,6 @@ module.exports = {
   editUserEmail,
   addNewUser,
   deleteUser,
-  getPasswordById
+  getPasswordById,
+  getBoardByOwnerId
 };

@@ -20,7 +20,8 @@ const {
   editUserEmail,
   addNewUser,
   deleteUser,
-  getPasswordById
+  getPasswordById,
+  getBoardByOwnerId
 } = require('../Queries-helpers/user-queries.js');
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
@@ -46,6 +47,19 @@ router.post("/login", (req, res) => {
       }
     }
   });
+});
+
+
+router.get("/myboards", (req, res) => {
+  let sessionOwnerId = req.session.userId;
+  console.log(sessionOwnerId);
+    getBoardByOwnerId(sessionOwnerId)
+      .then((boards) => {
+        console.log("sending boards", boards)
+        res.json(boards);
+      })
+      .catch((e) => console.log("error uh ho", e));
+
 });
 
 router.get("/:userId", (req, res) => {
