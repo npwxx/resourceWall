@@ -1,15 +1,4 @@
-// MAIN PAGE FUNCTION
-const renderMainPageLayout = function() {
-  $('#main').html(`<div class="inner">
-  <header>
-    <h1>Top Boards</h1>
-    <p>TODO: Add search bar & functionality</p>
-  </header>
-  <section class="tiles">
-  </section>
-</div>`);
-};
-
+// BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
   //console.log(board);
@@ -26,6 +15,7 @@ const createBoardTileElement = function(board) {
   </article>`);
   return $boardTile;
 };
+
 const renderBoardTiles = function(boards) {
   $('.tiles').empty();
   for (let board of boards) {
@@ -34,7 +24,6 @@ const renderBoardTiles = function(boards) {
   }
 };
 
-// BOARD FUNCTIONS
 const renderBoardPage = function(board) {
   $('#main').html(`
     `);
@@ -62,12 +51,6 @@ const loadBoard = function(id) {
     });
 };
 
-const loadBoards = function() {
-  return $.get("/boards")
-    .then((boards) => {
-      renderBoardTiles(boards);
-    });
-};
 
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
@@ -161,7 +144,7 @@ const renderResource = function(resource, boardId) {
   return $renderResource;
 };
 
-// CLICK HANDLER & MODAL FUNCTIONS
+// CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
 const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
   const $newResource = createNewResource(boardId);
@@ -173,7 +156,6 @@ const renderBoardResources = function(resources, boardId) {
     // });
   }
 };
-
 
 const renderResourceModal = function(resource) {
   $("#modal-container").html('<h3>resource placeholder</h3>');
