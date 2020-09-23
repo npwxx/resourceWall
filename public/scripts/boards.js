@@ -71,7 +71,7 @@ const loadBoards = function() {
 
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
-const createNewResource = function() {
+const createNewResource = function(boardId) {
   return $('#resources').append(
     $('<h2/>', { text: "Add New Resource" })
   ).append(
@@ -84,17 +84,17 @@ const createNewResource = function() {
         }).append(
           $('<input/>', {
             type: 'text',
-            title: 'title'
+            name: 'resourceTitle'
           }).attr('placeholder', 'Title')
         ).append(
           $('<input/>', {
             type: 'text',
-            name: 'description'
+            name: 'resourceDescription'
           }).attr('placeholder', 'Description')
         ).append(
           $('<input/>', {
             type: 'text',
-            name: 'url'
+            name: 'resourceUrl'
           }).attr('placeholder', 'URL')
         ).append(
           $('<button/>', {
@@ -109,7 +109,7 @@ const createNewResource = function() {
       const serializedData = $(this).serialize();
       //submit data to the server
       console.log(serializedData);
-      $.post("#resources", serializedData)
+      $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
         .then(() => {
           // TODO: Check if post was successful
         });
@@ -161,7 +161,7 @@ const renderResources = function(resource, boardId) {
 // CLICK HANDLER & MODAL FUNCTIONS
 const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
-  const $newResource = createNewResource();
+  const $newResource = createNewResource(boardId);
   for (const resource of resources) {
     const $resource = renderResources(resource, boardId);
     $resource.appendTo('#resources');
