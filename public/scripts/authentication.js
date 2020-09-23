@@ -18,10 +18,15 @@ const renderLoginModal = function() {
     event.preventDefault();
     const serializedData = $(this).serialize();
     //submit data to the server
-    $.post("/login", serializedData)
-      .then(() => {
-        // TODO: Check if login wa ssucessful & then close modal & mavigate to my boards
-      });
+    $.ajax({type: "POST", url: "/users/login", data: serializedData})
+      .then((response) => {
+        console.log("her's the response", response);
+        $.modal.close();
+        renderProfilePage();
+      })
+      .fail((error) => {
+        console.log("Error with registration", error)
+      })
   });
   $('#modal-container').modal();
 };
@@ -81,5 +86,4 @@ const renderProfilePage = function() {
   </form>
   </section>
   </div>`);
-
 };

@@ -5,9 +5,12 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 const bcrypt = require('bcrypt');
+const e = require('express');
 const express = require('express');
 const router  = express.Router();
 const {userAuthenticate} = require('../public/scripts/util-functions.js');
+const cookieSession = require('cookie-session');
+router.use(cookieSession({name: 'Session', keys: ['userId']}));
 
 const {
   getUserByEmail,
@@ -26,21 +29,23 @@ router.post("/login", (req, res) => {
 
   const emailString = req.body.email;
   const password = req.body.password;
-  const userId = getUserByEmail(emailString);
-
-  if (userId) {
-    const hashPass = getPasswordById(userId);
-    let passCompare = bcrypt.compareSync(password, hashPass);
-    if (passCompare) {
-      /* Assign cookie corresponding to userId */
-      req.session.userId = userId;
-      res.redirect("/");
+  getUserByEmail(emailString)
+  .then((response) => {
+    console.log(response)
+    if (!response) {
+      res.status(400).send("We couldn't find an account with those details");
     } else {
-      res.send("Login credentials incorrect");
+      const userId = response.id
+      const hashPass = response.password;
+      let passCompare = bcrypt.compareSync(password, hashPass);
+      if (passCompare) {
+        req.session.userId = userId;
+        res.status(200).send(`Welcome back, ${response.name}`);
+      } else {
+        res.status(400).send('Invalid login credentials');
+      }
     }
-  } else {
-    res.send("Login credentials incorrect");
-  }
+  });
 });
 
 router.get("/:userId", (req, res) => {
@@ -81,7 +86,7 @@ router.patch("/:userId/edit-email", (req, res) => {
     const userFields = { newEmailString, userId};
     editUserEmail(userFields)
       .then(() => {
-        res.status(200).send('Welcome Aboard!')
+        res.status(200).send('Email updated!')
       })
       .catch((e) => console.log("error:", e));
   }
@@ -91,22 +96,20 @@ router.post("/register", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  if (name, email, password) { //all fields are filled in
-    if (!getUserByEmail(email)) { //if the email doesn't already exist
-      const passHash = bcrypt.hashSync(password, 10);
-      const newUserFields = { name, email, passHash };
-      addNewUser(newUserFields)
-        .then( (response) => {
-          res.status(200).send("Welcome Aboard!")
-        });
-    } else {
-      //alert invalid creds
-      res.send("Invalid registration details");
-    }
+  const userFields = {name, email, password}
+  if (!name || !email || !password) {
+    res.status(400).send('Fields cannot be empty')
   } else {
-    res.send("Those credentials are invalid, sorry.")
+    getUserByEmail(email)
+    .then((response) => {
+      if (!response) { //email isn't already being used
+        addNewUser(userFields);
+        res.status(200).send(`Welcome Aboard, ${name}`);
+      } else {
+        res.status(400).send(`Sorry ${name}, you can't use that email`);
+      }
+    })
   }
-
 });
 
 

@@ -34,7 +34,7 @@ const getPasswordById = function(userId) {
   return db.query(`
   SELECT password
   FROM users
-  WHERE userId = $1;`, [userId])
+  WHERE id = $1;`, [userId])
     .then(res => {
       if (!res.rows.length) {
         return null;
@@ -101,7 +101,6 @@ const editUserEmail = function(userFields) {
 
 const addNewUser = function(userFields) {
   const fields = userFields;
-  console.log("userfieds", userFields);
   db.query(`
   INSERT INTO users (
     name,
@@ -113,10 +112,9 @@ const addNewUser = function(userFields) {
     $2,
     $3
   );
-`, [fields.name, fields.email, fields.passHash])
-    .then(() => {
-      console.log("query response", response);
-      return response.rows;
+`, [fields.name, fields.email, fields.password])
+    .then((response) => {
+      return response;
     });
 };
 
