@@ -1,7 +1,6 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
-  console.log("receiving ", board);
   const d = new Date(board.created).toDateString()
   let $boardTile = $(`<article class="style3">
   <span class="image">
@@ -40,6 +39,8 @@ const renderBoardTiles = function(response) {
   $('.tiles').empty();
   const boards = response.boards;
   const resources = response.resources;
+  console.log("receiving ", response);
+
   for (let board of boards) {
     const avg_rating = [];
     if (resources) {

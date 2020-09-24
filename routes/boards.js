@@ -55,15 +55,21 @@ router.get("/:boardId/resources", (req, res) => {
 });
 
 router.get("/", (req, res) => {
+  const resourcesArray = [];
+  let resourcesObject;
   getAllBoards()
-    .then((boards) => {
-      for (board of boards) {
-        getResourcesByBoardId(board.id)
-        .then((resources) => {
-          res.json({resources, boards});
-        })
-      }
-    })
+  .then((boards) => {
+    for (board of boards) {
+      getResourcesByBoardId(board.id)
+      .then((resources) => {
+        resourcesArray.push(resources[0])
+      }).then((resourcesArray) => {
+        resourcesObject.resourcesArray = resourcesArray;
+        console.log("resobjmew", resourcesObject)
+        res.send(resourcesObject);
+      })
+    }
+  })
     .catch((e) => console.log("error:", e));
 });
 
