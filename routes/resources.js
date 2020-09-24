@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getAllResourceCategories,
+  getResourcesByCategoryType,
   getResourcesById,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
@@ -28,6 +29,14 @@ router.get("/categories", (req, res) => {
   getAllResourceCategories()
     .then((categories) => {
       res.json(categories);
+    })
+    .catch((e) => console.log("error:", e));
+});
+
+router.get("/categories/:type", (req, res) => {
+  getResourcesByCategoryType(req.params.type)
+    .then((resources) => {
+      res.json(resources);
     })
     .catch((e) => console.log("error:", e));
 });

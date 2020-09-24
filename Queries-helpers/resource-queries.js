@@ -10,6 +10,19 @@ const getAllResourceCategories = function(categories) {
     });
 };
 
+const getResourcesByCategoryType = function(type) {
+  return db.query(`
+  SELECT resources.id, title, description, resource_url, avg(resource_ratings.rating) AS avg_rating
+  FROM resources
+  LEFT JOIN resource_ratings ON resource_ratings.resource_id = resources.id
+  JOIN resource_categories ON resource_categories.resource_id = resources.id
+  WHERE resource_categories.type = $1
+  GROUP BY resources.id`, [type])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 const getResourcesByBoardId = function(boardId) {
   return db.query(`
   SELECT resources.id, title, description, resource_url, avg(resource_ratings.rating) AS avg_rating
@@ -384,6 +397,7 @@ const deleteCategory = function(categoryFields) {
 
 module.exports = {
   getAllResourceCategories,
+  getResourcesByCategoryType,
   getResourcesByBoardId,
   getResourcesByHighestRated,
   getResourcesByLowestRated,

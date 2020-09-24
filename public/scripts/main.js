@@ -33,24 +33,6 @@ const handleBoardSearch = function(event) {
     });
 };
 
-// const renderMainResources = function() {
-//   $('#main').append(`<div class="inner">
-//   <div class='resource-search'>
-//   <header class='resource-header'>
-//     <h1>Top Resources</h1>
-//   </header>
-//   <section id="resources">
-//   </section>
-//   </div>
-//   </div>`);
-//   const $searchResources = $(`
-//   <form class='resource-category-search'>
-//     <input type='text' placeholder='Search Categories'></input>
-//     <button type='submit'><i class='fa fa-search'></i></button>
-//   </form>`).appendTo('.resource-header');
-//   $searchResources.submit(handleResourceSearch);
-// };
-
 const renderMainResources = function() {
   $('#main').append(`<div class="inner">
   <div class='resource-search'>
@@ -88,7 +70,11 @@ const searchBarResources = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-    $.post('');
+    const serializedData = $(this).serialize();
+    $.get(`/resources/categories/${$input.val()}`)
+      .then((resources) => {
+        renderBoardResources(resources);
+      });
   });
   return $form;
 };
