@@ -82,7 +82,7 @@ const getResourcesByLowestRated = function() {
 
 const getResourcesByMostLiked = function() {
   return db.query(`
-  SELECT 
+  SELECT
     resources.title,
     resources.description,
     resource_url,
@@ -102,7 +102,7 @@ const getResourcesByMostLiked = function() {
 
 const getResourcesByLeastLiked = function() {
   return db.query(`
-  SELECT 
+  SELECT
     resources.title,
     resources.description,
     resource_url,

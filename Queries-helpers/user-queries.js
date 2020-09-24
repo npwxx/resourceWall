@@ -132,20 +132,16 @@ const deleteUser = function(userId) {
 const getBoardByOwnerId = function(ownerId) {
   return db.query(`
   SELECT
-    boards.owner_id as owner_id,
+    boards.id as id,
     boards.title as title,
     boards.description as description,
-    boards.date_posted as created,
-    board_categories.type as categories,
-    count (resources.*) as num_of_resources,
-    round(avg(resource_ratings.rating), 2) as average_rating
+    date(boards.date_posted) as created,
+    board_categories.type as categories
   FROM boards
   JOIN resources ON resources.board_id = boards.id
   FULL OUTER JOIN board_categories ON board_categories.board_id = boards.id
-  FULL OUTER JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   WHERE boards.owner_id = $1
-  GROUP BY owner_id, boards.date_posted, boards.title, boards.description, categories
-  ORDER BY average_rating;
+  GROUP BY boards.id, owner_id, boards.date_posted, boards.title, boards.description, categories
   `, [ownerId])
     .then((response) => {
       return response.rows;

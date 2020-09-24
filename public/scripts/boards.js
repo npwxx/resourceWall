@@ -1,7 +1,7 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
-const createBoardTileElement = function(board) {
-  //console.log(board);
+const createBoardTileElement = function(board, boardId) {
+  const d = new Date(board.created).toDateString()
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -9,6 +9,9 @@ const createBoardTileElement = function(board) {
   <a href="/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
+  <p>Created: ${d}
+  <br>
+  Categories: ${escape(board.categories)}</p>
   <p>${escape(board.description)}</p>
   </div>
   </a>
@@ -19,7 +22,8 @@ const createBoardTileElement = function(board) {
 const renderBoardTiles = function(boards) {
   $('.tiles').empty();
   for (let board of boards) {
-    const $boardTile = createBoardTileElement(board);
+    const boardId = board.id;
+    const $boardTile = createBoardTileElement(board, boardId);
     $('.tiles').append($boardTile);
   }
 };
@@ -33,7 +37,7 @@ const renderBoardPage = function(board) {
     <p>${escape(board.description)}</p>
     </header>
     <section id="resources">
-    <h2>Resources</h2>  
+    <h2>Resources</h2>
     </section>
     </div>`);
 };
