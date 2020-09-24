@@ -119,8 +119,7 @@ const createNewResource = function(boardId) {
   );
 };
 
-const renderCommentModal = function() {
-  const resourceId =
+const renderCommentModal = function(resource) {
   $("#modal-container").html(`
   <h3>Add a comment</h3>`);
   const $form = $(`
@@ -133,10 +132,9 @@ const renderCommentModal = function() {
   $form.submit(function(event) {
     event.preventDefault();
     const serializedData = $(this).serialize();
-    $.ajax({ type: "POST", url: `/${resourceId}/add-new-comment`, data: serializedData })
+    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
       .then(() => {
         $.modal.close();
-        loadMenu();
       })
       .fail((error) => {
         console.log("Error with registration", error);
@@ -180,7 +178,7 @@ const renderResource = function(resource) {
     'text': "Click to add comment"
   }).appendTo($footer);
   $addComment.click(() => {
-    renderCommentModal();
+    renderCommentModal(resource);
     console.log(`$addcomment, ${resource.id}`);
   });
   // TODO: route to/from DB by user ID
