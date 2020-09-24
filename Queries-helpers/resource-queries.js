@@ -1,6 +1,6 @@
 const { db } = require('../server.js');
 
-const getAllResourceCategories = function(categories) {
+const getAllResourceCategories = function() {
   return db.query(`
   SELECT DISTINCT type
   FROM resource_categories

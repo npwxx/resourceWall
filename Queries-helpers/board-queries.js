@@ -45,7 +45,7 @@ const getAllBoards = function() {
     });
 };
 
-const getAllBoardCategories = function(categories) {
+const getAllBoardCategories = function() {
   return db.query(`
   SELECT DISTINCT type
   FROM board_categories
@@ -58,8 +58,8 @@ const getAllBoardCategories = function(categories) {
 const getBoardsByCategoryType = function(type) {
   return db.query(`
   SELECT boards.id, title, description
-  FROM resources
-  JOIN board_categories ON board_categories.resource_id = resources.id
+  FROM boards
+  JOIN board_categories ON board_categories.board_id = boards.id
   WHERE board_categories.type = $1
   GROUP BY boards.id`, [type])
     .then((response) => {

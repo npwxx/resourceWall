@@ -14,11 +14,6 @@ const loadBoards = function() {
   return $.get("/boards")
     .then((boards) => {
       renderBoardTiles(boards);
+      router.updatePageLinks();
     });
-};
-
-module.exports = {
-  escape,
-  userAuthenticate,
-  loadBoards
 };

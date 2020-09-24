@@ -1,5 +1,5 @@
+const router = new Navigo(null, true);
 $(document).ready(function() {
-  const router = new Navigo(null, true);
 
   router.on({
     '*': function() {

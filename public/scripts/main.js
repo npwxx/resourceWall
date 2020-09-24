@@ -35,7 +35,8 @@ const searchBarBoards = function() {
 
     $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
-        renderMainBoards(boards);
+        renderBoardTiles(boards);
+        router.updatePageLinks();
       });
   });
   return $form;
