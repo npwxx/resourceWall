@@ -351,18 +351,22 @@ const deleteRating = function(ratingFields) {
 };
 
 const addNewLike = function(likeFields) {
+  console.log("made it here", likeFields);
   const fields = likeFields;
   return db.query(`
-  INSERT INTO resource_likes (
+  INSERT INTO resource_likes
+  (
   user_id,
-  resource_id,
-    )
-  VALUES(
+  resource_id
+  )
+  VALUES
+  (
     $1,
-    $2,
+    $2
   );
 `, [fields.userId, fields.resourceId])
     .then((response) => {
+      console.log("added like from user ", fields.userId, "on resource", fields.resourceId);
       return response.rows;
     });
 };

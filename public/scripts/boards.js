@@ -232,8 +232,12 @@ const renderResource = function(resource) {
     'class': 'fa fa-heart'
   }).appendTo($footer);
   $like.click(() => {
-    console.log('$like');
-    //TODO: HANDLE LIKE
+    console.log("llogging resourceid: ", resource.id);
+    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-like`, data: resource.id })
+    .then(() => {
+      console.log("posted like to server");
+      $like.fadeTo(300, 0.25);
+    })
   });
   //TODO: fix bottom margin for add comment button and see comments
   const $addComment = $(`
