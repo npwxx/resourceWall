@@ -36,6 +36,8 @@ const createBoardTileElement = function(board) {
   return $boardTile;
 };
 
+
+
 const renderBoardTiles = function(boards) {
   console.log("frontend received", boards);
   $('.tiles').empty();
@@ -121,7 +123,7 @@ const createNewResource = function(boardId) {
 
 const renderCommentModal = function() {
   const resourceId =
-  $("#modal-container").html(`
+    $("#modal-container").html(`
   <h3>Add a comment</h3>`);
   const $form = $(`
     <form>

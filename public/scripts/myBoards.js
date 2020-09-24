@@ -40,8 +40,18 @@ const createBoardFormElement = function(categories) {
             type: 'text',
             name: 'description'
           }).attr('placeholder', 'Description')
+          // ).append(
+          // categoriesElement(categories)
         ).append(
-          categoriesElement(categories)
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Description')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Description')
         ).append(
           $('<button/>', {
             type: 'submit',
@@ -52,7 +62,7 @@ const createBoardFormElement = function(categories) {
       )
     ).submit(function(event) {
       event.preventDefault();
-      const serializedData = $(this).serialize();
+      const serializedData = $(this).serializeFormJSON();
       //submit data to the server
       console.log(serializedData);
       $.post("/boards/create", serializedData)

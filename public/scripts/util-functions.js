@@ -12,9 +12,27 @@ const userAuthenticate = (userId) => {
 
 const loadBoards = function() {
   return $.get("/boards")
-  .then((boards) => {
-    console.log("util-functions ", boards)
-      renderBoardTiles({boards});
+    .then((boards) => {
+      console.log("util-functions ", boards);
+      renderBoardTiles({ boards });
       router.updatePageLinks();
     });
 };
+
+(function($) {
+  $.fn.serializeFormJSON = function() {
+    let o = {};
+    let a = this.serializeArray();
+    $.each(a, function() {
+      if (o[this.name]) {
+        if (!o[this.name].push) {
+          o[this.name] = [o[this.name]];
+        }
+        o[this.name].push(this.value || '');
+      } else {
+        o[this.name] = this.value || '';
+      }
+    });
+    return o;
+  };
+})(jQuery);
