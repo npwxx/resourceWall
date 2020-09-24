@@ -38,8 +38,8 @@ const getAllBoards = function() {
     count(DISTINCT resources.id) AS resources_count,
     avg(resource_ratings.rating) AS avg_rating
   FROM boards
-  LEFT JOIN resources ON resources.board_id = boards.id
-  LEFT JOIN resource_ratings ON resource_ratings.resource_id = resources.id
+  JOIN resources ON resources.board_id = boards.id
+  JOIN resource_ratings ON resource_ratings.resource_id = resources.id
   GROUP BY boards.id
   ORDER BY avg_rating DESC
   LIMIT 6;`)
