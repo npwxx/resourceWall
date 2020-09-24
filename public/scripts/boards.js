@@ -119,9 +119,34 @@ const createNewResource = function(boardId) {
   );
 };
 
+const renderCommentModal = function() {
+  const resourceId =
+  $("#modal-container").html(`
+  <h3>Add a comment</h3>`);
+  const $form = $(`
+    <form>
+      <input type="comment" name="comment" placeholder="Write your comment here">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `);
+  $form.appendTo('#modal-container');
+  $form.submit(function(event) {
+    event.preventDefault();
+    const serializedData = $(this).serialize();
+    $.ajax({ type: "POST", url: `/${resourceId}/add-new-comment`, data: serializedData })
+      .then(() => {
+        $.modal.close();
+        loadMenu();
+      })
+      .fail((error) => {
+        console.log("Error with registration", error);
+      });
+  });
+  $('#modal-container').modal();
+};
+
 const renderResource = function(resource) {
-  // console.log(resource);
-  let $renderResource = $(`<article>
+  let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
         <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
@@ -137,6 +162,7 @@ const renderResource = function(resource) {
     initial_value: Number(resource.avg_rating),
     readonly: true
   });
+  //TODO: pull date created from resource
   const $footer = $(`<footer>
   <span>${(moment(resource.date_posted).fromNow())}</span>
   </footer>`);
@@ -147,6 +173,15 @@ const renderResource = function(resource) {
   }).appendTo($footer);
   $like.click(() => {
     console.log('$like');
+    //TODO: HANDLE LIKE
+  });
+  //TODO: fix bottom margin for add comment button
+  const $addComment = $('<p/>', {
+    'text': "Click to add comment"
+  }).appendTo($footer);
+  $addComment.click(() => {
+    renderCommentModal();
+    console.log(`$addcomment, ${resource.id}`);
   });
   // TODO: route to/from DB by user ID
   const $rater = $('<span/>').appendTo($footer);
