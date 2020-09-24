@@ -1,7 +1,7 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
-  console.log("receiving ", board);
+  // console.log("receiving ", board);
   const d = new Date(board.created).toDateString();
   let $boardTile = $(`<article class="style3">
   <span class="image">
@@ -14,9 +14,9 @@ const createBoardTileElement = function(board) {
   <br>
   Created: ${d}
   <br>
-  Average rating: ${escape(board.average_rating)}
+  Average rating: ${escape(Math.round(board.avg_rating * 100) / 100)}
     <br>
-  Contains ${escape(board.resource_count)} resources
+  Contains ${escape(board.resources_count)} resources
   <br>
   ${escape(board.description)}</p>
   </div>
@@ -37,7 +37,7 @@ const createBoardTileElement = function(board) {
 };
 
 const renderBoardTiles = function(boards) {
-  console.log("frontend received", boards)
+  console.log("frontend received", boards);
   $('.tiles').empty();
   for (let board of boards.boards) {
     const $boardTile = createBoardTileElement(board);
