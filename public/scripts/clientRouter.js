@@ -1,6 +1,6 @@
 const router = new Navigo(null, true);
 $(document).ready(function() {
-
+  loadMenu();
   router.on({
     '*': function() {
       console.log('Homepage');
@@ -28,7 +28,7 @@ $(document).ready(function() {
       renderProfilePage();
     },
     '/logout': function() {
-      console.log("redirect to home ");
+      $.post('/users/logout').then(loadMenu);
     },
     '/myBoards': function() {
       loadMyBoard().then(() => {

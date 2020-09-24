@@ -18,14 +18,15 @@ const renderLoginModal = function() {
     event.preventDefault();
     const serializedData = $(this).serialize();
     //submit data to the server
-    $.ajax({type: "POST", url: "/users/login", data: serializedData})
+    $.ajax({ type: "POST", url: "/users/login", data: serializedData })
       .then((response) => {
         console.log("her's the response", response);
         $.modal.close();
+        loadMenu();
       })
       .fail((error) => {
-        console.log("Error with registration", error)
-      })
+        console.log("Error with registration", error);
+      });
   });
   $('#modal-container').modal();
 };
@@ -47,13 +48,14 @@ const renderRegisterModal = function() {
   $form.submit(function(event) {
     event.preventDefault();
     const serializedData = $(this).serialize();
-    $.ajax({type: "POST", url: "/users/register", data: serializedData})
-    .then(() => {
-      $.modal.close();
-    })
-    .fail((error) => {
-      console.log("Error with registration", error)
-    })
+    $.ajax({ type: "POST", url: "/users/register", data: serializedData })
+      .then(() => {
+        $.modal.close();
+        loadMenu();
+      })
+      .fail((error) => {
+        console.log("Error with registration", error);
+      });
   });
   $('#modal-container').modal();
 };
