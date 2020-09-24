@@ -33,25 +33,23 @@ const createBoardFormElement = function(categories) {
         }).append(
           $('<input/>', {
             type: 'text',
-            name: 'title'
+            name: 'boardTitle'
           }).attr('placeholder', 'Title')
         ).append(
           $('<input/>', {
             type: 'text',
-            name: 'description'
-          }).attr('placeholder', 'Description')
-          // ).append(
-          // categoriesElement(categories)
-        ).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'category'
+            name: 'boardDescription'
           }).attr('placeholder', 'Description')
         ).append(
           $('<input/>', {
             type: 'text',
             name: 'category'
-          }).attr('placeholder', 'Description')
+          }).attr('placeholder', 'Category 1')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Category 2')
         ).append(
           $('<button/>', {
             type: 'submit',
@@ -112,3 +110,23 @@ const loadMyBoard = function() {
         });
     });
 };
+
+
+// UTIL FUNCTION
+(function($) {
+  $.fn.serializeFormJSON = function() {
+    let o = {};
+    let a = this.serializeArray();
+    $.each(a, function() {
+      if (o[this.name]) {
+        if (!o[this.name].push) {
+          o[this.name] = [o[this.name]];
+        }
+        o[this.name].push(this.value || '');
+      } else {
+        o[this.name] = this.value || '';
+      }
+    });
+    return o;
+  };
+})(jQuery);

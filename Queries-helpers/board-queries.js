@@ -166,7 +166,7 @@ const deleteBoard = function(boardFields) {
 const addNewBoard = function(newBoardFields) {
   const fields = newBoardFields;
   return db.query(`
-  INSERT INTO resources (
+  INSERT INTO boards (
     owner_id,
     title,
     description,
@@ -178,7 +178,7 @@ const addNewBoard = function(newBoardFields) {
       $3,
       now()
       );
-      `, [fields.ownerID, fields.boardTitle, fields.boardDescription])
+      `, [fields.ownerId, fields.boardTitle, fields.boardDescription])
     .then((response) => {
       return response.rows;
     });

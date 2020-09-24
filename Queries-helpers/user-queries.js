@@ -138,7 +138,7 @@ const getBoardByOwnerId = function(ownerId) {
     date(boards.date_posted) as created,
     board_categories.type as categories
   FROM boards
-  JOIN resources ON resources.board_id = boards.id
+  LEFT JOIN resources ON resources.board_id = boards.id
   FULL OUTER JOIN board_categories ON board_categories.board_id = boards.id
   WHERE boards.owner_id = $1
   GROUP BY boards.id, owner_id, boards.date_posted, boards.title, boards.description, categories
