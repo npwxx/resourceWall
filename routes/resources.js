@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const cookieSession = require('cookie-session');
+router.use(cookieSession({ name: 'session', keys: ['userId'] }));
+
 const {
   getAllResourceCategories,
   getResourcesByCategoryType,
@@ -165,12 +168,11 @@ router.post("/:resourceId/add-category", (req, res) => {
 });
 
 router.post("/:resourceId/add-new-comment", (req, res) => {
-  console.log(req.session);
+  console.log("reqbody", req.body);
   const authorId = req.session.userId;
-
   const resourceId = req.params.resourceId;
-  const commentText = req.body.commentText;
-  const newCommentFields = { authorId, resourceId, commentText };
+  const comment = req.body.comment;
+  const newCommentFields = { authorId, resourceId, comment };
   addNewComment(newCommentFields)
     .then((resources) => {
       res.redirect("/");

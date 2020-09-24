@@ -295,7 +295,7 @@ const addNewComment = function(newCommentFields) {
     $3,
     now()
   );
-`, [fields.authorId, fields.resourceId, fields.commentText])
+`, [fields.authorId, fields.resourceId, fields.comment])
     .then((response) => {
       return response.rows;
     });

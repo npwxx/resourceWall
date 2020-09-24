@@ -9,8 +9,7 @@ const e = require('express');
 const express = require('express');
 const router = express.Router();
 const { userAuthenticate } = require('../public/scripts/util-functions.js');
-const cookieSession = require('cookie-session');
-router.use(cookieSession({ name: 'session', keys: ['userId'] }));
+
 
 const {
   getUserByEmail,
