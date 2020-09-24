@@ -32,26 +32,13 @@ const createBoardTileElement = function(board) {
     <br>
     Contains ${escape(board.resource_count)} resources </p>
     `)
-  )
+  );
   return $boardTile;
 };
 
-const renderBoardTiles = function(response) {
+const renderBoardTiles = function(boards) {
   $('.tiles').empty();
-  const boards = response.boards;
-  const resources = response.resources;
   for (let board of boards) {
-    console.log("hello ", response);
-    const avg_rating = [];
-    for (let resource of resources) {
-      avg_rating.push(resource.avg_rating);
-      console.log("pushed ", resource.avg_rating);
-    }
-    let average_rating = Math.round(avg_rating.reduce((a, b) => {
-      return a + b;
-    }) / avg_rating.length);
-    board.average_rating = average_rating;
-    board.resource_count = resources.length;
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }

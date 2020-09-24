@@ -55,17 +55,9 @@ router.get("/:boardId/resources", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  const resourcesArray = [];
   getAllBoards()
     .then((boards) => {
-      for (const board of boards) {
-        getResourcesByBoardId(board.id)
-          .then((resources) => {
-            resourcesArray.push(resources[0]);
-          }).then((resourcesArray) => {
-            res.json(resourcesArray);
-          });
-      }
+      res.json(boards);
     })
     .catch((e) => console.log("error:", e));
 });
