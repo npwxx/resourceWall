@@ -2,7 +2,7 @@
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
   console.log("receiving ", board);
-  const d = new Date(board.created).toDateString()
+  const d = new Date(board.created).toDateString();
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -33,9 +33,11 @@ const renderBoardTiles = function(response) {
     const avg_rating = [];
     for (let resource of resources) {
       avg_rating.push(resource.avg_rating);
-      console.log("pushed ", resource.avg_rating)
+      console.log("pushed ", resource.avg_rating);
     }
-    let average_rating = Math.round(avg_rating.reduce((a, b) => { return a + b}) / avg_rating.length);
+    let average_rating = Math.round(avg_rating.reduce((a, b) => {
+      return a + b;
+    }) / avg_rating.length);
     board.average_rating = average_rating;
     board.resource_count = resources.length;
     const $boardTile = createBoardTileElement(board);
@@ -163,42 +165,4 @@ const renderResource = function(resource) {
   return $renderResource;
 };
 
-// CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
-const renderBoardResources = function(resources, boardId) {
-  $('#resources').empty();
-  if (boardId) {
-    const $newResource = createNewResource(boardId);
-  }
-  for (const resource of resources) {
-    const $resource = renderResource(resource);
-    $resource.appendTo('#resources');
-    // $resource.click(() => {
-    //   renderResourceModal(resource);
-    // });
-  }
-};
-
-const renderResourceModal = function(resource) {
-  $("#modal-container").html('<h3>resource placeholder</h3>');
-  const $form = $(`
-    <form>
-      <div>
-        <input class="form-control" type="email" name="email" placeholder="Email">
-      </div>
-      <div>
-      <input type="password" name="password" placeholder="Password">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-      `);
-  $form.appendTo('#modal-container');
-  $form.submit(function(event) {
-    event.preventDefault();
-    const serializedData = $(this).serialize();
-    //submit data to the server
-    $.post("/login", serializedData)
-      .then(() => {
-      });
-  });
-  $('#modal-container').modal();
-};
+// moved comment modal to new file
