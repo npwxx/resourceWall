@@ -97,7 +97,6 @@ const loadMyBoard = function() {
   .then(() => {
     $.get("/users/myboards")
     .then((boards, resources) => {
-      console.log("boards received", boards, resources)
       //TODO: add owned boards route
       renderBoardTiles(boards, resources);
     });

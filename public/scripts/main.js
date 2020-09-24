@@ -32,10 +32,9 @@ const searchBarBoards = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-
     $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
-        renderBoardTiles(boards);
+        renderBoardTiles({boards});
         router.updatePageLinks();
       });
   });

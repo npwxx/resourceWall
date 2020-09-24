@@ -57,7 +57,7 @@ router.get("/:boardId/resources", (req, res) => {
 router.get("/", (req, res) => {
   getAllBoards()
     .then((boards) => {
-      res.json(boards);
+      res.json({ boards });
     })
     .catch((e) => console.log("error:", e));
 
@@ -67,7 +67,7 @@ router.get("/search-owner/:nameString", (req, res) => {
   const nameString = req.params.nameString;
   getBoardByOwnerName(nameString)
     .then((boards) => {
-      res.json(boards);
+      res.json( boards );
     })
     .catch((e) => console.log("error", e));
 });

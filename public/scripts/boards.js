@@ -10,17 +10,24 @@ const createBoardTileElement = function(board) {
   <a href="/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
-  <p>Created: ${d}
-  <br>
-  Categories: ${escape(board.categories)}
-  <br>
-  Average rating: ${escape(board.average_rating)}
-  <br>
-  Contains ${escape(board.resource_count)} resources </p>
+  <p id=tile-category-list>Categories: ${escape(board.categories)}
   <p>${escape(board.description)}</p>
   </div>
   </a>
   </article>`);
+
+  if (board.average_rating) {
+    $('#tile-category-list').append(
+      $(`
+      <br>
+      Created: ${d}
+      <br>
+      Average rating: ${escape(board.average_rating)}
+      <br>
+      Contains ${escape(board.resource_count)} resources </p>
+      `)
+    )
+  }
   return $boardTile;
 };
 
@@ -28,16 +35,17 @@ const renderBoardTiles = function(response) {
   $('.tiles').empty();
   const boards = response.boards;
   const resources = response.resources;
-  console.log("receiving ii)", boards);
   for (let board of boards) {
     const avg_rating = [];
-    for (let resource of resources) {
-      avg_rating.push(resource.avg_rating);
-      console.log("pushed ", resource.avg_rating)
-    }
-    let average_rating = Math.round(avg_rating.reduce((a, b) => { return a + b}) / avg_rating.length);
-    board.average_rating = average_rating;
-    board.resource_count = resources.length;
+    if (resources) {
+      for (let resource of resources) {
+        avg_rating.push(resource.avg_rating);
+        console.log("pushed ", resource.avg_rating)
+      }
+      let average_rating = Math.round(avg_rating.reduce((a, b) => { return a + b}) / avg_rating.length);
+      board.average_rating = average_rating;
+      board.resource_count = resources.length;
+    };
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }
@@ -172,9 +180,9 @@ const renderBoardResources = function(resources, boardId) {
   for (const resource of resources) {
     const $resource = renderResource(resource);
     $resource.appendTo('#resources');
-    // $resource.click(() => {
-    //   renderResourceModal(resource);
-    // });
+    $resource.click(() => {
+      renderResourceModal(resource);
+    });
   }
 };
 
