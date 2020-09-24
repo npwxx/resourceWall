@@ -35,6 +35,7 @@ const getAllBoards = function() {
     boards.id,
     boards.title,
     boards.description,
+    date(boards.date_posted) as created,
     count(DISTINCT resources.id) AS resources_count,
     avg(resource_ratings.rating) AS avg_rating
   FROM boards

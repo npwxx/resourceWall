@@ -82,10 +82,6 @@ const renderMyBoardsPageLayout = function(categories) {
         text: `My Boards `
       })
     ).append(
-      $('<p/>', {
-        text: `Testing`
-      })
-    ).append(
       createBoardFormElement(categories)
     )
   ).append(

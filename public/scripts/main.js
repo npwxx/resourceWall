@@ -34,6 +34,7 @@ const searchBarBoards = function() {
     event.preventDefault();
     $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
+        console.log('boards coming back from server:', boards);
         renderBoardTiles(boards);
         router.updatePageLinks();
       });

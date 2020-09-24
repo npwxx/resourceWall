@@ -1,5 +1,7 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
+// TODO: readd categories
+// <p>Categories: ${escape(board.categories)}
 const createBoardTileElement = function(board) {
   // console.log("receiving ", board);
   const d = new Date(board.created).toDateString();
@@ -10,7 +12,7 @@ const createBoardTileElement = function(board) {
   <a href="/#/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
-  <p>Categories: ${escape(board.categories)}
+  <p>
   <br>
   Created: ${d}
   <br>
@@ -41,7 +43,7 @@ const createBoardTileElement = function(board) {
 const renderBoardTiles = function(boards) {
   console.log("frontend received", boards);
   $('.tiles').empty();
-  for (let board of boards.boards) {
+  for (let board of boards) {
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }
@@ -102,6 +104,16 @@ const createNewResource = function(boardId) {
             type: 'text',
             name: 'resourceUrl'
           }).attr('placeholder', 'URL').attr('required', true)
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Category 1')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Category 2')
         ).append(
           $('<button/>', {
             type: 'submit',
