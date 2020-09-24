@@ -55,7 +55,7 @@ router.get("/myboards", (req, res) => {
   console.log(sessionOwnerId);
     getBoardByOwnerId(sessionOwnerId)
       .then((boards) => {
-        console.log("sending boards", boards)
+        console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
         res.json(boards);
       })
       .catch((e) => console.log("error uh ho", e));
