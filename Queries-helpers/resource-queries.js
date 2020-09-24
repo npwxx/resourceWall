@@ -58,6 +58,42 @@ const getResourcesByLowestRated = function() {
     });
 };
 
+const getResourcesByMostLiked = function() {
+  return db.query(`
+  SELECT 
+    resources.title,
+    resources.description,
+    resource_url,
+    count(*) AS likes_count
+  FROM resources
+  JOIN resource_likes ON resource_likes.resource_id = resources.id
+  GROUP BY resources.id
+  ORDER BY likes_count DESC
+  LIMIT 6;
+`)
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+const getResourcesByLeastLiked = function() {
+  return db.query(`
+  SELECT 
+    resources.title,
+    resources.description,
+    resource_url,
+    count(*) AS likes_count
+  FROM resources
+  JOIN resource_likes ON resource_likes.resource_id = resources.id
+  GROUP BY resources.id
+  ORDER BY likes_count
+  LIMIT 6;
+`)
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 const getResourcesByMostCommented = function() {
   return db.query(`
   SELECT
@@ -329,6 +365,8 @@ module.exports = {
   getResourcesByBoardId,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
+  getResourcesByMostLiked,
+  getResourcesByLeastLiked,
   getResourcesByMostCommented,
   getResourcesByLeastCommented,
   getResourcesByNewest,
