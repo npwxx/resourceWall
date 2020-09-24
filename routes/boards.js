@@ -57,16 +57,16 @@ router.get("/:boardId/resources", (req, res) => {
 router.get("/", (req, res) => {
   const resourcesArray = [];
   getAllBoards()
-  .then((boards) => {
-    for (board of boards) {
-      getResourcesByBoardId(board.id)
-      .then((resources) => {
-        resourcesArray.push(resources[0])
-      }).then((resourcesArray) => {
-        res.json(resourcesArray);
-      })
-    }
-  })
+    .then((boards) => {
+      for (const board of boards) {
+        getResourcesByBoardId(board.id)
+          .then((resources) => {
+            resourcesArray.push(resources[0]);
+          }).then((resourcesArray) => {
+            res.json(resourcesArray);
+          });
+      }
+    })
     .catch((e) => console.log("error:", e));
 });
 
@@ -76,7 +76,7 @@ router.get("/search-owner/:nameString", (req, res) => {
   const nameString = req.params.nameString;
   getBoardByOwnerName(nameString)
     .then((boards) => {
-      res.json( boards );
+      res.json(boards);
     })
     .catch((e) => console.log("error", e));
 });

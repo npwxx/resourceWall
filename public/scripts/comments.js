@@ -37,5 +37,3 @@ const renderResourceModal = function(resource) {
   });
   $('#modal-container').modal();
 };
-
-module.exports = {renderBoardResources}
