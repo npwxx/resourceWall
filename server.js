@@ -11,6 +11,8 @@ const app = express();
 const morgan = require('morgan');
 const favicon = require('serve-favicon');
 const path = require('path');
+const cookieSession = require('cookie-session');
+app.use(cookieSession({ name: 'session', keys: ['userId'] }));
 
 // PG database client/connection setup
 const { Pool } = require('pg');

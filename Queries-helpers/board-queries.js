@@ -35,6 +35,7 @@ const getAllBoards = function() {
     boards.id,
     boards.title,
     boards.description,
+    date(boards.date_posted) as created,
     count(DISTINCT resources.id) AS resources_count,
     avg(resource_ratings.rating) AS avg_rating
   FROM boards
@@ -166,7 +167,7 @@ const deleteBoard = function(boardFields) {
 const addNewBoard = function(newBoardFields) {
   const fields = newBoardFields;
   return db.query(`
-  INSERT INTO resources (
+  INSERT INTO boards (
     owner_id,
     title,
     description,
@@ -178,7 +179,7 @@ const addNewBoard = function(newBoardFields) {
       $3,
       now()
       );
-      `, [fields.ownerID, fields.boardTitle, fields.boardDescription])
+      `, [fields.ownerId, fields.boardTitle, fields.boardDescription])
     .then((response) => {
       return response.rows;
     });

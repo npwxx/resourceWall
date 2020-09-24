@@ -12,9 +12,9 @@ const userAuthenticate = (userId) => {
 
 const loadBoards = function() {
   return $.get("/boards")
-  .then((boards) => {
-    console.log("util-functions ", boards)
-      renderBoardTiles({boards});
+    .then((boards) => {
+      console.log("util-functions ", boards);
+      renderBoardTiles(boards);
       router.updatePageLinks();
     });
 };

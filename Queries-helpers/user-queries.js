@@ -127,21 +127,23 @@ const deleteUser = function(userId) {
       return;
     });
 };
-
+// TODO:RE-ADD categories
+// FULL OUTER JOIN board_categories ON board_categories.board_id = boards.id
 
 const getBoardByOwnerId = function(ownerId) {
   return db.query(`
   SELECT
-    boards.id as id,
-    boards.title as title,
-    boards.description as description,
+    boards.id,
+    boards.title,
+    boards.description,
     date(boards.date_posted) as created,
-    board_categories.type as categories
+    count(DISTINCT resources.id) AS resources_count,
+    avg(resource_ratings.rating) AS avg_rating
   FROM boards
-  JOIN resources ON resources.board_id = boards.id
-  FULL OUTER JOIN board_categories ON board_categories.board_id = boards.id
+  LEFT JOIN resources ON resources.board_id = boards.id
+  LEFT JOIN resource_ratings ON resource_ratings.resource_id = resources.id
   WHERE boards.owner_id = $1
-  GROUP BY boards.id, owner_id, boards.date_posted, boards.title, boards.description, categories
+  GROUP BY boards.id
   `, [ownerId])
     .then((response) => {
       return response.rows;
