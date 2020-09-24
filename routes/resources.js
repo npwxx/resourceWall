@@ -37,6 +37,7 @@ router.get("/categories", (req, res) => {
 });
 
 router.get("/categories/:type", (req, res) => {
+  console.log("req params type", req.params.type)
   getResourcesByCategoryType(req.params.type)
     .then((resources) => {
       res.json(resources);

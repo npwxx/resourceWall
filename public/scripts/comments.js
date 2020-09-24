@@ -1,18 +1,16 @@
 // CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
 const renderBoardResources = function(resources, boardId) {
+  console.log("rendering board resources", resources)
   $('#resources').empty();
   if (boardId) {
     const $newResource = createNewResource(boardId);
   }
   for (const resource of resources) {
     const $resource = renderResource(resource);
+    console.log("single resource : ", resource)
     $resource.appendTo('#resources');
-    // $resource.click(() => {
-    //   renderResourceModal(resource);
-    // });
   }
 };
-
 const renderResourceModal = function(resource) {
   $("#modal-container").html('<h3>resource placeholder</h3>');
   const $form = $(`

@@ -158,19 +158,33 @@ const renderCommentModal = function(resource) {
 };
 
 const renderSeeCommentsModal = function(resource) {
-  console.log("seecomentsmodal", resource)
-  $("#modal-container").html(`
-  <h3>User comments for this resource</h3>`);
-  const $form = $(`
-    <form>
-      <input type="comment" name="comment" placeholder="Write your comment here">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  `);
   $.get(`/resources/comments/${resource.id}`)
-    .then((comments) => {
-      console.log("received frontend comments", comments);
-    })
+
+  .then((comments) => {
+    for (comment of comments) {
+      const $comment = $(`
+      <article id=${resource.id}>
+      <main>
+        <p>${escape(comment.comment)}</p>
+      </main>
+      </article>`);
+      let commentDate = comment.date_posted;
+      commentDate = new Date(commentDate);
+      commentHours = commentDate.getHours();
+      commentMinutes = commentDate.getMinutes();
+      commentDateParsed = commentDate.toDateString();
+      const $footer = $(`<footer>
+      <p>Written by: ${escape(comment.author)} on ${commentDateParsed} at ${commentHours}:${commentMinutes}<p>
+      </footer >`);
+      console.log("frontendcomments", comment)
+      $comment.appendTo('#modal-container');
+      $footer.appendTo($comment);
+    };
+  })
+  $("#modal-container").html(`
+  <h2>User comments for this resource</h2>`);
+
+
 
 
   // $form.appendTo('#modal-container');
@@ -189,9 +203,6 @@ const renderSeeCommentsModal = function(resource) {
 };
 
 const renderResource = function(resource) {
-
-  console.log("renderresourcehappening", resource.id)
-  
   let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
@@ -201,6 +212,8 @@ const renderResource = function(resource) {
   const $header = $(`<header>
   <h2>${escape(resource.title)}</h2>
   </header >`).prependTo($renderResource);
+
+  //add rating container
   const $ratingContainer = $(`<div class='rating-container'>Average Rating</div>`).appendTo($header);
   const $avgRating = $('<div/>').appendTo($ratingContainer);
   $avgRating.rate({
@@ -208,6 +221,7 @@ const renderResource = function(resource) {
     initial_value: Number(resource.avg_rating),
     readonly: true
   });
+
   //TODO: pull date created from resource
   const $footer = $(`<footer>
   <span>${(moment(resource.date_posted).fromNow())}</span>

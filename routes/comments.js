@@ -8,6 +8,7 @@ const {
 } = require('../Queries-helpers/comment-queries.js');
 
 router.get("/:resourceId", (req, res) => {
+  console.log("getting cookies", req.params)
   getCommentsForResource(req.params.resourceId)
     .then((comments) => {
       console.log("sending comments: ", comments);
