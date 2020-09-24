@@ -124,7 +124,7 @@ const createNewResource = function(boardId) {
       )
     ).submit(function(event) {
       event.preventDefault();
-      const serializedData = $(this).serialize();
+      const serializedData = $(this).serializeFormJSON();
       $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
         .then(() => {
           loadBoard(boardId);
