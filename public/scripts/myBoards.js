@@ -55,7 +55,7 @@ const createBoardFormElement = function(categories) {
       const serializedData = $(this).serialize();
       //submit data to the server
       console.log(serializedData);
-      $.post("/boards", serializedData)
+      $.post("/boards/create", serializedData)
         .then(() => {
           // TODO: Check if login wa ssucessful & then close modal & mavigate to my boards
         });
@@ -94,12 +94,12 @@ const loadMyBoard = function() {
     const categories = [{ id: 1, type: 'Sports' }, { id: 2, type: 'Gardening' }, { id: 3, type: 'Web Development' }, { id: 4, type: 'Science' }];
     renderMyBoardsPageLayout(categories);
   })
-  .then(() => {
-    $.get("/users/myboards")
-    .then((boards, resources) => {
-      //TODO: add owned boards route
-      renderBoardTiles(boards, resources);
+    .then(() => {
+      $.get("/users/myboards")
+        .then((boards, resources) => {
+          //TODO: add owned boards route
+          renderBoardTiles(boards, resources);
+        });
     });
-  })
 
 };
