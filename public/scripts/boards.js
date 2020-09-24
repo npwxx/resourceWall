@@ -7,7 +7,7 @@ const createBoardTileElement = function(board) {
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
   </span>
-  <a href="/boards/${escape(board.id)}" data-navigo>
+  <a href="/#/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
   <p>Created: ${d}

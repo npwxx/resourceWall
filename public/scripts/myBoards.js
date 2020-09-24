@@ -102,5 +102,4 @@ const loadMyBoard = function() {
       renderBoardTiles(boards, resources);
     });
   })
-
 };
