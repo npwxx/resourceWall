@@ -1,12 +1,8 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
-<<<<<<< HEAD
-  const d = new Date(board.created).toDateString()
-=======
   console.log("receiving ", board);
   const d = new Date(board.created).toDateString();
->>>>>>> 90bad1c7b11076836c9f16281a5d6105e85e0d31
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -44,9 +40,8 @@ const renderBoardTiles = function(response) {
   $('.tiles').empty();
   const boards = response.boards;
   const resources = response.resources;
-  console.log("receiving ", response);
-
   for (let board of boards) {
+    console.log("hello ", response);
     const avg_rating = [];
     for (let resource of resources) {
       avg_rating.push(resource.avg_rating);
@@ -182,46 +177,4 @@ const renderResource = function(resource) {
   return $renderResource;
 };
 
-<<<<<<< HEAD
-// CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
-const renderBoardResources = function(resources, boardId) {
-  $('#resources').empty();
-  if (boardId) {
-    const $newResource = createNewResource(boardId);
-  }
-  for (const resource of resources) {
-    const $resource = renderResource(resource);
-    $resource.appendTo('#resources');
-    $resource.click(() => {
-      renderResourceModal(resource);
-    });
-  }
-};
-
-const renderResourceModal = function(resource) {
-  $("#modal-container").html('<h3>resource placeholder</h3>');
-  const $form = $(`
-    <form>
-      <div>
-        <input class="form-control" type="email" name="email" placeholder="Email">
-      </div>
-      <div>
-      <input type="password" name="password" placeholder="Password">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-      `);
-  $form.appendTo('#modal-container');
-  $form.submit(function(event) {
-    event.preventDefault();
-    const serializedData = $(this).serialize();
-    //submit data to the server
-    $.post("/login", serializedData)
-      .then(() => {
-      });
-  });
-  $('#modal-container').modal();
-};
-=======
 // moved comment modal to new file
->>>>>>> 90bad1c7b11076836c9f16281a5d6105e85e0d31

@@ -56,7 +56,6 @@ router.get("/:boardId/resources", (req, res) => {
 
 router.get("/", (req, res) => {
   const resourcesArray = [];
-  let resourcesObject;
   getAllBoards()
   .then((boards) => {
     for (board of boards) {
@@ -64,9 +63,7 @@ router.get("/", (req, res) => {
       .then((resources) => {
         resourcesArray.push(resources[0])
       }).then((resourcesArray) => {
-        resourcesObject.resourcesArray = resourcesArray;
-        console.log("resobjmew", resourcesObject)
-        res.send(resourcesObject);
+        res.json(resourcesArray);
       })
     }
   })

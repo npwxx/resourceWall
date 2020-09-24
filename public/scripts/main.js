@@ -25,18 +25,19 @@ const searchBarBoards = function() {
   const $button = $(`<button type='submit'><i class='fa fa-search'></i></button>`);
   $form.append($input).append($button);
   $.get('/boards/categories')
-    .then((categories) => {
-      $input.autocomplete({
-        source: categories.map(c => c.type)
-      });
+  .then((categories) => {
+    $input.autocomplete({
+      source: categories.map(c => c.type)
     });
+  });
   $form.submit((event) => {
     event.preventDefault();
+    console.log("start here")
     $.get(`/boards/categories/${$input.val()}`)
-      .then((boards) => {
-        renderBoardTiles({boards});
-        router.updatePageLinks();
-      });
+    .then((boards) => {
+      renderBoardTiles({boards});
+      router.updatePageLinks();
+    });
   });
   return $form;
 };
