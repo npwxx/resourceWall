@@ -4,6 +4,7 @@ const loadMenu = function() {
       if (user) {
         $('#menu > .inner').html(`<h2>Menu</h2>
         <ul>
+          <li><p>welcome ${user.name}</p><li>
           <li><a href="/" data-navigo>Home</a></li>
           <li><a href="/myBoards" data-navigo>My Boards</a></li>
           <li><a href="/profile" data-navigo>Edit Profile</a></li>
