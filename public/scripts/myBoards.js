@@ -96,10 +96,9 @@ const loadMyBoard = function() {
   })
     .then(() => {
       $.get("/users/myboards")
-        .then((boards, resources) => {
+        .then((boards) => {
           //TODO: add owned boards route
-          renderBoardTiles(boards, resources);
+          renderBoardTiles(boards);
         });
     });
-  })
 };

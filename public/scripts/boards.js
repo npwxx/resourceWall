@@ -37,8 +37,9 @@ const createBoardTileElement = function(board) {
 };
 
 const renderBoardTiles = function(boards) {
+  console.log("frontend received", boards)
   $('.tiles').empty();
-  for (let board of boards) {
+  for (let board of boards.boards) {
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }
