@@ -11,6 +11,7 @@ const renderBoardResources = function(resources, boardId) {
     $resource.appendTo('#resources');
   }
 };
+
 const renderResourceModal = function(resource) {
   $("#modal-container").html('<h3>resource placeholder</h3>');
   const $form = $(`

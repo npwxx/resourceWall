@@ -174,7 +174,7 @@ const renderSeeCommentsModal = function(resource) {
       commentMinutes = commentDate.getMinutes();
       commentDateParsed = commentDate.toDateString();
       const $footer = $(`<footer>
-      <p>Written by: ${escape(comment.author)} on ${commentDateParsed} at ${commentHours}:${commentMinutes}<p>
+      <p>Written by: ${escape(comment.author)} on ${commentDateParsed}<p>
       </footer >`);
       console.log("frontendcomments", comment)
       $comment.appendTo('#modal-container');
