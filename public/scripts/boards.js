@@ -203,10 +203,11 @@ const renderSeeCommentsModal = function(resource) {
 };
 
 const renderResource = function(resource) {
+  console.log("resourcescoming through", resource)
   let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
-        <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.link)}</a></p>
+        <p><a href="${escape(resource.link)}" target="_blank" rel="noopener noreferrer">${escape(resource.resource_url)}</a></p>
       </main>
   </article>`);
   const $header = $(`<header>
