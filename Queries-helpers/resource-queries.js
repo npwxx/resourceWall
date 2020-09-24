@@ -4,7 +4,10 @@ const getAllResourceCategories = function(categories) {
   return db.query(`
   SELECT DISTINCT type
   FROM resource_categories
-  `);
+  `)
+    .then((response) => {
+      return response.rows;
+    });
 };
 
 const getResourcesByBoardId = function(boardId) {
@@ -15,7 +18,6 @@ const getResourcesByBoardId = function(boardId) {
   WHERE board_id = $1
   GROUP BY resources.id`, [boardId])
     .then((response) => {
-      console.log("res", response);
       return response.rows;
     });
 };

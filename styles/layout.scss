@@ -1,4 +1,5 @@
 // See: https://sass-lang.com/
+@import '../public/vendor/jquery-ui-1.12.1/jquery-ui';
 
 body {
   background-color: #EEE;
@@ -59,4 +60,11 @@ body {
 .resource-header {
   margin-top: 2em;
   padding-top: 1em;
+}
+// SEARCH CATEGORIES AUTOCOMPLETE
+.ui-autocomplete {
+  max-height: 300px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
 }

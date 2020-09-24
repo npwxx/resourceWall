@@ -80,9 +80,15 @@ const searchBarResources = function() {
   const $input = $(`<input type='text' placeholder='Search Categories'>`);
   const $button = $(`<button type='submit'><i class='fa fa-search'></i></button>`);
   $form.append($input).append($button);
+  $.get('/resources/categories')
+    .then((categories) => {
+      $input.autocomplete({
+        source: categories.map(c => c.type)
+      });
+    });
   $form.submit((event) => {
     event.preventDefault();
-
+    $.post('');
   });
   return $form;
 };
