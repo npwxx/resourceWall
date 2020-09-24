@@ -52,7 +52,7 @@ const getUserById = function(userId) {
   SELECT *
   FROM users
   WHERE id = $1`;
-  return db.query(queryString, userId)
+  return db.query(queryString, [userId])
     .then(res => {
       if (!res.rows.length) {
         return null;
@@ -101,7 +101,7 @@ const editUserEmail = function(userFields) {
 
 const addNewUser = function(userFields) {
   const fields = userFields;
-  db.query(`
+  return db.query(`
   INSERT INTO users (
     name,
     email,
@@ -111,10 +111,10 @@ const addNewUser = function(userFields) {
     $1,
     $2,
     $3
-  );
+  ) RETURNING id;
 `, [fields.name, fields.email, fields.password])
     .then((response) => {
-      return response;
+      return response.rows[0];
     });
 };
 

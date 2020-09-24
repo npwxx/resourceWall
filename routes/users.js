@@ -7,10 +7,10 @@
 const bcrypt = require('bcrypt');
 const e = require('express');
 const express = require('express');
-const router  = express.Router();
-const {userAuthenticate} = require('../public/scripts/util-functions.js');
+const router = express.Router();
+const { userAuthenticate } = require('../public/scripts/util-functions.js');
 const cookieSession = require('cookie-session');
-router.use(cookieSession({name: 'Session', keys: ['userId']}));
+router.use(cookieSession({ name: 'session', keys: ['userId'] }));
 
 const {
   getUserByEmail,
@@ -32,49 +32,58 @@ router.post("/login", (req, res) => {
   const emailString = req.body.email;
   const password = req.body.password;
   getUserByEmail(emailString)
-  .then((response) => {
-    console.log(response)
-    if (!response) {
-      res.status(400).send("We couldn't find an account with those details");
-    } else {
-      const userId = response.id
-      const hashPass = response.password;
-      let passCompare = bcrypt.compareSync(password, hashPass);
-      if (passCompare) {
-        req.session.userId = userId;
-        res.status(200).send(`Welcome back, ${response.name}`);
+    .then((response) => {
+      console.log(response);
+      if (!response) {
+        res.status(400).send("We couldn't find an account with those details");
       } else {
-        res.status(400).send('Invalid login credentials');
+        const userId = response.id;
+        const hashPass = response.password;
+        let passCompare = bcrypt.compareSync(password, hashPass);
+        if (passCompare) {
+          req.session.userId = userId;
+          res.status(200).send(`Welcome back, ${response.name}`);
+        } else {
+          res.status(400).send('Invalid login credentials');
+        }
       }
-    }
-  });
+    });
 });
 
 
 router.get("/myboards", (req, res) => {
   let sessionOwnerId = req.session.userId;
-    getBoardByOwnerId(sessionOwnerId)
-      .then((boards) => {
-        //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
-        for (board of boards) {
-          getResourcesByBoardId(board.id)
+  getBoardByOwnerId(sessionOwnerId)
+    .then((boards) => {
+      //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
+      for (board of boards) {
+        getResourcesByBoardId(board.id)
           .then((resources) => {
-            res.json({resources, boards});
-          })
-        }
-      })
-      .catch((e) => console.log("error uh ho", e));
+            res.json({ resources, boards });
+          });
+      }
+    })
+    .catch((e) => console.log("error uh ho", e));
+
 });
 
-router.get("/:userId", (req, res) => {
+router.get("/me", (req, res) => {
   //CONSIDER what we want to do with this route
   const userId = req.session.userId;
-  getUserById(userId)
-    .then(() => {
-
-    });
+  if (userId) {
+    getUserById(userId)
+      .then((user) => {
+        res.json(user);
+      });
+  } else {
+    res.json(null);
+  }
 });
 
+router.post("/logout", (req, res) => {
+  req.session = null;
+  res.sendStatus(200);
+});
 
 router.patch("/:userId/edit-name", (req, res) => {
   const userId = req.params.userId;
@@ -101,10 +110,10 @@ router.patch("/:userId/edit-email", (req, res) => {
   } else {
     const newEmailString = req.body.newEmailString;
     const userId = req.params.userId;
-    const userFields = { newEmailString, userId};
+    const userFields = { newEmailString, userId };
     editUserEmail(userFields)
       .then(() => {
-        res.status(200).send('Email updated!')
+        res.status(200).send('Email updated!');
       })
       .catch((e) => console.log("error:", e));
   }
@@ -113,20 +122,23 @@ router.patch("/:userId/edit-email", (req, res) => {
 router.post("/register", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const password = req.body.password;
-  const userFields = {name, email, password}
+  const password = bcrypt.hashSync(req.body.password, 10);
+  const userFields = { name, email, password };
   if (!name || !email || !password) {
-    res.status(400).send('Fields cannot be empty')
+    res.status(400).send('Fields cannot be empty');
   } else {
     getUserByEmail(email)
-    .then((response) => {
-      if (!response) { //email isn't already being used
-        addNewUser(userFields);
-        res.status(200).send(`Welcome Aboard, ${name}`);
-      } else {
-        res.status(400).send(`Sorry ${name}, you can't use that email`);
-      }
-    })
+      .then((response) => {
+        if (!response) { //email isn't already being used
+          addNewUser(userFields)
+            .then((row) => {
+              req.session.userId = row.id;
+              res.status(200).send(`Welcome Aboard, ${name}`);
+            });
+        } else {
+          res.status(400).send(`Sorry ${name}, you can't use that email`);
+        }
+      });
   }
 });
 

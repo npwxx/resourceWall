@@ -1,7 +1,12 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
 const createBoardTileElement = function(board) {
+<<<<<<< HEAD
   const d = new Date(board.created).toDateString()
+=======
+  console.log("receiving ", board);
+  const d = new Date(board.created).toDateString();
+>>>>>>> 90bad1c7b11076836c9f16281a5d6105e85e0d31
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -43,15 +48,15 @@ const renderBoardTiles = function(response) {
 
   for (let board of boards) {
     const avg_rating = [];
-    if (resources) {
-      for (let resource of resources) {
-        avg_rating.push(resource.avg_rating);
-        console.log("pushed ", resource.avg_rating)
-      }
-      let average_rating = Math.round(avg_rating.reduce((a, b) => { return a + b}) / avg_rating.length);
-      board.average_rating = average_rating;
-      board.resource_count = resources.length;
-    };
+    for (let resource of resources) {
+      avg_rating.push(resource.avg_rating);
+      console.log("pushed ", resource.avg_rating);
+    }
+    let average_rating = Math.round(avg_rating.reduce((a, b) => {
+      return a + b;
+    }) / avg_rating.length);
+    board.average_rating = average_rating;
+    board.resource_count = resources.length;
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }
@@ -177,6 +182,7 @@ const renderResource = function(resource) {
   return $renderResource;
 };
 
+<<<<<<< HEAD
 // CLICK HANDLER & MODAL FUNCTION FOR RESOURCES
 const renderBoardResources = function(resources, boardId) {
   $('#resources').empty();
@@ -216,3 +222,6 @@ const renderResourceModal = function(resource) {
   });
   $('#modal-container').modal();
 };
+=======
+// moved comment modal to new file
+>>>>>>> 90bad1c7b11076836c9f16281a5d6105e85e0d31
