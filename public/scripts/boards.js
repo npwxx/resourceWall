@@ -1,6 +1,7 @@
 // BOARD FUNCTIONS
 // BOARD TILE FUNCTIONS
-const createBoardTileElement = function(board, boardId) {
+const createBoardTileElement = function(board) {
+  console.log("receiving ", board);
   const d = new Date(board.created).toDateString()
   let $boardTile = $(`<article class="style3">
   <span class="image">
@@ -11,7 +12,11 @@ const createBoardTileElement = function(board, boardId) {
   <div class="content">
   <p>Created: ${d}
   <br>
-  Categories: ${escape(board.categories)}</p>
+  Categories: ${escape(board.categories)}
+  <br>
+  Average rating: ${escape(board.average_rating)}
+  <br>
+  Contains ${escape(board.resource_count)} resources </p>
   <p>${escape(board.description)}</p>
   </div>
   </a>
@@ -19,11 +24,21 @@ const createBoardTileElement = function(board, boardId) {
   return $boardTile;
 };
 
-const renderBoardTiles = function(boards) {
+const renderBoardTiles = function(response) {
   $('.tiles').empty();
+  const boards = response.boards;
+  const resources = response.resources;
+  console.log("receiving ii)", boards);
   for (let board of boards) {
-    const boardId = board.id;
-    const $boardTile = createBoardTileElement(board, boardId);
+    const avg_rating = [];
+    for (let resource of resources) {
+      avg_rating.push(resource.avg_rating);
+      console.log("pushed ", resource.avg_rating)
+    }
+    let average_rating = Math.round(avg_rating.reduce((a, b) => { return a + b}) / avg_rating.length);
+    board.average_rating = average_rating;
+    board.resource_count = resources.length;
+    const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }
 };

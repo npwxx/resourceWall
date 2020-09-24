@@ -99,7 +99,7 @@ const loadMyBoard = function() {
     .then((boards, resources) => {
       console.log("boards received", boards, resources)
       //TODO: add owned boards route
-      renderBoardTiles(boards);
+      renderBoardTiles(boards, resources);
     });
   })
 
