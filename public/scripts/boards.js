@@ -10,24 +10,29 @@ const createBoardTileElement = function(board) {
   <a href="/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
-  <p id=tile-category-list>Categories: ${escape(board.categories)}
-  <p>${escape(board.description)}</p>
+  <p>Categories: ${escape(board.categories)}
+  <br>
+  Created: ${d}
+  <br>
+  Average rating: ${escape(board.average_rating)}
+    <br>
+  Contains ${escape(board.resource_count)} resources
+  <br>
+  ${escape(board.description)}</p>
   </div>
   </a>
   </article>`);
 
-  if (board.average_rating) {
-    $('#tile-category-list').append(
-      $(`
-      <br>
-      Created: ${d}
-      <br>
-      Average rating: ${escape(board.average_rating)}
-      <br>
-      Contains ${escape(board.resource_count)} resources </p>
-      `)
-    )
-  }
+  $('div.content > p > p').append(
+    $(`
+    <br>
+    Created: ${d}
+    <br>
+    Average rating: ${escape(board.average_rating)}
+    <br>
+    Contains ${escape(board.resource_count)} resources </p>
+    `)
+  )
   return $boardTile;
 };
 

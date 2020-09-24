@@ -64,7 +64,6 @@ router.get("/myboards", (req, res) => {
         }
       })
       .catch((e) => console.log("error uh ho", e));
-
 });
 
 router.get("/:userId", (req, res) => {

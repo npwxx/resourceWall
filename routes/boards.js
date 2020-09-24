@@ -57,11 +57,17 @@ router.get("/:boardId/resources", (req, res) => {
 router.get("/", (req, res) => {
   getAllBoards()
     .then((boards) => {
-      res.json({ boards });
+      for (board of boards) {
+        getResourcesByBoardId(board.id)
+        .then((resources) => {
+          res.json({resources, boards});
+        })
+      }
     })
     .catch((e) => console.log("error:", e));
-
 });
+
+
 
 router.get("/search-owner/:nameString", (req, res) => {
   const nameString = req.params.nameString;
