@@ -8,7 +8,6 @@ const getResourcesByBoardId = function(boardId) {
   WHERE board_id = $1
   GROUP BY resources.id`, [boardId])
     .then((response) => {
-      console.log("res", response);
       return response.rows;
     });
 };
@@ -60,7 +59,7 @@ const getResourcesByLowestRated = function() {
 
 const getResourcesByMostLiked = function() {
   return db.query(`
-  SELECT 
+  SELECT
     resources.title,
     resources.description,
     resource_url,
@@ -80,7 +79,7 @@ const getResourcesByMostLiked = function() {
 
 const getResourcesByLeastLiked = function() {
   return db.query(`
-  SELECT 
+  SELECT
     resources.title,
     resources.description,
     resource_url,
