@@ -29,11 +29,11 @@ const getResourcesByHighestRated = function() {
     title,
     left(description, 35) as description,
     left(resource_url, 20) as link,
-    round(avg(resource_ratings.rating), 2) as average_rating
+    round(avg(resource_ratings.rating), 2) as avg_rating
   FROM resources
   JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.title, resources.description, resources.resource_url
-  ORDER BY average_rating DESC
+  ORDER BY avg_rating DESC
   LIMIT 6;
 `)
     .then((response) => {
@@ -47,11 +47,11 @@ const getResourcesByLowestRated = function() {
     title,
     left(description, 35) as description,
     left(resource_url, 20) as link,
-    round(avg(resource_ratings.rating), 2) as average_rating
+    round(avg(resource_ratings.rating), 2) as avg_rating
   FROM resources
   JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.title, resources.description, resources.resource_url
-  ORDER BY average_rating ASC;
+  ORDER BY avg_rating ASC;
 `)
     .then((response) => {
       return response.rows;
@@ -64,9 +64,11 @@ const getResourcesByMostLiked = function() {
     resources.title,
     resources.description,
     resource_url,
-    count(*) AS likes_count
+    count(*) AS likes_count,
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN resource_likes ON resource_likes.resource_id = resources.id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.id
   ORDER BY likes_count DESC
   LIMIT 6;
@@ -82,9 +84,11 @@ const getResourcesByLeastLiked = function() {
     resources.title,
     resources.description,
     resource_url,
-    count(*) AS likes_count
+    count(*) AS likes_count,
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN resource_likes ON resource_likes.resource_id = resources.id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.id
   ORDER BY likes_count
   LIMIT 6;
@@ -101,10 +105,12 @@ const getResourcesByMostCommented = function() {
     resources.description,
     resource_url,
     users.name as author,
-    count(comments)
+    count(comments),
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.title, resources.description, resource_url, author
   ORDER BY count(comments) DESC
   LIMIT 6;
@@ -121,10 +127,12 @@ const getResourcesByLeastCommented = function() {
     resources.description,
     resource_url,
     users.name as author,
-    count(comments)
+    count(comments),
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.title, resources.description, resource_url, author
   ORDER BY count(comments) ASC;
 `)
@@ -140,10 +148,12 @@ const getResourcesByNewest = function() {
     resources.description,
     resource_url,
     users.name as author,
-    resources.date_posted
+    resources.date_posted,
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.date_posted, resources.title, resources.description, resource_url, author
   ORDER BY date_posted DESC
   LIMIT 6;
@@ -160,10 +170,12 @@ const getResourcesByOldest = function() {
     resources.description,
     resource_url,
     users.name as author,
-    resources.date_posted
+    resources.date_posted,
+    avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN comments ON comments.resource_id = resources.id
   JOIN users on users.id = comments.author_id
+  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
   GROUP BY resources.date_posted, resources.title, resources.description, resource_url, author
   ORDER BY date_posted DESC;
 `)
