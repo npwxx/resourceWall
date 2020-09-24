@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getResourcesByBoardId,
   getResourcesById,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
+  getResourcesByMostLiked,
+  getResourcesByLeastLiked,
   getResourcesByMostCommented,
   getResourcesByLeastCommented,
   getResourcesByNewest,
@@ -12,7 +13,6 @@ const {
   editResourceTitle,
   editResourceUrl,
   editResourceDescription,
-  addNewResource,
   addNewComment,
   addNewRating,
   addNewLike,
@@ -34,6 +34,24 @@ router.get("/ratings-descending", (req, res) => {
 
 router.get("/ratings-ascending", (req, res) => {
   getResourcesByLowestRated()
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+
+});
+
+router.get("/most-liked", (req, res) => {
+  getResourcesByMostLiked()
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+
+});
+
+router.get("/least-liked", (req, res) => {
+  getResourcesByLeastLiked()
     .then((resources) => {
       res.json(resources);
     })
