@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getAllBoards,
+  getAllBoardCategories,
+  getBoardsByCategoryType,
   getBoardByOwnerName,
-  getBoardByOwnerId,
   getBoardById,
+  getAllBoards,
   editBoardTitle,
   editBoardDescription,
   deleteBoard,
@@ -17,15 +18,23 @@ const {
   addNewResource
 } = require('../Queries-helpers/resource-queries.js');
 
-router.get("/", (req, res) => {
-  getAllBoards()
-    .then((boards) => {
-      res.json(boards);
+
+
+router.get("/categories", (req, res) => {
+  getAllBoardCategories()
+    .then((categories) => {
+      res.json(categories);
     })
     .catch((e) => console.log("error:", e));
-
 });
 
+router.get("/categories/:type", (req, res) => {
+  getBoardsByCategoryType(req.params.type)
+    .then((resources) => {
+      res.json(resources);
+    })
+    .catch((e) => console.log("error:", e));
+});
 
 router.get("/:boardId", (req, res) => {
   const boardId = req.params.boardId;
@@ -45,6 +54,24 @@ router.get("/:boardId/resources", (req, res) => {
     .catch((e) => console.log("error:", e));
 });
 
+router.get("/", (req, res) => {
+  getAllBoards()
+    .then((boards) => {
+      res.json(boards);
+    })
+    .catch((e) => console.log("error:", e));
+
+});
+
+router.get("/search-owner/:nameString", (req, res) => {
+  const nameString = req.params.nameString;
+  getBoardByOwnerName(nameString)
+    .then((boards) => {
+      res.json(boards);
+    })
+    .catch((e) => console.log("error", e));
+});
+
 router.post("/:boardId/resources/add-new-resource", (req, res) => {
   const boardId = req.params.boardId;
   const resourceTitle = req.body.resourceTitle;
@@ -57,18 +84,6 @@ router.post("/:boardId/resources/add-new-resource", (req, res) => {
     })
     .catch((e) => console.log("error:", e));
 });
-
-
-router.get("/search-owner/:nameString", (req, res) => {
-  const nameString = req.params.nameString;
-  getBoardByOwnerName(nameString)
-    .then((boards) => {
-      res.json(boards);
-    })
-    .catch((e) => console.log("error", e));
-});
-
-
 
 router.post("/:boardId/add-category", (req, res) => {
   const newCategoryString = req.body.newCategoryString;

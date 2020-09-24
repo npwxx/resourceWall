@@ -16,22 +16,31 @@ const renderMainBoards = function() {
     <section class="tiles">
     </section>
     </div>`);
-  const $searchBoards = $(`
-    <form class= 'board-category-search' >
-      <input type='text' placeholder='Search Categories'></input>
-      <button type='submit'><i class='fa fa-search'></i></button>
-    </form > `).appendTo('.board-header');
-  $searchBoards.submit(handleBoardSearch);
+  searchBarBoards().appendTo('.board-header');
 };
 
-const handleBoardSearch = function(event) {
-  event.preventDefault();
-  const serializedData = $(this).serialize();
-  return $.get("/boards")
-    .then((boards) => {
-      renderMainBoards(boards);
+const searchBarBoards = function() {
+  const $form = $(`<form class= 'board-category-search'>`);
+  const $input = $(`<input type='text' placeholder='Search Board Categories'>`);
+  const $button = $(`<button type='submit'><i class='fa fa-search'></i></button>`);
+  $form.append($input).append($button);
+  $.get('/boards/categories')
+    .then((categories) => {
+      $input.autocomplete({
+        source: categories.map(c => c.type)
+      });
     });
+  $form.submit((event) => {
+    event.preventDefault();
+
+    $.get(`/boards/categories/${$input.val()}`)
+      .then((boards) => {
+        renderMainBoards(boards);
+      });
+  });
+  return $form;
 };
+
 
 const renderMainResources = function() {
   $('#main').append(`<div class="inner">
@@ -59,7 +68,7 @@ const renderMainResources = function() {
 
 const searchBarResources = function() {
   const $form = $(`<form class='resource-category-search'></form>`);
-  const $input = $(`<input type='text' placeholder='Search Categories'>`);
+  const $input = $(`<input type='text' placeholder='Search Resource Categories'>`);
   const $button = $(`<button type='submit'><i class='fa fa-search'></i></button>`);
   $form.append($input).append($button);
   $.get('/resources/categories')

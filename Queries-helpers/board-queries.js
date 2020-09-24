@@ -26,7 +26,7 @@ const { db } = require('../server.js');
 -- delete a board and all its contents
 
 *** NOTE: Inserting a resource into my board from somebody else's board will require generating a new instance of the resource.
-          This is probably not a very efficient use of space in the db but we want to give owners full autonomy and ownership of every resource in every board they own.
+This is probably not a very efficient use of space in the db but we want to give owners full autonomy and ownership of every resource in every board they own.
 */
 // Define helper functions for retrieving, editing, deleting boards
 const getAllBoards = function() {
@@ -45,6 +45,28 @@ const getAllBoards = function() {
     });
 };
 
+const getAllBoardCategories = function(categories) {
+  return db.query(`
+  SELECT DISTINCT type
+  FROM board_categories
+  `)
+    .then((response) => {
+      return response.rows;
+    });
+};
+
+const getBoardsByCategoryType = function(type) {
+  return db.query(`
+  SELECT boards.id, title, description
+  FROM resources
+  JOIN board_categories ON board_categories.resource_id = resources.id
+  WHERE board_categories.type = $1
+  GROUP BY boards.id`, [type])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 const getBoardByOwnerName = function(nameString) {
   return db.query(
     `SELECT
@@ -54,7 +76,7 @@ const getBoardByOwnerName = function(nameString) {
     boards.date_posted as created
     FROM boards
     WHERE boards.title LIKE $1;
-  `, [nameString])
+    `, [nameString])
     .then((response) => {
       return response.rows;
     });
@@ -64,14 +86,14 @@ const getBoardByOwnerName = function(nameString) {
 
 const getBoardById = function(boardId) {
   return db.query(`
-    SELECT
-      boards.id,
-      boards.owner_id as owner_id,
-      boards.title as title,
-      boards.description as description,
-      boards.date_posted as created
-    FROM boards
-    WHERE boards.id = $1
+  SELECT
+  boards.id,
+  boards.owner_id as owner_id,
+  boards.title as title,
+  boards.description as description,
+  boards.date_posted as created
+  FROM boards
+  WHERE boards.id = $1
   `, [boardId])
     .then((response) => {
       return response.rows;
@@ -80,7 +102,7 @@ const getBoardById = function(boardId) {
 
 const getBoardByCategories = function(title) {
   return db.query(`
-
+  
   `, [title])
     .then((response) => {
       return response.rows;
@@ -90,10 +112,10 @@ const getBoardByCategories = function(title) {
 const getBoardByTitle = function(titleString) {
   return db.query(`
   SELECT
-    boards.owner_id as owner_id,
-    boards.title as title,
-    boards.description as description,
-    boards.date_posted as created
+  boards.owner_id as owner_id,
+  boards.title as title,
+  boards.description as description,
+  boards.date_posted as created
   FROM boards
   WHERE boards.title = $1
   `, [titleString])
@@ -147,13 +169,13 @@ const addNewBoard = function(newBoardFields) {
     description,
     date_posted
     )
-  VALUES(
-    $1,
-    $2,
-    $3,
-    now()
-  );
-`, [fields.ownerID, fields.boardTitle, fields.boardDescription])
+    VALUES(
+      $1,
+      $2,
+      $3,
+      now()
+      );
+      `, [fields.ownerID, fields.boardTitle, fields.boardDescription])
     .then((response) => {
       return response.rows;
     });
@@ -166,11 +188,11 @@ const addBoardCategory = function(categoryFields) {
     type,
     board_id
     )
-  VALUES(
-    $1,
-    $2,
-  );
-`, [fields.newCategoryString, fields.boardId])
+    VALUES(
+      $1,
+      $2,
+      );
+      `, [fields.newCategoryString, fields.boardId])
     .then((response) => {
       return response.rows;
     });
@@ -179,8 +201,8 @@ const addBoardCategory = function(categoryFields) {
 const deleteBoardCategory = function(categoryFields) {
   const fields = categoryFields;
   return db.query(`
-  DELETE FROM board_categories WHERE id = $1 AND board_id = $2;
-`, [fields.categoryId, fields.boardId])
+      DELETE FROM board_categories WHERE id = $1 AND board_id = $2;
+      `, [fields.categoryId, fields.boardId])
     .then((response) => {
       return response.rows;
     });
@@ -191,6 +213,8 @@ const deleteBoardCategory = function(categoryFields) {
 module.exports = {
   //throw in here every function name you want to export
   getAllBoards,
+  getAllBoardCategories,
+  getBoardsByCategoryType,
   getBoardByOwnerName,
   getBoardById,
   getBoardByTitle,
