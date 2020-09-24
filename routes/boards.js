@@ -60,8 +60,9 @@ router.get("/", (req, res) => {
       res.json(boards);
     })
     .catch((e) => console.log("error:", e));
-
 });
+
+
 
 router.get("/search-owner/:nameString", (req, res) => {
   const nameString = req.params.nameString;

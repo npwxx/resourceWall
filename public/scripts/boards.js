@@ -10,36 +10,35 @@ const createBoardTileElement = function(board) {
   <a href="/boards/${escape(board.id)}" data-navigo>
   <h2>${escape(board.title)}</h2>
   <div class="content">
-  <p>Created: ${d}
+  <p>Categories: ${escape(board.categories)}
   <br>
-  Categories: ${escape(board.categories)}
+  Created: ${d}
   <br>
   Average rating: ${escape(board.average_rating)}
+    <br>
+  Contains ${escape(board.resource_count)} resources
   <br>
-  Contains ${escape(board.resource_count)} resources </p>
-  <p>${escape(board.description)}</p>
+  ${escape(board.description)}</p>
   </div>
   </a>
   </article>`);
+
+  $('div.content > p > p').append(
+    $(`
+    <br>
+    Created: ${d}
+    <br>
+    Average rating: ${escape(board.average_rating)}
+    <br>
+    Contains ${escape(board.resource_count)} resources </p>
+    `)
+  );
   return $boardTile;
 };
 
-const renderBoardTiles = function(response) {
+const renderBoardTiles = function(boards) {
   $('.tiles').empty();
-  const boards = response.boards;
-  const resources = response.resources;
-  console.log("receiving ii)", boards);
   for (let board of boards) {
-    const avg_rating = [];
-    for (let resource of resources) {
-      avg_rating.push(resource.avg_rating);
-      console.log("pushed ", resource.avg_rating);
-    }
-    let average_rating = Math.round(avg_rating.reduce((a, b) => {
-      return a + b;
-    }) / avg_rating.length);
-    board.average_rating = average_rating;
-    board.resource_count = resources.length;
     const $boardTile = createBoardTileElement(board);
     $('.tiles').append($boardTile);
   }

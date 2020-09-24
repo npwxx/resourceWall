@@ -32,7 +32,7 @@ const searchBarBoards = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-
+    console.log("start here");
     $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
         renderBoardTiles(boards);

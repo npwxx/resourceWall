@@ -30,15 +30,18 @@ This is probably not a very efficient use of space in the db but we want to give
 */
 // Define helper functions for retrieving, editing, deleting boards
 const getAllBoards = function() {
-
-  //We should also handle the ORDER BY filters in this function call
   return db.query(`
   SELECT
     boards.id,
     boards.title,
-    boards.description
+    boards.description,
+    count(DISTINCT resources.id) AS resources_count,
+    avg(resource_ratings.rating) AS avg_rating
   FROM boards
-  JOIN users ON users.id = boards.owner_id
+  LEFT JOIN resources ON resources.board_id = boards.id
+  LEFT JOIN resource_ratings ON resource_ratings.resource_id = resources.id
+  GROUP BY boards.id
+  ORDER BY avg_rating DESC
   LIMIT 6;`)
     .then((response) => {
       return response.rows;
