@@ -143,6 +143,32 @@ const renderCommentModal = function(resource) {
   $('#modal-container').modal();
 };
 
+const renderSeeCommentsModal = function() {
+  $("#modal-container").html(`
+  <h3>User comments for this resource</h3>`);
+  const $form = $(`
+    <form>
+      <input type="comment" name="comment" placeholder="Write your comment here">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `);
+  $.ajax({ type: "GET", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
+
+  $form.appendTo('#modal-container');
+  $form.submit(function(event) {
+    event.preventDefault();
+    const serializedData = $(this).serialize();
+    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
+      .then(() => {
+        $.modal.close();
+      })
+      .fail((error) => {
+        console.log("Error with registration", error);
+      });
+  });
+  $('#modal-container').modal();
+};
+
 const renderResource = function(resource) {
   let $renderResource = $(`<article id=${resource.id}>
       <main>
@@ -173,14 +199,24 @@ const renderResource = function(resource) {
     console.log('$like');
     //TODO: HANDLE LIKE
   });
-  //TODO: fix bottom margin for add comment button
-  const $addComment = $('<p/>', {
-    'text': "Click to add comment"
-  }).appendTo($footer);
+  //TODO: fix bottom margin for add comment button and see comments
+  const $addComment = $(`
+  <p> Click to add comment </p>
+  `).appendTo($footer);
   $addComment.click(() => {
     renderCommentModal(resource);
     console.log(`$addcomment, ${resource.id}`);
   });
+
+  const $seeComments = $(`
+  <p> Click to see comments </p>
+  `).appendTo($footer);
+  $seeComments.click(() => {
+    renderSeeCommentsModal();
+    console.log('$seeComments');
+  });
+
+
   // TODO: route to/from DB by user ID
   const $rater = $('<span/>').appendTo($footer);
   $rater.rate({
