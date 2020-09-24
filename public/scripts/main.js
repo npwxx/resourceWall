@@ -61,18 +61,32 @@ const renderMainResources = function() {
   </section>
   </div>
   </div>`);
-  const $searchResources = $(`
-  <div>
+  searchBarResources().appendTo('.resource-header');
+  const $searchButtonResources = $(`
+    <div>
   </div>`).appendTo('.resource-header');
   $(`<button class='button-primary'>Highest Rated</button>`)
-    .click(handleResourceByRating).appendTo($searchResources);
+    .click(handleResourceByRating).appendTo($searchButtonResources);
   $(`<button type='submit' class='most-saved button-primary'>Newest</button>`)
-    .click(handleResourceByNewest).appendTo($searchResources);
+    .click(handleResourceByNewest).appendTo($searchButtonResources);
   $(`<button type='submit' class='most-liked button-primary'>Most Liked</button>`)
-    .click(handleResourceByLikes).appendTo($searchResources);
+    .click(handleResourceByLikes).appendTo($searchButtonResources);
   $(`<button type='submit' class='most-comments button-primary'>Most Commented</button>`)
-    .click(handleResourceByComments).appendTo($searchResources);
+    .click(handleResourceByComments).appendTo($searchButtonResources);
 };
+
+const searchBarResources = function() {
+  const $form = $(`<form class='resource-category-search'></form>`);
+  const $input = $(`<input type='text' placeholder='Search Categories'>`);
+  const $button = $(`<button type='submit'><i class='fa fa-search'></i></button>`);
+  $form.append($input).append($button);
+  $form.submit((event) => {
+    event.preventDefault();
+
+  });
+  return $form;
+};
+
 const handleResourceByRating = function(event) {
   event.preventDefault();
   const serializedData = $(this).serialize();

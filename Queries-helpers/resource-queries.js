@@ -1,5 +1,12 @@
 const { db } = require('../server.js');
 
+const getAllResourceCategories = function(categories) {
+  return db.query(`
+  SELECT DISTINCT type
+  FROM resource_categories
+  `);
+};
+
 const getResourcesByBoardId = function(boardId) {
   return db.query(`
   SELECT resources.id, title, description, resource_url, avg(resource_ratings.rating) AS avg_rating
@@ -374,6 +381,7 @@ const deleteCategory = function(categoryFields) {
 
 
 module.exports = {
+  getAllResourceCategories,
   getResourcesByBoardId,
   getResourcesByHighestRated,
   getResourcesByLowestRated,

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
+  getAllResourceCategories,
   getResourcesById,
   getResourcesByHighestRated,
   getResourcesByLowestRated,
@@ -22,6 +23,14 @@ const {
   addNewCategory,
   deleteCategory
 } = require('../Queries-helpers/resource-queries.js');
+
+router.get("/categories", (req, res) => {
+  getAllResourceCategories()
+    .then((categories) => {
+      res.json(categories);
+    })
+    .catch((e) => console.log("error:", e));
+});
 
 router.get("/ratings-descending", (req, res) => {
   getResourcesByHighestRated()
