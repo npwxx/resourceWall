@@ -132,7 +132,7 @@ const renderCommentModal = function(resource) {
   $form.submit(function(event) {
     event.preventDefault();
     const serializedData = $(this).serialize();
-    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
+    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-comment`, data: serializedData }) // pull this out to comments route
       .then(() => {
         $.modal.close();
       })
@@ -143,7 +143,8 @@ const renderCommentModal = function(resource) {
   $('#modal-container').modal();
 };
 
-const renderSeeCommentsModal = function() {
+const renderSeeCommentsModal = function(resource) {
+  console.log("seecomentsmodal", resource)
   $("#modal-container").html(`
   <h3>User comments for this resource</h3>`);
   const $form = $(`
@@ -152,24 +153,31 @@ const renderSeeCommentsModal = function() {
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   `);
-  $.ajax({ type: "GET", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
+  $.get(`/resources/comments/${resource.id}`)
+    .then((comments) => {
+      console.log("received frontend comments", comments);
+    })
 
-  $form.appendTo('#modal-container');
-  $form.submit(function(event) {
-    event.preventDefault();
-    const serializedData = $(this).serialize();
-    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-comment`, data: serializedData })
-      .then(() => {
-        $.modal.close();
-      })
-      .fail((error) => {
-        console.log("Error with registration", error);
-      });
-  });
+
+  // $form.appendTo('#modal-container');
+  // $form.submit(function(event) {
+  //   event.preventDefault();
+  //   const serializedData = $(this).serialize();
+  //   $.ajax({ type: "POST", url: `/resources/comments/${resource.id}/add-new-comment`, data: serializedData })
+  //     .then(() => {
+  //       $.modal.close();
+  //     })
+  //     .fail((error) => {
+  //       console.log("Error with registration", error);
+  //     });
+  // });
   $('#modal-container').modal();
 };
 
 const renderResource = function(resource) {
+
+  console.log("renderresourcehappening", resource.id)
+  
   let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
@@ -212,7 +220,7 @@ const renderResource = function(resource) {
   <p> Click to see comments </p>
   `).appendTo($footer);
   $seeComments.click(() => {
-    renderSeeCommentsModal();
+    renderSeeCommentsModal(resource);
     console.log('$seeComments');
   });
 
