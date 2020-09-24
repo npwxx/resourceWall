@@ -174,7 +174,7 @@ const renderSeeCommentsModal = function(resource) {
       commentMinutes = commentDate.getMinutes();
       commentDateParsed = commentDate.toDateString();
       const $footer = $(`<footer>
-      <p>Written by: ${escape(comment.author)} on ${commentDateParsed} at ${commentHours}:${commentMinutes}<p>
+      <p>Written by: ${escape(comment.author)} on ${commentDateParsed}<p>
       </footer >`);
       console.log("frontendcomments", comment)
       $comment.appendTo('#modal-container');
@@ -232,8 +232,12 @@ const renderResource = function(resource) {
     'class': 'fa fa-heart'
   }).appendTo($footer);
   $like.click(() => {
-    console.log('$like');
-    //TODO: HANDLE LIKE
+    console.log("llogging resourceid: ", resource.id);
+    $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-like`, data: resource.id })
+    .then(() => {
+      console.log("posted like to server");
+      $like.fadeTo(300, 0.25);
+    })
   });
   //TODO: fix bottom margin for add comment button and see comments
   const $addComment = $(`

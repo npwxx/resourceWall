@@ -37,7 +37,6 @@ router.get("/categories", (req, res) => {
 });
 
 router.get("/categories/:type", (req, res) => {
-  console.log("req params type", req.params.type)
   getResourcesByCategoryType(req.params.type)
     .then((resources) => {
       res.json(resources);
@@ -223,7 +222,7 @@ router.post("/:resourceId/add-new-like", (req, res) => {
   const likeFields = { userId, resourceId };
   addNewLike(likeFields)
     .then((resources) => {
-      res.redirect("/");
+      res.status(200).send("like recorded!");
     })
     .catch((e) => console.log("error:", e));
 });
