@@ -1,3 +1,17 @@
+const loadMyBoard = function() {
+  // use categories route instead
+  return $.get('/boards').then((/*categories*/) => {
+    const categories = [{ id: 1, type: 'Sports' }, { id: 2, type: 'Gardening' }, { id: 3, type: 'Web Development' }, { id: 4, type: 'Science' }];
+    renderMyBoardsPageLayout(categories);
+  })
+    .then(() => {
+      $.get("/users/myboards")
+        .then((boards) => {
+          //TODO: add owned boards route
+          renderBoardTiles(boards);
+        })
+    });
+};
 
 const categoriesElement = function(categories) {
   const $div = $('<div />', {
@@ -71,6 +85,19 @@ const createBoardFormElement = function(categories) {
   );
 };
 
+//TODO: add DB fetch
+const renderLikedResourcesSection = function() {
+  return $(`<div class="inner">
+  <div class='resource-search'>
+  <header class='resource-header'>
+    <h1>My Liked Resources</h1>
+  </header>
+  <section id="resources">
+  </section>
+  </div>
+  </div>`);
+}
+
 //TODO: load categories function to retrieve from DB
 const renderMyBoardsPageLayout = function(categories) {
   $('#main').empty();
@@ -88,24 +115,11 @@ const renderMyBoardsPageLayout = function(categories) {
     $('<section/>', {
       'class': 'tiles'
     })
+  ).append(
+    renderLikedResourcesSection()
   ).appendTo('#main');
 };
 
-//TODO: add DB fetch
-const loadMyBoard = function() {
-  // use categories route instead
-  return $.get('/boards').then((/*categories*/) => {
-    const categories = [{ id: 1, type: 'Sports' }, { id: 2, type: 'Gardening' }, { id: 3, type: 'Web Development' }, { id: 4, type: 'Science' }];
-    renderMyBoardsPageLayout(categories);
-  })
-    .then(() => {
-      $.get("/users/myboards")
-        .then((boards) => {
-          //TODO: add owned boards route
-          renderBoardTiles(boards);
-        });
-    });
-};
 
 
 // UTIL FUNCTION
@@ -126,3 +140,5 @@ const loadMyBoard = function() {
     return o;
   };
 })(jQuery);
+
+

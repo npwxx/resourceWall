@@ -1,5 +1,4 @@
 // MAIN PAGE FUNCTION
-
 const renderMainPageLayout = function() {
   renderMainBoards();
   renderMainResources();
