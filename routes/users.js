@@ -79,7 +79,7 @@ router.post("/logout", (req, res) => {
   res.sendStatus(200);
 });
 
-router.patch("/:userId/edit-name", (req, res) => {
+router.post("/:userId/edit-name", (req, res) => {
   const userId = req.params.userId;
   console.log("current user is", req.session.userId);
   if (!userAuthenticate(userId)) {
@@ -97,7 +97,23 @@ router.patch("/:userId/edit-name", (req, res) => {
 
 });
 
-router.patch("/:userId/edit-email", (req, res) => {
+router.post("/:userId/edit-email", (req, res) => {
+  const userId = req.params.userId;
+  if (!userAuthenticate(userId)) {
+    res.redirect("/");
+  } else {
+    const newEmailString = req.body.newEmailString;
+    const userId = req.params.userId;
+    const userFields = { newEmailString, userId };
+    editUserEmail(userFields)
+      .then(() => {
+        res.status(200).send('Email updated!');
+      })
+      .catch((e) => console.log("error:", e));
+  }
+});
+
+router.put("/:userId/edit-password", (req, res) => {
   const userId = req.params.userId;
   if (!userAuthenticate(userId)) {
     res.redirect("/");

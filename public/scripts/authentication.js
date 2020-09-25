@@ -62,28 +62,45 @@ const renderRegisterModal = function() {
 
 //TODO:
 const renderProfilePage = function() {
-  $("#main").html(`<div class="inner">
+  $.get('/users/me').then((user) => {
+    $("#main").html(`<div class="inner">
   <header>
     <h1>Edit Profile</h1>
     <p></p>
   </header>
   <section>
-  <form id="profile-form" >
   <div class="col gtr-uniform">
-  <div class="col-6 col-12-xsmall">
-    <input type="text" name="demo-name" id="demo-name" value="" placeholder="Update Name" />
-    <button class="button primary small">Submit</button>
-  </div>
-  <div class="col-6 col-12-xsmall">
-    <input type="email" name="demo-email" id="demo-email" value="" placeholder="Update Email" />
-    <button class="button primary small">Submit</button>
-  </div>
-  <div class="col-6 col-12-xsmall">
-    <input type="password" name="password" id="password" value="" placeholder="Update Password" />
-    <button class="button primary small">Submit</button>
-  </div>
-  </div>
+  <form id="update-name" class="col-6 col-12-xsmall">
+    <input type="text" name="newNameString" value="${user.name}" placeholder="Update Name" />
+    <button type:"button" class="button primary small">Submit</button>
   </form>
+  <form id="update-email" class="col-6 col-12-xsmall">
+    <input type="email" name="newEmailString" value="${user.email}" placeholder="Update Email" />
+    <button class="button primary small">Submit</button>
+  </form>
+  <form id="update-password" class="col-6 col-12-xsmall">
+    <input type="password" name="password" placeholder="Update Password" />
+    <button class="button primary small">Submit</button>
+  </form>
+  </div>
   </section>
   </div>`);
+
+    $("#update-name").submit((event) => {
+      event.preventDefault();
+      const serializedData = $(this).serializeFormJSON();
+      $.post(`/users/${user.id}/edit-name`, serializedData)
+        .then();
+    });
+    $("#update-email").submit((event) => {
+      event.preventDefault();
+      const serializedData = $(this).serializeFormJSON();
+      $.post(`/users/${user.id}/edit-email`, serializedData)
+        .then();
+    });
+    $("#update-password").submit((event) => {
+      event.preventDefault();
+      $.put();
+    });
+  });
 };
