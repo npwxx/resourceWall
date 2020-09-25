@@ -331,7 +331,7 @@ const addNewRating = function(newRatingFields) {
   VALUES(
     $1,
     $2,
-    $3,
+    $3
   );
 `, [fields.raterId, fields.resourceId, fields.rating])
     .then((response) => {
