@@ -1,6 +1,9 @@
 Resource Wall - a single page web app from @npwxx and @jamesbrown5292
 
 =========
+## Authors
+  Nicole Woodcock
+  James Brown
 
 ## Project description
 
@@ -12,3 +15,23 @@ Users can add, edit, rate, like and comment on a resource. Statistics relating t
 
 Categories are a key feature of Resource Wall. Board owners can edit the categories they have assigned to their boards and resources, while all users can search for categories of particular interest to them. 
 
+## Final Product
+* add screenshots here
+
+## Dependancies
+  bcrypt,
+  body-parser,
+  chalk,
+  cookie-session,
+  dotenv,
+  ejs,
+  express,
+  js-cookie,
+  morgan,
+  sass,
+  postgres
+
+## Getting Started
+  Install all dependancies (using the npm install command)
+  Run the server: npm start
+  Visit http://localhost:8080
