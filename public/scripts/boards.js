@@ -53,6 +53,7 @@ const renderBoardPage = function(board) {
     <h1>${escape(board.title)}</h1>
     <p>${escape(board.description)}</p>
     </header>
+    <section id="new-resource"></section>
     <section id="resources">
     <h2>Resources</h2>
     </section>
@@ -64,7 +65,7 @@ const loadBoard = function(id) {
   $.get(`/boards/${id}`).then((boards) => {
     renderBoardPage(boards[0]);
     return $.get('/users/me').then((user) => {
-      if (user.id === boards[0].owner_id) {
+      if (user && user.id === boards[0].owner_id) {
         console.log("here");
         createNewResource(id);
       }
@@ -80,7 +81,7 @@ const loadBoard = function(id) {
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 const createNewResource = function(boardId) {
-  return $('#resources').append(
+  return $('#new-resource').append(
     $('<h2/>', { text: "Add New Resource" })
   ).append(
     $('<form/>').append(
@@ -274,5 +275,3 @@ const renderResource = function(resource) {
 
   return $renderResource;
 };
-
-// moved comment modal to new file
