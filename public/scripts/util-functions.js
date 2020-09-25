@@ -4,12 +4,6 @@ const escape = function(str) {
   return div.innerHTML;
 };
 
-
-const userAuthenticate = (userId) => {
-  const currentUser = req.session.userId;
-  return currentUser === userId;
-};
-
 const loadBoards = function() {
   return $.get("/boards")
     .then((boards) => {

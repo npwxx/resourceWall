@@ -99,6 +99,18 @@ const editUserEmail = function(userFields) {
     });
 };
 
+const editUserPassword = function(userFields) {
+  const fields = userFields;
+  return db.query(`
+  UPDATE users
+  SET password = $1
+  WHERE id = $2;
+`, [fields.password, fields.userId])
+    .then((response) => {
+      return response.rows;
+    });
+};
+
 const addNewUser = function(userFields) {
   const fields = userFields;
   return db.query(`
@@ -178,6 +190,7 @@ module.exports = {
   getUserByName,
   editUserName,
   editUserEmail,
+  editUserPassword,
   addNewUser,
   deleteUser,
   getPasswordById,

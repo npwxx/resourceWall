@@ -28,7 +28,8 @@ $(document).ready(function() {
       renderProfilePage();
     },
     '/logout': function() {
-      $.post('/users/logout').then(loadMenu);
+      $.post('/users/logout').then(loadMenu)
+        .then(() => router.navigate('/'));
     },
     '/myBoards': function() {
       loadMyBoard().then(() => {
