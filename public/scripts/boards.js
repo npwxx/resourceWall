@@ -48,8 +48,6 @@ const renderBoardTiles = function(boards) {
 };
 
 const renderBoardPage = function(board) {
-  $('#main').html(`
-    `);
   $('#main').html(`<div class="inner">
     <header>
     <h1>${escape(board.title)}</h1>
@@ -63,88 +61,76 @@ const renderBoardPage = function(board) {
 
 //TODO: change to database query
 const loadBoard = function(id) {
-  $.get('/users/me').then((user) => {
-    if (user) {
-      createNewResource()
-      $.get(`/boards/${id}`)
-        .then((boards) => {
-          // console.log(boards);
-          renderBoardPage(boards[0]);
-        }).then(() => {
-          return $.get(`/boards/${id}/resources`);
-        }).then((resources) => {
-          renderBoardResources(resources, id);
-        });
-    } else {
-    $.get(`/boards/${id}`)
-    .then((boards) => {
-      // console.log(boards);
-      renderBoardPage(boards[0]);
+  $.get(`/boards/${id}`).then((boards) => {
+    renderBoardPage(boards[0]);
+    return $.get('/users/me').then((user) => {
+      if (user.id === boards[0].owner_id) {
+        console.log("here");
+        createNewResource(id);
+      }
     }).then(() => {
       return $.get(`/boards/${id}/resources`);
     }).then((resources) => {
       renderBoardResources(resources, id);
     });
-    }
-  })
+  });
 };
 
 
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 const createNewResource = function(boardId) {
-
-    return $('#resources').append(
-      $('<h2/>', { text: "Add New Resource" })
-      ).append(
-      $('<form/>').append(
+  return $('#resources').append(
+    $('<h2/>', { text: "Add New Resource" })
+  ).append(
+    $('<form/>').append(
+      $('<div/>', {
+        'class': "row gtr-uniform",
+      }).append(
         $('<div/>', {
-          'class': "row gtr-uniform",
+          'class': "col-6 col-12-xsmall"
         }).append(
-          $('<div/>', {
-            'class': "col-6 col-12-xsmall"
-          }).append(
-            $('<input/>', {
-              type: 'text',
-              name: 'resourceTitle'
-            }).attr('placeholder', 'Title').attr('required', true)
-          ).append(
-            $('<input/>', {
-              type: 'text',
-              name: 'resourceDescription'
-            }).attr('placeholder', 'Description').attr('required', true)
-          ).append(
-            $('<input/>', {
-              type: 'text',
-              name: 'resourceUrl'
-            }).attr('placeholder', 'URL').attr('required', true)
-          ).append(
-            $('<input/>', {
-              type: 'text',
-              name: 'category'
-            }).attr('placeholder', 'Category 1')
-          ).append(
-            $('<input/>', {
-              type: 'text',
-              name: 'category'
-            }).attr('placeholder', 'Category 2')
-          ).append(
-            $('<button/>', {
-              type: 'submit',
-              text: 'Create Resource',
-              'class': 'primary'
-            })
-          )
+          $('<input/>', {
+            type: 'text',
+            name: 'resourceTitle'
+          }).attr('placeholder', 'Title').attr('required', true)
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'resourceDescription'
+          }).attr('placeholder', 'Description').attr('required', true)
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'resourceUrl'
+          }).attr('placeholder', 'URL').attr('required', true)
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Category 1')
+        ).append(
+          $('<input/>', {
+            type: 'text',
+            name: 'category'
+          }).attr('placeholder', 'Category 2')
+        ).append(
+          $('<button/>', {
+            type: 'submit',
+            text: 'Create Resource',
+            'class': 'primary'
+          })
         )
-      ).submit(function(event) {
-        event.preventDefault();
-        const serializedData = $(this).serializeFormJSON();
-        $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
-          .then(() => {
-            loadBoard(boardId);
-          });
-      })
-    )
+      )
+    ).submit(function(event) {
+      event.preventDefault();
+      const serializedData = $(this).serializeFormJSON();
+      $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
+        .then(() => {
+          loadBoard(boardId);
+        });
+    })
+  );
 };
 
 const renderCommentModal = function(resource) {
@@ -174,27 +160,27 @@ const renderCommentModal = function(resource) {
 const renderSeeCommentsModal = function(resource) {
   $.get(`/resources/comments/${resource.id}`)
 
-  .then((comments) => {
-    for (comment of comments) {
-      const $comment = $(`
+    .then((comments) => {
+      for (comment of comments) {
+        const $comment = $(`
       <article id=${resource.id}>
       <main>
         <p>${escape(comment.comment)}</p>
       </main>
       </article>`);
-      let commentDate = comment.date_posted;
-      commentDate = new Date(commentDate);
-      commentHours = commentDate.getHours();
-      commentMinutes = commentDate.getMinutes();
-      commentDateParsed = commentDate.toDateString();
-      const $footer = $(`<footer>
+        let commentDate = comment.date_posted;
+        commentDate = new Date(commentDate);
+        commentHours = commentDate.getHours();
+        commentMinutes = commentDate.getMinutes();
+        commentDateParsed = commentDate.toDateString();
+        const $footer = $(`<footer>
       <p>Written by: ${escape(comment.author)} on ${commentDateParsed}<p>
       </footer >`);
-      console.log("frontendcomments", comment)
-      $comment.appendTo('#modal-container');
-      $footer.appendTo($comment);
-    };
-  })
+        console.log("frontendcomments", comment);
+        $comment.appendTo('#modal-container');
+        $footer.appendTo($comment);
+      }
+    });
   $("#modal-container").html(`
   <h2>User comments for this resource</h2>`);
 
@@ -217,7 +203,7 @@ const renderSeeCommentsModal = function(resource) {
 };
 
 const renderResource = function(resource) {
-  console.log("resourcescoming through", resource.resource_url)
+  console.log("resourcescoming through", resource.resource_url);
   let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
@@ -249,10 +235,10 @@ const renderResource = function(resource) {
   $like.click(() => {
     console.log("llogging resourceid: ", resource.id);
     $.ajax({ type: "POST", url: `/resources/${resource.id}/add-new-like`, data: resource.id })
-    .then(() => {
-      console.log("posted like to server");
-      $like.fadeTo(300, 0.25);
-    })
+      .then(() => {
+        console.log("posted like to server");
+        $like.fadeTo(300, 0.25);
+      });
   });
   //TODO: fix bottom margin for add comment button and see comments
   const $addComment = $(`
