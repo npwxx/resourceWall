@@ -31,7 +31,12 @@ Categories are a key feature of Resource Wall. Board owners can edit the categor
   sass,
   postgres
 
+## Client Side Dependancies
+  phantom
+  
+
 ## Getting Started
-  Install all dependancies (using the npm install command)
+  Install all dependancies (using the npm install)
+  Setup the database with: npm run db:reset
   Run the server: npm start
   Visit http://localhost:8080
