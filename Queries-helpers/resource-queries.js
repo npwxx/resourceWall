@@ -51,7 +51,7 @@ const getResourcesByHighestRated = function() {
     resources.id,
     title,
     left(description, 35) as description,
-    left(resource_url, 20) as link,
+    left(resource_url, 20) as resource_url,
     round(avg(resource_ratings.rating), 2) as avg_rating
   FROM resources
   JOIN resource_ratings ON resources.id = resource_ratings.resource_id
