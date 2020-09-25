@@ -31,13 +31,16 @@ const searchBarBoards = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-    $.get(`/boards/categories/${$input.val()}`)
+    if ($input.val()) {
+      $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
-        console.log('boards coming back from server:', boards);
         renderBoardTiles(boards);
         router.updatePageLinks();
       });
-  });
+    } else {
+      alert('Search bar cannot be empty. Try searching for a category')
+    }
+  })
   return $form;
 };
 
@@ -79,11 +82,14 @@ const searchBarResources = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-    const serializedData = $(this).serialize();
-    $.get(`/resources/categories/${$input.val()}`)
+    if ($input.val()){
+      $.get(`/resources/categories/${$input.val()}`)
       .then((resources) => {
         renderBoardResources(resources);
       });
+    } else {
+      alert('Search bar cannot be empty. Try searching for a category')
+    }
   });
   return $form;
 };
