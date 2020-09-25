@@ -53,7 +53,6 @@ const renderBoardPage = function(board) {
     <h1>${escape(board.title)}</h1>
     <p>${escape(board.description)}</p>
     </header>
-    <section id="new-resource"></section>
     <section id="resources">
     <h2>Resources</h2>
     </section>
@@ -65,7 +64,7 @@ const loadBoard = function(id) {
   $.get(`/boards/${id}`).then((boards) => {
     renderBoardPage(boards[0]);
     return $.get('/users/me').then((user) => {
-      if (user && user.id === boards[0].owner_id) {
+      if (user.id === boards[0].owner_id) {
         console.log("here");
         createNewResource(id);
       }
@@ -81,7 +80,7 @@ const loadBoard = function(id) {
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 const createNewResource = function(boardId) {
-  return $('#new-resource').append(
+  return $('#resources').append(
     $('<h2/>', { text: "Add New Resource" })
   ).append(
     $('<form/>').append(
@@ -204,7 +203,7 @@ const renderSeeCommentsModal = function(resource) {
 };
 
 const renderResource = function(resource) {
-  console.log("resourcescoming through", resource.resource_url);
+  console.log("resourcescoming through", resource);
   let $renderResource = $(`<article id=${resource.id}>
       <main>
         <p>${escape(resource.description)}</p>
@@ -229,6 +228,7 @@ const renderResource = function(resource) {
   <span>${(moment(resource.date_posted).fromNow())}</span>
   </footer>`);
   $footer.appendTo($renderResource);
+  console.log("moment console.log", resource)
   // TODO: check with server and
   const $like = $('<span/>', {
     'class': 'fa fa-heart'
@@ -275,3 +275,5 @@ const renderResource = function(resource) {
 
   return $renderResource;
 };
+
+// moved comment modal to new file

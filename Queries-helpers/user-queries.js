@@ -165,6 +165,7 @@ const getBoardByOwnerId = function(ownerId) {
 const getLikedResourcesByOwnerId = function(ownerId) {
   return db.query(`
   SELECT
+    resources.date_posted,
     resources.id,
     resources.title,
     resources.description,

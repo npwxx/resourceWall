@@ -62,7 +62,6 @@ router.get("/myboards", (req, res) => {
 router.get("/likedresources", (req, res) => {
   let sessionOwnerId = req.session.userId;
   getLikedResourcesByOwnerId(sessionOwnerId)
-    // getLikedBoardByOwnerId(sessionOwnerId)
     .then((resources) => {
       //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
       res.json(resources);
