@@ -86,21 +86,23 @@ const renderProfilePage = function() {
   </section>
   </div>`);
 
-    $("#update-name").submit((event) => {
+    $("#update-name").submit(function(event) {
       event.preventDefault();
       const serializedData = $(this).serializeFormJSON();
       $.post(`/users/${user.id}/edit-name`, serializedData)
         .then();
     });
-    $("#update-email").submit((event) => {
+    $("#update-email").submit(function(event) {
       event.preventDefault();
       const serializedData = $(this).serializeFormJSON();
       $.post(`/users/${user.id}/edit-email`, serializedData)
         .then();
     });
-    $("#update-password").submit((event) => {
+    $("#update-password").submit(function(event) {
       event.preventDefault();
-      $.put();
+      const serializedData = $(this).serializeFormJSON();
+      $.post(`/users/${user.id}/edit-password`, serializedData)
+        .then();
     });
   });
 };

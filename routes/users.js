@@ -5,25 +5,21 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 const bcrypt = require('bcrypt');
-const e = require('express');
 const express = require('express');
 const router = express.Router();
-const { userAuthenticate } = require('../public/scripts/util-functions.js');
 
 
 const {
   getUserByEmail,
   getUserById,
-  getUserByName,
   editUserName,
   editUserEmail,
+  editUserPassword,
   addNewUser,
   deleteUser,
-  getPasswordById,
   getBoardByOwnerId,
   getLikedResourcesByOwnerId
 } = require('../Queries-helpers/user-queries.js');
-const { getResourcesByBoardId } = require('../Queries-helpers/resource-queries.js');
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
 //If they are not logged in they see the main page with getAllBoards minus any 'my boards' links.
 
@@ -66,7 +62,7 @@ router.get("/myboards", (req, res) => {
 router.get("/likedresources", (req, res) => {
   let sessionOwnerId = req.session.userId;
   getLikedResourcesByOwnerId(sessionOwnerId)
-  // getLikedBoardByOwnerId(sessionOwnerId)
+    // getLikedBoardByOwnerId(sessionOwnerId)
     .then((resources) => {
       //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
       res.json(resources);
@@ -94,17 +90,19 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/:userId/edit-name", (req, res) => {
-  const userId = req.params.userId;
+  const userId = Number(req.params.userId);
   console.log("current user is", req.session.userId);
-  if (!userAuthenticate(userId)) {
-    res.redirect("/");
+  console.log("type of", typeof userId);
+  if (userId !== req.session.userId) {
+    res.sendStatus(400);
   } else {
     const newNameString = req.body.newNameString; //frontend: textinput - newNameString - needs submit button
-    const userId = req.params.userId;
+    // console.log(req.body);
     const userFields = { newNameString, userId };
+    // console.log(userFields);
     editUserName(userFields)
       .then(() => {
-        res.redirect("/:userId");
+        res.sendStatus(200);
       })
       .catch((e) => console.log("error:", e));
   }
@@ -112,32 +110,30 @@ router.post("/:userId/edit-name", (req, res) => {
 });
 
 router.post("/:userId/edit-email", (req, res) => {
-  const userId = req.params.userId;
-  if (!userAuthenticate(userId)) {
-    res.redirect("/");
+  const userId = Number(req.params.userId);
+  if (userId !== req.session.userId) {
+    res.sendStatus(400);
   } else {
     const newEmailString = req.body.newEmailString;
-    const userId = req.params.userId;
     const userFields = { newEmailString, userId };
     editUserEmail(userFields)
       .then(() => {
-        res.status(200).send('Email updated!');
+        res.sentStatus(200);
       })
       .catch((e) => console.log("error:", e));
   }
 });
 
-router.put("/:userId/edit-password", (req, res) => {
-  const userId = req.params.userId;
-  if (!userAuthenticate(userId)) {
-    res.redirect("/");
+router.post("/:userId/edit-password", (req, res) => {
+  const userId = Number(req.params.userId);
+  if (userId !== req.session.userId) {
+    res.sendStatus(400);
   } else {
-    const newEmailString = req.body.newEmailString;
-    const userId = req.params.userId;
-    const userFields = { newEmailString, userId };
-    editUserEmail(userFields)
+    const password = bcrypt.hashSync(req.body.password, 10);
+    const userFields = { password, userId };
+    editUserPassword(userFields)
       .then(() => {
-        res.status(200).send('Email updated!');
+        res.sendStatus(200);
       })
       .catch((e) => console.log("error:", e));
   }
