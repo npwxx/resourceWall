@@ -3,7 +3,6 @@
 // TODO: readd categories
 // <p>Categories: ${escape(board.categories)}
 const createBoardTileElement = function(board) {
-  console.log("frontednd receiving: ", board)
   let date = new Date(board.date_posted)
   date = date.toDateString();
   let $boardTile = $(`<article class="style3">

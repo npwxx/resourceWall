@@ -31,13 +31,18 @@ const searchBarBoards = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
-    $.get(`/boards/categories/${$input.val()}`)
+    if ($input.val()) {
+      console.log("input val is: ", $input.val())
+      $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {
         console.log('boards coming back from server:', boards);
         renderBoardTiles(boards);
         router.updatePageLinks();
       });
-  });
+    } else {
+      alert('Search bar cannot be empty. Try searching for a category')
+    }
+  })
   return $form;
 };
 
