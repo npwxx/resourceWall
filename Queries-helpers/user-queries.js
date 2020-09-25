@@ -153,6 +153,7 @@ const getBoardByOwnerId = function(ownerId) {
 const getLikedBoardsByOwnerId = function(ownerId) {
   return db.query(`
   SELECT
+  resources.id,
   resources.title,
   resources.description,
   resources.resource_url,
