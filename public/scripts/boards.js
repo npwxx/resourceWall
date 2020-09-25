@@ -3,7 +3,6 @@
 // TODO: readd categories
 // <p>Categories: ${escape(board.categories)}
 const createBoardTileElement = function(board) {
-  // console.log("receiving ", board);
   const d = new Date(board.created).toDateString();
   let $boardTile = $(`<article class="style3">
   <span class="image">
@@ -41,7 +40,6 @@ const createBoardTileElement = function(board) {
 
 
 const renderBoardTiles = function(boards) {
-  console.log("frontend received", boards);
   $('.tiles').empty();
   for (let board of boards) {
     const $boardTile = createBoardTileElement(board);

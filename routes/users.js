@@ -20,7 +20,8 @@ const {
   addNewUser,
   deleteUser,
   getPasswordById,
-  getBoardByOwnerId
+  getBoardByOwnerId,
+  getLikedResourcesByOwnerId
 } = require('../Queries-helpers/user-queries.js');
 const { getResourcesByBoardId } = require('../Queries-helpers/resource-queries.js');
 //GET /users/ route -> when a user arrives here we want to check if they're logged in
@@ -56,6 +57,19 @@ router.get("/myboards", (req, res) => {
     .then((boards) => {
       //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
       res.json(boards);
+    })
+    .catch((e) => console.log("error uh ho", e));
+
+});
+
+
+router.get("/likedresources", (req, res) => {
+  let sessionOwnerId = req.session.userId;
+  getLikedResourcesByOwnerId(sessionOwnerId)
+  // getLikedBoardByOwnerId(sessionOwnerId)
+    .then((resources) => {
+      //console.log("sending boards", boards, boards[0].created, boards[0].created instanceof Date)
+      res.json(resources);
     })
     .catch((e) => console.log("error uh ho", e));
 

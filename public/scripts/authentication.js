@@ -25,7 +25,7 @@ const renderLoginModal = function() {
         loadMenu();
       })
       .fail((error) => {
-        console.log("Error with registration", error);
+        console.log("Error with login", error);
       });
   });
   $('#modal-container').modal();
