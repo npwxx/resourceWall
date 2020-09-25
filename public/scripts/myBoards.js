@@ -98,6 +98,14 @@ const renderLikedResourcesSection = function() {
   </div>`);
 }
 
+const getLikedResourcesByOwnerId = function() {
+  $.get(`/users/likedresources`)
+    .then((resources) => {
+      console.log("frontendresources rec'd: ", resources);
+      renderBoardResources(resources);
+    });
+};
+
 //TODO: load categories function to retrieve from DB
 const renderMyBoardsPageLayout = function(categories) {
   $('#main').empty();
@@ -118,7 +126,10 @@ const renderMyBoardsPageLayout = function(categories) {
   ).append(
     renderLikedResourcesSection()
   ).appendTo('#main');
+  getLikedResourcesByOwnerId();
+
 };
+
 
 
 
