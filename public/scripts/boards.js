@@ -3,7 +3,9 @@
 // TODO: readd categories
 // <p>Categories: ${escape(board.categories)}
 const createBoardTileElement = function(board) {
-  const d = new Date(board.created).toDateString();
+  console.log("frontednd receiving: ", board)
+  let date = new Date(board.date_posted)
+  date = date.toDateString();
   let $boardTile = $(`<article class="style3">
   <span class="image">
   <img src="images/pic01.jpg" alt="" />
@@ -13,9 +15,9 @@ const createBoardTileElement = function(board) {
   <div class="content">
   <p>
   <br>
-  Created: ${d}
+  Created: ${date}
   <br>
-  Average rating: ${escape(Math.round(board.avg_rating * 100) / 100)}
+  Average rating: ${Math.round(board.avg_rating * 100) / 100}
     <br>
   Contains ${escape(board.resources_count)} resources
   <br>
@@ -27,7 +29,7 @@ const createBoardTileElement = function(board) {
   $('div.content > p > p').append(
     $(`
     <br>
-    Created: ${d}
+    Created: ${date}
     <br>
     Average rating: ${escape(board.average_rating)}
     <br>

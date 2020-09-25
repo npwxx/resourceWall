@@ -35,7 +35,7 @@ const getAllBoards = function() {
     boards.id,
     boards.title,
     boards.description,
-    date(boards.date_posted) as created,
+    date(boards.date_posted) as date_posted,
     count(DISTINCT resources.id) AS resources_count,
     avg(resource_ratings.rating) AS avg_rating
   FROM boards
@@ -61,11 +61,19 @@ const getAllBoardCategories = function() {
 
 const getBoardsByCategoryType = function(type) {
   return db.query(`
-  SELECT boards.id, title, description
+  SELECT
+    boards.date_posted,
+    boards.id,
+    boards.title,
+    boards.description,
+    count(DISTINCT resources.id) AS resources_count,
+    avg(resource_ratings.rating) AS avg_rating
   FROM boards
   JOIN board_categories ON board_categories.board_id = boards.id
+  JOIN resources ON resources.board_id = boards.id
+  JOIN resource_ratings on resource_id = resources.id
   WHERE board_categories.type = $1
-  GROUP BY boards.id`, [type])
+  GROUP BY boards.id;`, [type])
     .then((response) => {
       return response.rows;
     });
@@ -106,7 +114,7 @@ const getBoardById = function(boardId) {
 
 const getBoardByCategories = function(title) {
   return db.query(`
-  
+
   `, [title])
     .then((response) => {
       return response.rows;
