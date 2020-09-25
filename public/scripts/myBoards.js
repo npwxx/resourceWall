@@ -9,7 +9,7 @@ const loadMyBoard = function() {
         .then((boards) => {
           //TODO: add owned boards route
           renderBoardTiles(boards);
-        })
+        });
     });
 };
 
@@ -79,7 +79,9 @@ const createBoardFormElement = function(categories) {
       console.log(serializedData);
       $.post("/boards/create", serializedData)
         .then(() => {
-          // TODO: Check if login wa ssucessful & then close modal & mavigate to my boards
+          loadMyBoard().then(() => {
+            router.updatePageLinks();
+          });
         });
     })
   );
@@ -96,7 +98,7 @@ const renderLikedResourcesSection = function() {
   </section>
   </div>
   </div>`);
-}
+};
 
 const getLikedResourcesByOwnerId = function() {
   $.get(`/users/likedresources`)
