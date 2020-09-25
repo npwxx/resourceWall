@@ -63,7 +63,20 @@ const renderBoardPage = function(board) {
 
 //TODO: change to database query
 const loadBoard = function(id) {
-  $.get(`/boards/${id}`)
+  $.get('/users/me').then((user) => {
+    if (user) {
+      createNewResource()
+      $.get(`/boards/${id}`)
+        .then((boards) => {
+          // console.log(boards);
+          renderBoardPage(boards[0]);
+        }).then(() => {
+          return $.get(`/boards/${id}/resources`);
+        }).then((resources) => {
+          renderBoardResources(resources, id);
+        });
+    } else {
+    $.get(`/boards/${id}`)
     .then((boards) => {
       // console.log(boards);
       renderBoardPage(boards[0]);
@@ -72,63 +85,66 @@ const loadBoard = function(id) {
     }).then((resources) => {
       renderBoardResources(resources, id);
     });
+    }
+  })
 };
 
 
 // RESOURCE FUNCTIONS
 // TODO: Change modal with embedded URL/Video & comments/likes/rating
 const createNewResource = function(boardId) {
-  return $('#resources').append(
-    $('<h2/>', { text: "Add New Resource" })
-  ).append(
-    $('<form/>').append(
-      $('<div/>', {
-        'class': "row gtr-uniform",
-      }).append(
+
+    return $('#resources').append(
+      $('<h2/>', { text: "Add New Resource" })
+      ).append(
+      $('<form/>').append(
         $('<div/>', {
-          'class': "col-6 col-12-xsmall"
+          'class': "row gtr-uniform",
         }).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'resourceTitle'
-          }).attr('placeholder', 'Title').attr('required', true)
-        ).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'resourceDescription'
-          }).attr('placeholder', 'Description').attr('required', true)
-        ).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'resourceUrl'
-          }).attr('placeholder', 'URL').attr('required', true)
-        ).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'category'
-          }).attr('placeholder', 'Category 1')
-        ).append(
-          $('<input/>', {
-            type: 'text',
-            name: 'category'
-          }).attr('placeholder', 'Category 2')
-        ).append(
-          $('<button/>', {
-            type: 'submit',
-            text: 'Create Resource',
-            'class': 'primary'
-          })
+          $('<div/>', {
+            'class': "col-6 col-12-xsmall"
+          }).append(
+            $('<input/>', {
+              type: 'text',
+              name: 'resourceTitle'
+            }).attr('placeholder', 'Title').attr('required', true)
+          ).append(
+            $('<input/>', {
+              type: 'text',
+              name: 'resourceDescription'
+            }).attr('placeholder', 'Description').attr('required', true)
+          ).append(
+            $('<input/>', {
+              type: 'text',
+              name: 'resourceUrl'
+            }).attr('placeholder', 'URL').attr('required', true)
+          ).append(
+            $('<input/>', {
+              type: 'text',
+              name: 'category'
+            }).attr('placeholder', 'Category 1')
+          ).append(
+            $('<input/>', {
+              type: 'text',
+              name: 'category'
+            }).attr('placeholder', 'Category 2')
+          ).append(
+            $('<button/>', {
+              type: 'submit',
+              text: 'Create Resource',
+              'class': 'primary'
+            })
+          )
         )
-      )
-    ).submit(function(event) {
-      event.preventDefault();
-      const serializedData = $(this).serializeFormJSON();
-      $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
-        .then(() => {
-          loadBoard(boardId);
-        });
-    })
-  );
+      ).submit(function(event) {
+        event.preventDefault();
+        const serializedData = $(this).serializeFormJSON();
+        $.post(`/boards/${boardId}/resources/add-new-resource`, serializedData)
+          .then(() => {
+            loadBoard(boardId);
+          });
+      })
+    )
 };
 
 const renderCommentModal = function(resource) {
