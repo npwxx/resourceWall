@@ -31,6 +31,7 @@ const searchBarBoards = function() {
     });
   $form.submit((event) => {
     event.preventDefault();
+
     if ($input.val()) {
       $.get(`/boards/categories/${$input.val()}`)
       .then((boards) => {

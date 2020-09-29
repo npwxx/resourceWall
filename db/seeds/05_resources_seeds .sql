@@ -1,5 +1,8 @@
 insert into resources (board_id, title, resource_url, description, date_posted) values (1, 'freecodecamp ', 'https://freecodecamp.org', 'Intro to coding.', '3/24/2019');
 insert into resources (board_id, title, resource_url, description, date_posted) values (1, 'Edabit', 'https://edabit.com', 'Coding challenges', '12/7/2019');
+insert into resources (board_id, title, resource_url, description, date_posted) values (1, 'Codecademy', 'https://www.codecademy.com/learn', 'Learn cading basics', '9/12/2016');
+insert into resources (board_id, title, resource_url, description, date_posted) values (1, 'Udemy', 'https://www.udemy.com/', 'Learn things from all the topics!', '9/12/2016');
+insert into resources (board_id, title, resource_url, description, date_posted) values (1, 'HackerRank', 'https://www.hackerrank.com/dashboard', 'Test skills & daily problem solving', '9/12/2016');
 insert into resources (board_id, title, resource_url, description, date_posted) values (2, 'stackoverflow - code help', 'https://stackoverflow.com', 'Answers coding questions passive aggressively.', '4/20/2017');
 insert into resources (board_id, title, resource_url, description, date_posted) values (2, ' github ', 'http://github.com', 'Place to store all of my awesome projects', '1/11/2018');
 insert into resources (board_id, title, resource_url, description, date_posted) values (3, ' git cheat sheet ', 'http://rogerdudler.github.io/git-guide/files/git_cheat_sheet.pdf', 'Useful git stuff.', '8/25/2017');

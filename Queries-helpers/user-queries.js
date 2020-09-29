@@ -145,6 +145,7 @@ const deleteUser = function(userId) {
 const getBoardByOwnerId = function(ownerId) {
   return db.query(`
   SELECT
+    boards.date_posted,
     boards.id,
     boards.title,
     boards.description,

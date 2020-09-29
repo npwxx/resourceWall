@@ -75,6 +75,7 @@ const getBoardsByCategoryType = function(type) {
   WHERE board_categories.type = $1
   GROUP BY boards.id;`, [type])
     .then((response) => {
+      console.log("sending board categories", response.rows, type)
       return response.rows;
     });
 };

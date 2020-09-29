@@ -1,6 +1,6 @@
-insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Online Learning', 'List of websites that have online courses', now());
-insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'WTFunctions', 'Basically just stackoverflow', now());
-insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Bootcamp reference guide', 'Cheatsheets to reference when completely lost', now());
+insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Online Learning', 'List of websites that have online courses', '3/7/2018');
+insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'WTFunctions', 'Basically just stackoverflow', '10/18/2019');
+insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Bootcamp reference guide', 'Cheatsheets to reference when completely lost', '3/7/2018');
 insert into boards (owner_id, title, description, date_posted) values (84, ' Organic Chemistry stuff for school', 'Curabitur convallis.', '3/7/2018');
 insert into boards (owner_id, title, description, date_posted) values (45, ' Russian Topics', 'Nullam porttitor lacus at turpis.', '1/24/2017');
 insert into boards (owner_id, title, description, date_posted) values (50, ' German Homework', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.', '8/4/2020');

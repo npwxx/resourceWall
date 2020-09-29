@@ -176,26 +176,28 @@ const getResourcesByLeastCommented = function() {
 
 const getResourcesByNewest = function() {
   return db.query(`
-  SELECT
+  SELECT DISTINCT
     resources.id,
     resources.title,
     resources.description,
     resource_url,
-    users.name as author,
     resources.date_posted,
     avg(resource_ratings.rating) AS avg_rating
   FROM resources
   JOIN comments ON comments.resource_id = resources.id
-  JOIN users on users.id = comments.author_id
-  LEFT JOIN resource_ratings ON resources.id = resource_ratings.resource_id
-  GROUP BY resources.id, resources.date_posted, resources.title, resources.description, resource_url, author
+  JOIN resource_ratings ON resources.id = resource_ratings.resource_id
+  GROUP BY resources.id, resources.date_posted, resources.title, resources.description, resource_url
   ORDER BY date_posted DESC
   LIMIT 6;
-`)
+` )
     .then((response) => {
+      console.log("sending newest ", response.rows)
       return response.rows;
     });
 };
+
+
+
 
 const getResourcesByOldest = function() {
   return db.query(`
