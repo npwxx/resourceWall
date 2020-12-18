@@ -22,7 +22,7 @@ $(document).ready(function() {
       console.log("Add route to DB");
     },
     '/likedResources': function() {
-      console.log("add page ehre");
+      console.log("add page here");
     },
     '/profile': function() {
       renderProfilePage();

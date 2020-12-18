@@ -1,3 +1,4 @@
+SET datestyle TO "SQL, MDY";
 insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Online Learning', 'List of websites that have online courses', '3/7/2018');
 insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'WTFunctions', 'Basically just stackoverflow', '10/18/2019');
 insert INTO boards (owner_id, title, description, date_posted) VALUES (1, 'Bootcamp reference guide', 'Cheatsheets to reference when completely lost', '3/7/2018');
